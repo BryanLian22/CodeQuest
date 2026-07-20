@@ -1,0 +1,4 @@
+<!-- Add the <add> element inside the existing <connectionStrings> section. -->
+<add name="CodeQuestDb"
+     connectionString="Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=CodeQuestDB;Integrated Security=True;MultipleActiveResultSets=True"
+     providerName="System.Data.SqlClient" />

@@ -1,0 +1,31 @@
+# Learner
+
+The learner area must read the signed-in user from Session, then use
+`Enrollment` to show courses. Chapter and quiz pages use the content chain:
+
+`Course -> Module -> Chapter -> Quiz -> QuizAns`
+
+`Database/Progress_Extension.sql` adds the two small application tables that
+extend the ERD for saved learner work (`ChapterProgress` and `QuizAttempt`) and
+adds `Tutorial.category` for the public HTML/CSS/JavaScript catalogue. Run it
+against CodeQuestDB before submitting a quiz or browsing filtered tutorials.
+
+The root `LearnerDashboard.aspx` is now database-backed. It reads the signed-in
+user's `UserID` from Session and loads enrollments through `EnrollmentRepository`.
+
+`Enroll.aspx` is the course-specific enrolment step. It loads a course from
+`dbo.Course`, returns guests to Login and then back to the selected course,
+allows Basic learners to enrol in Beginner courses, and requires Premium for
+Intermediate and Advanced courses. Successful enrolments are inserted into
+`dbo.Enrollment` and shown on the learner dashboard.
+
+`Course.aspx` is the first enrolled-learning page. It checks the current
+learner's `Enrollment` record and lists published `Module` and `Chapter` rows
+from the course content chain.
+
+`Chapter.aspx` is learner-only course content. It checks the learner's
+`Enrollment` record before listing the matching chapter lesson. Public
+`Tutorial.aspx` is separate and reads `Tutorial` and `Exercise` rows without
+requiring login. `Quiz.aspx` is learner-only, checks enrollment again, records
+each selected answer, and marks a chapter completed when all its answers are
+correct. The dashboard reads completed chapters and the saved quiz average.

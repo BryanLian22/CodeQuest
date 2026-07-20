@@ -1,0 +1,157 @@
+.tutorials-page {
+    width: min(1120px, calc(100% - 48px));
+    min-height: calc(100vh - 170px);
+    margin: 0 auto;
+    padding: 75px 0 105px;
+}
+
+.tutorials-hero { max-width: 720px; margin-bottom: 48px; }
+
+.tutorials-hero h1 {
+    margin: 0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(3rem, 6vw, 5.15rem);
+    line-height: .98;
+    letter-spacing: -.05em;
+}
+
+.tutorials-hero h1 em {
+    color: transparent;
+    background: linear-gradient(90deg, var(--cyan), #76a8ff 50%, #b084ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    font-style: normal;
+}
+
+.tutorials-hero > p:last-child {
+    max-width: 650px;
+    margin: 23px 0 0;
+    color: var(--muted);
+    font-size: .94rem;
+    line-height: 1.75;
+}
+
+.tutorial-category-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 34px;
+    padding-bottom: 23px;
+    border-bottom: 1px solid rgba(145,177,212,.14);
+}
+
+.category-link {
+    display: inline-flex;
+    min-height: 38px;
+    align-items: center;
+    padding: 0 15px;
+    border: 1px solid rgba(145,177,212,.22);
+    border-radius: 999px;
+    color: #b5c9dc;
+    background: rgba(8,20,35,.56);
+    font-size: .72rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.category-link:hover,
+.category-link.html:hover { border-color: #ff8b9d; color: #ffd5dc; }
+.category-link.css:hover { border-color: var(--cyan); color: #bcefff; }
+.category-link.javascript:hover { border-color: #ffd65a; color: #fff0a8; }
+
+.tutorial-results-heading { margin-bottom: 18px; }
+.tutorial-results-heading h2 { margin: 0 0 6px; font-family: "Space Grotesk", sans-serif; font-size: 1.65rem; }
+.tutorial-results-heading p:last-child { margin: 0; color: var(--muted); font-size: .78rem; }
+
+.tutorial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.tutorial-card {
+    display: flex;
+    min-height: 245px;
+    flex-direction: column;
+    padding: 23px;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: linear-gradient(145deg, rgba(16,36,61,.82), rgba(8,20,35,.95));
+}
+
+.tutorial-card:hover { border-color: rgba(79,228,255,.42); }
+
+.tutorial-card-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--cyan);
+    font-family: Consolas, monospace;
+    font-size: .63rem;
+}
+
+.tutorial-level {
+    padding: 5px 8px;
+    border-radius: 999px;
+    color: var(--cyan);
+    background: rgba(79,228,255,.08);
+    font-family: "DM Sans", Arial, sans-serif;
+    font-size: .57rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.module-label {
+    margin: 29px 0 7px;
+    color: #758da4;
+    font-family: Consolas, monospace;
+    font-size: .62rem;
+}
+
+.tutorial-card h2 {
+    margin: 0 0 10px;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.18rem;
+}
+
+.tutorial-card > p:not(.module-label) {
+    margin: 0;
+    color: var(--muted);
+    font-size: .75rem;
+    line-height: 1.6;
+}
+
+.tutorial-card > a {
+    margin-top: auto;
+    padding-top: 20px;
+    color: var(--cyan);
+    font-size: .72rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.tutorial-message {
+    margin-bottom: 23px;
+    padding: 14px 16px;
+    border: 1px solid rgba(79,228,255,.2);
+    border-radius: 10px;
+    color: #bcefff;
+    background: rgba(79,228,255,.06);
+    font-size: .79rem;
+}
+
+.tutorial-message.error {
+    border-color: rgba(255,126,148,.3);
+    color: #ffc2cd;
+    background: rgba(255,126,148,.07);
+}
+
+@media (max-width: 850px) {
+    .tutorial-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 580px) {
+    .tutorials-page { width: min(100% - 28px, 1120px); padding-top: 50px; }
+    .tutorial-grid { grid-template-columns: 1fr; }
+}

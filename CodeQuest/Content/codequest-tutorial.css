@@ -1,0 +1,211 @@
+.tutorial-page {
+    width: min(900px, calc(100% - 48px));
+    min-height: calc(100vh - 170px);
+    margin: 0 auto;
+    padding: 58px 0 105px;
+}
+
+.tutorial-back {
+    display: inline-block;
+    margin-bottom: 35px;
+    color: var(--cyan);
+    font-size: .76rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.tutorial-heading { max-width: 780px; margin-bottom: 38px; }
+
+.tutorial-code {
+    margin: 7px 0 15px;
+    color: #68839d;
+    font-family: Consolas, monospace;
+    font-size: .69rem;
+}
+
+.tutorial-category {
+    display: inline-block;
+    margin: 0 0 11px;
+    padding: 5px 9px;
+    border: 1px solid rgba(79,228,255,.24);
+    border-radius: 999px;
+    color: var(--cyan);
+    background: rgba(79,228,255,.07);
+    font-family: Consolas, monospace;
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.tutorial-heading h1 {
+    margin: 0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    line-height: 1;
+    letter-spacing: -.05em;
+}
+
+.tutorial-heading > p:last-child {
+    max-width: 680px;
+    margin: 21px 0 0;
+    color: var(--muted);
+    font-size: .9rem;
+    line-height: 1.7;
+}
+
+.tutorial-material-card,
+.tutorial-exercise-card,
+.html-guide {
+    margin-top: 25px;
+    padding: 26px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: linear-gradient(145deg, rgba(16,36,61,.84), rgba(8,20,35,.96));
+}
+
+.html-guide {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(250px, .88fr);
+    gap: 28px;
+}
+
+.html-guide-copy h2 {
+    margin: 0 0 14px;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.55rem;
+    line-height: 1.2;
+}
+
+.html-guide-copy h2:not(:first-of-type) { margin-top: 31px; }
+.html-guide-copy p { margin: 0 0 15px; color: #cbddec; font-size: .84rem; line-height: 1.7; }
+.html-guide-copy code { color: #ff91a2; background: rgba(255,145,162,.08); font-family: Consolas, monospace; }
+
+.html-example {
+    margin: 23px 0 0;
+    padding: 19px;
+    border-radius: 10px;
+    background: #e9edf0;
+}
+
+.html-example h3 { margin: 0 0 13px; color: #101b28; font-size: 1.2rem; font-weight: 500; }
+.html-example pre,
+.short-code { overflow: auto; margin: 0; padding: 15px; border-left: 3px solid #00a878; color: #49627b; background: #fff; font-family: Consolas, monospace; font-size: .76rem; line-height: 1.75; white-space: pre-wrap; }
+.html-example pre code,
+.short-code code { color: inherit; background: transparent; }
+.short-code { margin-top: 10px; }
+
+.html-structure-visual {
+    align-self: start;
+    min-height: 100%;
+    padding: 25px;
+    border: 1px solid rgba(79,228,255,.2);
+    border-radius: 13px;
+    background: radial-gradient(circle at 85% 15%, rgba(164,112,255,.18), transparent 38%), #071321;
+}
+
+.visual-label { margin: 0 0 13px; color: var(--cyan) !important; font-family: Consolas, monospace; font-size: .65rem !important; font-weight: 700; letter-spacing: .13em; }
+.html-structure-visual h3 { margin: 0 0 25px; color: #eaf4ff; font-family: "Space Grotesk", sans-serif; font-size: 1.55rem; line-height: 1.15; }
+.structure-tree { padding-left: 15px; border-left: 1px solid rgba(79,228,255,.45); }
+.structure-node { position: relative; margin: 13px 0 0; padding: 13px 14px; border: 1px solid rgba(145,177,212,.19); border-radius: 9px; color: #d9e9f6; background: rgba(16,36,61,.7); font-family: Consolas, monospace; font-size: .78rem; }
+.structure-node::before { position: absolute; top: 50%; left: -16px; width: 15px; border-top: 1px solid rgba(79,228,255,.45); content: ""; }
+.root-node { margin-top: 0; border-color: rgba(79,228,255,.45); background: rgba(79,228,255,.08); }
+.root-node::before { display: none; }
+.structure-node small { display: block; margin-top: 4px; color: #85a0b9; font-family: "DM Sans", Arial, sans-serif; font-size: .68rem; }
+.body-node { border-color: rgba(165,126,255,.4); background: rgba(165,126,255,.08); }
+.visual-note { margin: 22px 0 0 !important; color: #8ea8bf !important; font-size: .73rem !important; line-height: 1.6 !important; }
+
+.section-kicker {
+    margin: 0 0 9px;
+    color: var(--cyan);
+    font-family: Consolas, monospace;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+}
+
+.tutorial-material-card h2,
+.tutorial-exercise-card h2 {
+    margin: 0 0 20px;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.55rem;
+}
+
+.tutorial-materials {
+    overflow: auto;
+    margin: 0;
+    padding: 20px;
+    border: 1px solid rgba(145,177,212,.13);
+    border-radius: 11px;
+    color: #d4e4f2;
+    background: #071321;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: .78rem;
+    line-height: 1.75;
+    white-space: pre-wrap;
+}
+
+.exercise-question {
+    margin: 0 0 19px;
+    color: #d5e4f2;
+    font-size: .85rem;
+    line-height: 1.6;
+}
+
+.answer-row { display: flex; align-items: stretch; gap: 10px; }
+
+.answer-input {
+    flex: 1;
+    min-width: 0;
+    min-height: 45px;
+    padding: 0 13px;
+    border: 1px solid rgba(145,177,212,.25);
+    border-radius: 9px;
+    outline: none;
+    color: var(--text);
+    background: rgba(4,14,26,.75);
+    font: inherit;
+}
+
+.answer-input:focus { border-color: var(--cyan); }
+
+.primary-button {
+    min-height: 45px;
+    padding: 0 17px;
+    border: 0;
+    border-radius: 9px;
+    color: #04101c;
+    background: linear-gradient(90deg, var(--cyan), #6ea2ff);
+    font-size: .76rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.exercise-result { display: block; margin-top: 15px; font-size: .76rem; font-weight: 700; }
+.exercise-result.correct { color: var(--green); }
+.exercise-result.incorrect { color: #ffc2cd; }
+
+.tutorial-message {
+    margin-bottom: 25px;
+    padding: 14px 16px;
+    border: 1px solid rgba(79,228,255,.2);
+    border-radius: 10px;
+    color: #bcefff;
+    background: rgba(79,228,255,.06);
+    font-size: .79rem;
+}
+
+.tutorial-message.error {
+    border-color: rgba(255,126,148,.3);
+    color: #ffc2cd;
+    background: rgba(255,126,148,.07);
+}
+
+@media (max-width: 600px) {
+    .tutorial-page { width: min(100% - 28px,900px); padding-top: 42px; }
+    .html-guide { grid-template-columns: 1fr; }
+    .answer-row { display: block; }
+    .answer-input { width: 100%; margin-bottom: 10px; }
+    .primary-button { width: 100%; }
+}

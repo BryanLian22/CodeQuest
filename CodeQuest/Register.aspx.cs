@@ -1,7 +1,10 @@
 using System;
-using System.Security.Cryptography;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Text;
 using System.Web.UI.WebControls;
+using CodeQuest.Data;
+using CodeQuest.Data.Repositories;
 
 namespace CodeQuest
 {
@@ -18,7 +21,10 @@ namespace CodeQuest
         {
             if (!IsPostBack && Session["UserRole"] != null)
             {
-                Response.Redirect("LearnerDashboard.aspx", false);
+                string destination = string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase)
+                    ? "AdminDashboard.aspx"
+                    : "LearnerDashboard.aspx";
+                Response.Redirect(destination, false);
                 Context.ApplicationInstance.CompleteRequest();
             }
         }
@@ -32,19 +38,29 @@ namespace CodeQuest
                 return;
             }
 
-            byte[] salt;
-            byte[] passwordHash = HashPassword(txtPassword.Text, out salt);
+            try
+            {
+                string passwordHash = PasswordHasher.Hash(txtPassword.Text);
+                UserRepository repository = new UserRepository();
+                repository.CreateLearner(txtUsername.Text, passwordHash, txtEmail.Text);
 
-            // Temporary prototype storage. Replace these Session values with an
-            // INSERT into the SQL Server User table when the database is added.
-            Session["RegisteredUsername"] = txtUsername.Text.Trim();
-            Session["RegisteredEmail"] = txtEmail.Text.Trim();
-            Session["RegisteredPasswordSalt"] = Convert.ToBase64String(salt);
-            Session["RegisteredPasswordHash"] = Convert.ToBase64String(passwordHash);
-            Session["LoginMessage"] = "Account created successfully. You can now log in.";
+                Session["LoginMessage"] = "Account created successfully. You can now log in.";
+                Session["RegisteredEmail"] = txtEmail.Text.Trim();
 
-            Response.Redirect("Login.aspx", false);
-            Context.ApplicationInstance.CompleteRequest();
+                Response.Redirect("Login.aspx", false);
+                Context.ApplicationInstance.CompleteRequest();
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2601 || ex.Number == 2627)
+                {
+                    ShowMessage("That username or email address is already registered.", "error");
+                }
+                else
+                {
+                    ShowMessage("The database could not be reached. Confirm that CodeQuestDB is running in LocalDB.", "error");
+                }
+            }
         }
 
         protected void btnGoogleRegister_Click(object sender, EventArgs e)
@@ -55,21 +71,6 @@ namespace CodeQuest
         protected void cvTerms_ServerValidate(object source, ServerValidateEventArgs args)
         {
             args.IsValid = chkTerms.Checked;
-        }
-
-        private static byte[] HashPassword(string password, out byte[] salt)
-        {
-            salt = new byte[32];
-
-            using (RandomNumberGenerator random = RandomNumberGenerator.Create())
-            {
-                random.GetBytes(salt);
-            }
-
-            using (Rfc2898DeriveBytes deriveBytes = new Rfc2898DeriveBytes(password, salt, 100000))
-            {
-                return deriveBytes.GetBytes(32);
-            }
         }
 
         private void ShowMessage(string message, string type)

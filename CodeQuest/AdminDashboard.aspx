@@ -1,17 +1,90 @@
-<%@ Page Language="C#" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AdminDashboard.aspx.cs" Inherits="CodeQuest.AdminDashboard" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-<head>
+<head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Admin Dashboard | CodeQuest</title>
+    <link href="Content/codequest-home.css" rel="stylesheet" />
+    <link href="Content/codequest-admin.css" rel="stylesheet" />
 </head>
-<body style="margin:0;min-height:100vh;display:grid;place-items:center;color:#f5f9ff;background:#07101d;font-family:Arial,sans-serif;">
-    <main style="max-width:620px;padding:40px;text-align:center;">
-        <h1 style="margin:0 0 12px;color:#9c6cff;">Admin login successful</h1>
-        <p style="color:#93a8bf;line-height:1.6;">This temporary page confirms that the administrator session and redirect work. Build the admin overview here later.</p>
-        <a href="Login.aspx" style="color:#4fe4ff;">Return to login</a>
-    </main>
+<body>
+    <form id="form1" runat="server">
+        <header class="site-header">
+            <a class="brand" href="Guest.aspx" aria-label="CodeQuest home">
+                <img class="brand-logo" src="Content/Images/CodeQuest_logo.png" alt="CodeQuest" />
+            </a>
+            <nav class="main-nav" aria-label="Admin navigation">
+                <a class="active" href="AdminDashboard.aspx">Overview</a>
+                <a href="Features/Admin/Content.aspx">Content studio</a>
+                <a href="Features/Admin/Lessons.aspx">Lesson library</a>
+                <a href="Features/Admin/Support.aspx">Support tickets</a>
+                <a href="Features/Public/Courses.aspx">Public courses</a>
+                <a href="Features/Public/Tutorials.aspx">Tutorial library</a>
+                <a href="Guest.aspx#about">About</a>
+            </nav>
+            <div class="header-actions">
+                <a class="login-link" href="Guest.aspx">View site</a>
+                <a class="header-cta" href="Login.aspx?logout=1">Sign out</a>
+            </div>
+        </header>
+
+        <main class="admin-page">
+            <section class="admin-heading">
+                <div>
+                    <p class="eyebrow"><span></span> Admin workspace</p>
+                    <h1>Shape the learning library.</h1>
+                    <p>Review the content connected to the CodeQuest learning catalogue. Publishing controls will build on this overview.</p>
+                </div>
+                <div class="admin-badge"><span>Signed in as</span><strong><asp:Label ID="lblAdminName" runat="server" /></strong></div>
+            </section>
+
+            <asp:Panel ID="pnlMessage" runat="server" CssClass="admin-message" Visible="false" role="alert">
+                <asp:Label ID="lblMessage" runat="server" />
+            </asp:Panel>
+
+            <section class="admin-stats" aria-label="Content summary">
+                <article><span>Courses</span><strong><asp:Label ID="lblCourses" runat="server" Text="0" /></strong></article>
+                <article><span>Modules</span><strong><asp:Label ID="lblModules" runat="server" Text="0" /></strong></article>
+                <article><span>Chapters</span><strong><asp:Label ID="lblChapters" runat="server" Text="0" /></strong></article>
+                <article><span>Published tutorials</span><strong><asp:Label ID="lblTutorials" runat="server" Text="0" /></strong></article>
+                <article><span>Exercises</span><strong><asp:Label ID="lblExercises" runat="server" Text="0" /></strong></article>
+                <article><span>Quizzes</span><strong><asp:Label ID="lblQuizzes" runat="server" Text="0" /></strong></article>
+            </section>
+
+            <section class="admin-section" aria-labelledby="coursesTitle">
+                <div class="section-heading-row">
+                    <div>
+                        <p class="section-kicker">Course catalogue</p>
+                        <h2 id="coursesTitle">Recent courses.</h2>
+                    </div>
+                    <span class="coming-soon">Create and edit next</span>
+                </div>
+
+                <asp:Panel ID="pnlEmpty" runat="server" CssClass="admin-message" Visible="false">
+                    No courses have been created yet.
+                </asp:Panel>
+
+                <div class="admin-course-grid">
+                    <asp:Repeater ID="rptCourses" runat="server">
+                        <ItemTemplate>
+                            <article class="admin-course-card">
+                                <div class="course-card-topline"><span>COURSE-<%# Eval("CourseID") %></span><span><%# Server.HtmlEncode(Eval("Difficulty").ToString()) %></span></div>
+                                <h3><%# Server.HtmlEncode(Eval("Title").ToString()) %></h3>
+                                <p>Owner: <%# Server.HtmlEncode(Eval("OwnerName").ToString()) %></p>
+                                <footer><span><%# Eval("ModuleCount") %> modules</span><a href="Features/Public/Courses.aspx">View catalogue &rarr;</a></footer>
+                            </article>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <span>&copy; 2026 CodeQuest</span>
+            <span>Admin &middot; Curate &middot; Publish</span>
+        </footer>
+    </form>
 </body>
 </html>

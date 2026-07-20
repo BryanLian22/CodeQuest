@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -62,28 +65,168 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="AdminDashboard.aspx" />
+    <Content Include="Contact.aspx" />
+    <Content Include="Content\codequest-admin-content.css" />
+    <Content Include="Content\codequest-admin-lessons.css" />
+    <Content Include="Content\codequest-admin.css" />
     <Content Include="Content\codequest-auth.css" />
+    <Content Include="Content\codequest-billing.css" />
+    <Content Include="Content\codequest-chapter.css" />
+    <Content Include="Content\codequest-course.css" />
+    <Content Include="Content\codequest-courses.css" />
+    <Content Include="Content\codequest-enroll.css" />
     <Content Include="Content\codequest-home.css" />
+    <Content Include="Content\codequest-learner.css" />
+    <Content Include="Content\codequest-quiz.css" />
     <Content Include="Content\codequest-register.css" />
+    <Content Include="Content\codequest-support.css" />
+    <Content Include="Content\codequest-tutorial.css" />
+    <Content Include="Content\codequest-tutorials.css" />
     <Content Include="Content\Images\CodeQuest_logo.png" />
+    <Content Include="Features\Admin\Content.aspx" />
+    <Content Include="Features\Admin\Lessons.aspx" />
+    <Content Include="Features\Admin\Support.aspx" />
+    <Content Include="Features\Billing\Plans.aspx" />
+    <Content Include="Features\Learner\Chapter.aspx" />
+    <Content Include="Features\Learner\Course.aspx" />
+    <Content Include="Features\Learner\Enroll.aspx" />
+    <Content Include="Features\Learner\Quiz.aspx" />
+    <Content Include="Features\Public\Courses.aspx" />
+    <Content Include="Features\Public\Tutorial.aspx" />
+    <Content Include="Features\Public\Tutorials.aspx" />
+    <Content Include="Features\Support\Tickets.aspx" />
     <Content Include="Guest.aspx" />
+    <Content Include="LearnerDashboard.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Register.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminDashboard.aspx.cs">
+      <DependentUpon>AdminDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminDashboard.aspx.designer.cs">
+      <DependentUpon>AdminDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Contact.aspx.cs">
+      <DependentUpon>Contact.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contact.aspx.designer.cs">
+      <DependentUpon>Contact.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DbConnectionFactory.cs" />
+    <Compile Include="Data\PasswordHasher.cs" />
+    <Compile Include="Data\Repositories\AdminContentRepository.cs" />
+    <Compile Include="Data\Repositories\BillingRepository.cs" />
+    <Compile Include="Data\Repositories\ChapterContentRepository.cs" />
+    <Compile Include="Data\Repositories\CourseContentRepository.cs" />
+    <Compile Include="Data\Repositories\CourseRepository.cs" />
+    <Compile Include="Data\Repositories\EnrollmentRepository.cs" />
+    <Compile Include="Data\Repositories\ProgressRepository.cs" />
+    <Compile Include="Data\Repositories\QuizRepository.cs" />
+    <Compile Include="Data\Repositories\SupportRepository.cs" />
+    <Compile Include="Data\Repositories\TutorialRepository.cs" />
+    <Compile Include="Data\Repositories\UserRepository.cs" />
+    <Compile Include="Features\Admin\Content.aspx.cs">
+      <DependentUpon>Content.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Features\Admin\Content.aspx.designer.cs">
+      <DependentUpon>Content.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Admin\Lessons.aspx.cs">
+      <DependentUpon>Lessons.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Features\Admin\Lessons.aspx.designer.cs">
+      <DependentUpon>Lessons.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Admin\Support.aspx.cs">
+      <DependentUpon>Support.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Features\Admin\Support.aspx.designer.cs">
+      <DependentUpon>Support.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Billing\Plans.aspx.cs">
+      <DependentUpon>Plans.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Features\Billing\Plans.aspx.designer.cs">
+      <DependentUpon>Plans.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Learner\Chapter.aspx.cs">
+      <DependentUpon>Chapter.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Features\Learner\Chapter.aspx.designer.cs">
+      <DependentUpon>Chapter.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Learner\Course.aspx.cs">
+      <DependentUpon>Course.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Features\Learner\Course.aspx.designer.cs">
+      <DependentUpon>Course.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Learner\Enroll.aspx.cs">
+      <DependentUpon>Enroll.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Features\Learner\Enroll.aspx.designer.cs">
+      <DependentUpon>Enroll.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Learner\Quiz.aspx.cs">
+      <DependentUpon>Quiz.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Features\Learner\Quiz.aspx.designer.cs">
+      <DependentUpon>Quiz.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Public\Courses.aspx.cs">
+      <DependentUpon>Courses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Features\Public\Courses.aspx.designer.cs">
+      <DependentUpon>Courses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Public\Tutorial.aspx.cs">
+      <DependentUpon>Tutorial.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Features\Public\Tutorial.aspx.designer.cs">
+      <DependentUpon>Tutorial.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Public\Tutorials.aspx.cs">
+      <DependentUpon>Tutorials.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Features\Public\Tutorials.aspx.designer.cs">
+      <DependentUpon>Tutorials.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Support\Tickets.aspx.cs">
+      <DependentUpon>Tickets.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Features\Support\Tickets.aspx.designer.cs">
+      <DependentUpon>Tickets.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Guest.aspx.cs">
       <DependentUpon>Guest.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Guest.aspx.designer.cs">
       <DependentUpon>Guest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LearnerDashboard.aspx.cs">
+      <DependentUpon>LearnerDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LearnerDashboard.aspx.designer.cs">
+      <DependentUpon>LearnerDashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -92,15 +235,47 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdminChapterOptionRecord.cs" />
+    <Compile Include="Models\AdminChapterQuizRecord.cs" />
+    <Compile Include="Models\AdminChapterRecord.cs" />
+    <Compile Include="Models\AdminContentSummary.cs" />
+    <Compile Include="Models\AdminCourseRecord.cs" />
+    <Compile Include="Models\AdminExerciseRecord.cs" />
+    <Compile Include="Models\AdminModuleRecord.cs" />
+    <Compile Include="Models\AdminTutorialRecord.cs" />
+    <Compile Include="Models\ChapterLessonRecord.cs" />
+    <Compile Include="Models\ChapterRecord.cs" />
+    <Compile Include="Models\CourseRecord.cs" />
+    <Compile Include="Models\EnrollmentCourseRecord.cs" />
+    <Compile Include="Models\ExerciseRecord.cs" />
+    <Compile Include="Models\ModuleRecord.cs" />
+    <Compile Include="Models\PaymentRecord.cs" />
+    <Compile Include="Models\PremiumPurchaseResult.cs" />
+    <Compile Include="Models\QuizAnswerRecord.cs" />
+    <Compile Include="Models\QuizQuestionRecord.cs" />
+    <Compile Include="Models\SubscriptionRecord.cs" />
+    <Compile Include="Models\TicketRecord.cs" />
+    <Compile Include="Models\TicketReplyRecord.cs" />
+    <Compile Include="Models\TutorialRecord.cs" />
+    <Compile Include="Models\UserRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Features\Admin\README.md" />
+    <Content Include="Features\AI\README.md" />
+    <Content Include="Features\Auth\README.md" />
+    <Content Include="Features\Billing\README.md" />
+    <Content Include="Features\Learner\README.md" />
+    <Content Include="Features\Public\README.md" />
+    <Content Include="Features\README.md" />
+    <Content Include="Features\Support\README.md" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

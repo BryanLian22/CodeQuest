@@ -1,0 +1,133 @@
+.catalogue-page {
+    width: min(1120px, calc(100% - 48px));
+    min-height: calc(100vh - 180px);
+    margin: 0 auto;
+    padding: 80px 0 110px;
+}
+
+.catalogue-hero {
+    max-width: 680px;
+    margin-bottom: 48px;
+}
+
+.catalogue-hero h1 {
+    margin: 0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(3rem, 6vw, 5.1rem);
+    line-height: .98;
+    letter-spacing: -.05em;
+}
+
+.catalogue-hero h1 em {
+    color: transparent;
+    background: linear-gradient(90deg, var(--cyan), #76a8ff 50%, #b084ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    font-style: normal;
+}
+
+.catalogue-hero > p:last-child {
+    max-width: 610px;
+    margin: 22px 0 0;
+    color: var(--muted);
+    font-size: .93rem;
+    line-height: 1.75;
+}
+
+.catalogue-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+}
+
+.catalogue-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 275px;
+    padding: 25px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: linear-gradient(145deg, rgba(16,36,61,.82), rgba(8,20,35,.95));
+    box-shadow: 0 20px 55px rgba(0,0,0,.14);
+}
+
+.catalogue-card:hover {
+    border-color: rgba(79,228,255,.42);
+}
+
+.catalogue-card-top,
+.catalogue-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.catalogue-code {
+    color: var(--cyan);
+    font-family: Consolas, monospace;
+    font-size: .65rem;
+}
+
+.catalogue-level {
+    padding: 5px 8px;
+    border-radius: 999px;
+    color: var(--green);
+    background: rgba(92,242,181,.08);
+    font-size: .58rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.catalogue-card h2 {
+    margin: 30px 0 10px;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.35rem;
+}
+
+.catalogue-card > p {
+    margin: 0;
+    color: var(--muted);
+    font-size: .76rem;
+    line-height: 1.65;
+}
+
+.catalogue-card-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: #71879f;
+    font-size: .62rem;
+}
+
+.catalogue-card-footer a {
+    color: var(--cyan);
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.catalogue-message {
+    margin-bottom: 22px;
+    padding: 14px 16px;
+    border: 1px solid rgba(79,228,255,.2);
+    border-radius: 10px;
+    color: #bcefff;
+    background: rgba(79,228,255,.06);
+    font-size: .8rem;
+}
+
+.catalogue-message.error {
+    border-color: rgba(255,126,148,.3);
+    color: #ffc2cd;
+    background: rgba(255,126,148,.07);
+}
+
+@media (max-width: 850px) {
+    .catalogue-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 580px) {
+    .catalogue-page { width: min(100% - 28px, 1120px); padding-top: 55px; }
+    .catalogue-grid { grid-template-columns: 1fr; }
+}

@@ -27,7 +27,7 @@
             <nav class="main-nav" id="mainNavigation" aria-label="Main navigation">
                 <a class="active" href="Guest.aspx">Home</a>
                 <a href="#courses">Courses</a>
-                <a href="#tutorials">Tutorials</a>
+                <a href="Features/Public/Tutorials.aspx">Tutorials</a>
                 <a href="#about">About</a>
                 <a href="Contact.aspx">Contact Us</a>
             </nav>
@@ -49,7 +49,7 @@
                     </p>
                     <div class="hero-actions">
                         <a class="primary-button" href="Login.aspx">Start Learning <span>&rarr;</span></a>
-                        <a class="secondary-button" href="#courses">Explore Courses</a>
+                        <a class="secondary-button" href="Features/Public/Courses.aspx">Explore Courses</a>
                     </div>
                     <div class="hero-stats" aria-label="CodeQuest statistics">
                         <div><strong>25K+</strong><span>Students learning</span></div>
@@ -153,7 +153,7 @@
                     <p class="section-kicker">No account required</p>
                     <h2 id="tutorialTitle">Learn the basics as a guest.</h2>
                     <p>Open beginner tutorials, read simple explanations and test HTML, CSS and JavaScript examples before registering.</p>
-                    <a class="secondary-button" href="Tutorials.aspx">Explore free tutorials &rarr;</a>
+                    <a class="secondary-button" href="Features/Public/Tutorials.aspx">Explore free tutorials &rarr;</a>
                 </div>
             </section>
 

@@ -1,0 +1,12 @@
+.lesson-library-page { width: min(1180px, calc(100% - 48px)); min-height: calc(100vh - 170px); margin: 0 auto; padding: 62px 0 105px; }
+.lesson-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; align-items: start; }
+.lesson-card { min-height: 700px; }
+.tall { min-height: 150px; }
+.secondary-studio-button { color: #c5eaff; border: 1px solid rgba(79,228,255,.3); background: rgba(79,228,255,.08); }
+.secondary-studio-button:hover { background: rgba(79,228,255,.16); }
+.status-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 11px; }
+
+@media (max-width: 780px) {
+    .lesson-library-page { width: min(100% - 28px, 1180px); padding-top: 45px; }
+    .lesson-grid { grid-template-columns: 1fr; }
+}

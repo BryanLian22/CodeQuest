@@ -1,6 +1,11 @@
 using System;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
+using CodeQuest.Data;
+using CodeQuest.Data.Repositories;
+using CodeQuest.Models;
 
 namespace CodeQuest
 {
@@ -23,6 +28,15 @@ namespace CodeQuest
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (string.Equals(Request.QueryString["logout"], "1", StringComparison.Ordinal))
+            {
+                Session.Clear();
+                Session.Abandon();
+                Response.Redirect("Login.aspx", false);
+                Context.ApplicationInstance.CompleteRequest();
+                return;
+            }
+
             if (IsPostBack)
             {
                 return;
@@ -30,7 +44,7 @@ namespace CodeQuest
 
             if (Session["UserRole"] != null)
             {
-                RedirectByRole(Session["UserRole"].ToString());
+                RedirectAfterSignIn(Session["UserRole"].ToString());
                 return;
             }
 
@@ -60,20 +74,47 @@ namespace CodeQuest
 
             string email = txtEmail.Text.Trim();
             string password = txtPassword.Text;
+            UserRecord databaseUser = null;
+
+            try
+            {
+                databaseUser = new UserRepository().FindByEmail(email);
+                if (databaseUser != null && PasswordHasher.Verify(password, databaseUser.PasswordHash))
+                {
+                    SignIn(databaseUser.Username, databaseUser.Email, databaseUser.Role, databaseUser.UserID, databaseUser.Plan);
+                    RedirectAfterSignIn(databaseUser.Role);
+                    return;
+                }
+            }
+            catch (ConfigurationErrorsException)
+            {
+                ShowMessage("The database connection is not configured yet. Demo accounts are still available.", "info");
+            }
+            catch (SqlException)
+            {
+                ShowMessage("The database could not be reached. Demo accounts are still available.", "info");
+            }
 
             if (email.Equals(LearnerEmail, StringComparison.OrdinalIgnoreCase) &&
                 password == LearnerPassword)
             {
                 SignIn("Alex", LearnerEmail, "Learner");
-                RedirectByRole("Learner");
+                RedirectAfterSignIn("Learner");
                 return;
             }
 
             if (email.Equals(AdminEmail, StringComparison.OrdinalIgnoreCase) &&
                 password == AdminPassword)
             {
-                SignIn("Administrator", AdminEmail, "Admin");
-                RedirectByRole("Admin");
+                if (databaseUser != null && string.Equals(databaseUser.Role, "Admin", StringComparison.OrdinalIgnoreCase))
+                {
+                    SignIn(databaseUser.Username, databaseUser.Email, databaseUser.Role, databaseUser.UserID, databaseUser.Plan);
+                }
+                else
+                {
+                    SignIn("Administrator", AdminEmail, "Admin");
+                }
+                RedirectAfterSignIn("Admin");
                 return;
             }
 
@@ -84,7 +125,7 @@ namespace CodeQuest
                     : Session["RegisteredUsername"].ToString();
 
                 SignIn(username, email, "Learner");
-                RedirectByRole("Learner");
+                RedirectAfterSignIn("Learner");
                 return;
             }
 
@@ -98,9 +139,16 @@ namespace CodeQuest
 
         private void SignIn(string displayName, string email, string role)
         {
+            SignIn(displayName, email, role, null, null);
+        }
+
+        private void SignIn(string displayName, string email, string role, int? userID, string plan)
+        {
             Session["DisplayName"] = displayName;
             Session["UserEmail"] = email;
             Session["UserRole"] = role;
+            Session["UserID"] = userID;
+            Session["UserPlan"] = plan;
 
             if (chkRememberMe.Checked)
             {
@@ -115,12 +163,50 @@ namespace CodeQuest
 
         private void RedirectByRole(string role)
         {
+            Session.Remove("ReturnUrl");
             string destination = role.Equals("Admin", StringComparison.OrdinalIgnoreCase)
                 ? "AdminDashboard.aspx"
                 : "LearnerDashboard.aspx";
 
             Response.Redirect(destination, false);
             Context.ApplicationInstance.CompleteRequest();
+        }
+
+        private void RedirectAfterSignIn(string role)
+        {
+            string returnUrl = Session["ReturnUrl"] == null
+                ? null
+                : Session["ReturnUrl"].ToString();
+
+            if (IsSafeLocalReturnUrl(returnUrl) && IsReturnUrlAllowedForRole(returnUrl, role))
+            {
+                Session.Remove("ReturnUrl");
+                Response.Redirect(returnUrl, false);
+                Context.ApplicationInstance.CompleteRequest();
+                return;
+            }
+
+            RedirectByRole(role);
+        }
+
+        private static bool IsReturnUrlAllowedForRole(string returnUrl, string role)
+        {
+            if (string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                return returnUrl.IndexOf("AdminDashboard.aspx", StringComparison.OrdinalIgnoreCase) >= 0
+                    || returnUrl.IndexOf("/Features/Admin/", StringComparison.OrdinalIgnoreCase) >= 0;
+            }
+
+            return returnUrl.IndexOf("AdminDashboard.aspx", StringComparison.OrdinalIgnoreCase) < 0
+                && returnUrl.IndexOf("/Features/Admin/", StringComparison.OrdinalIgnoreCase) < 0;
+        }
+
+        private static bool IsSafeLocalReturnUrl(string returnUrl)
+        {
+            return !string.IsNullOrWhiteSpace(returnUrl)
+                && returnUrl.StartsWith("/", StringComparison.Ordinal)
+                && !returnUrl.StartsWith("//", StringComparison.Ordinal)
+                && returnUrl.IndexOf("://", StringComparison.Ordinal) < 0;
         }
 
         private void ShowMessage(string message, string type)

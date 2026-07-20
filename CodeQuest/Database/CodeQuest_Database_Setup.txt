@@ -1,0 +1,52 @@
+CODEQUEST DATABASE SETUP
+========================
+
+The supplied ERD contains these 14 tables:
+
+User, Token, Course, Module, Chapter, Tutorial, Exercise, Quiz, QuizAns,
+Enrollment, Subscription, Payment, Ticket and Reply.
+
+RUNNING THE SCRIPT IN VISUAL STUDIO
+-----------------------------------
+1. Open Visual Studio.
+2. Open View > SQL Server Object Explorer.
+3. Connect to (localdb)\\MSSQLLocalDB. If it is not listed, choose Add SQL
+   Server and enter (localdb)\\MSSQLLocalDB.
+4. Right-click the server connection and choose New Query.
+5. Open CodeQuest_Database.sql, copy its contents into the query window and
+   click Execute.
+6. Refresh the Databases node. CodeQuestDB should now be visible.
+7. Open a second query for Database/Progress_Extension.sql, select
+   CodeQuestDB in the database dropdown, and click Execute. This adds the
+   learner-only ChapterProgress and QuizAttempt tables plus the public
+   Tutorial.category field used by the HTML/CSS/JavaScript filters. It is
+   safe to run again.
+8. Optional: run Database/Seed_Demo_Content.sql to insert the three prototype
+   courses, HTML/CSS/JavaScript learning content, tutorials, exercises and
+   quizzes. Run it after the main schema (and after the progress extension if
+   you want to test progress immediately).
+
+WEB.CONFIG CONNECTION STRING
+----------------------------
+Add this inside the existing <configuration> element in Web.config:
+
+<connectionStrings>
+  <add name="CodeQuestDb"
+       connectionString="Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=CodeQuestDB;Integrated Security=True;MultipleActiveResultSets=True"
+       providerName="System.Data.SqlClient" />
+</connectionStrings>
+
+Do not create a second <connectionStrings> element if Web.config already has
+one. Add only the <add> line inside the existing element.
+
+IMPORTANT SECURITY NOTES
+------------------------
+- Store a salted password hash in User.password, never the plain password.
+- Store a hash of password-reset tokens in Token.token when possible.
+- Payment transaction references should come from the payment provider.
+- The Payment table in the ERD is connected to Subscription. If the project
+  keeps the separate RM79 individual-course payment shown in the prototype,
+  add CourseID or EnrollmentID to Payment before implementing that flow.
+
+The script is safe to run again: it creates the database and each table only
+when it does not already exist. It does not delete existing records.
