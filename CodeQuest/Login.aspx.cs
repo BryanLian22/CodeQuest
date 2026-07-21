@@ -11,6 +11,8 @@ namespace CodeQuest
 {
     public partial class Login : System.Web.UI.Page
     {
+        internal const string GoogleOAuthStateSessionKey = "CodeQuestGoogleOAuthState";
+
         // Temporary accounts for interface testing only.
         // Replace this method with a SQL Server lookup and password-hash verification
         // when the User table is implemented.
@@ -134,7 +136,19 @@ namespace CodeQuest
 
         protected void btnGoogle_Click(object sender, EventArgs e)
         {
-            ShowMessage("Google sign-in will be connected after the basic login system is complete.", "info");
+            if (!GoogleOAuthClient.IsConfigured)
+            {
+                ShowMessage("Google sign-in is not configured yet. Add CodeQuestGoogleClientId and CodeQuestGoogleClientSecret to Web.config.", "info");
+                return;
+            }
+
+            string state = GoogleOAuthClient.CreateState();
+            Session[GoogleOAuthStateSessionKey] = state;
+            string redirectUri = GoogleOAuthClient.GetRedirectUri(Request);
+            string authorizationUrl = GoogleOAuthClient.BuildAuthorizationUrl(state, redirectUri);
+
+            Response.Redirect(authorizationUrl, false);
+            Context.ApplicationInstance.CompleteRequest();
         }
 
         private void SignIn(string displayName, string email, string role)

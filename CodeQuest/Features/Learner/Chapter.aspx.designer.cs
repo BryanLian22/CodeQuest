@@ -18,6 +18,7 @@ namespace CodeQuest.Features.Learner
         protected global::System.Web.UI.WebControls.Label lblTitle;
         protected global::System.Web.UI.WebControls.Label lblDescription;
         protected global::System.Web.UI.WebControls.HyperLink lnkCourse;
+        protected global::System.Web.UI.WebControls.HyperLink lnkAssistant;
         protected global::System.Web.UI.WebControls.Panel pnlTutorial;
         protected global::System.Web.UI.WebControls.Label lblTutorialTitle;
         protected global::System.Web.UI.WebControls.Literal litMaterials;

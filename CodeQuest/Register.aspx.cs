@@ -65,7 +65,19 @@ namespace CodeQuest
 
         protected void btnGoogleRegister_Click(object sender, EventArgs e)
         {
-            ShowMessage("Google registration will be connected after the basic account system is complete.", "info");
+            if (!GoogleOAuthClient.IsConfigured)
+            {
+                ShowMessage("Google sign-in is not configured yet. Add CodeQuestGoogleClientId and CodeQuestGoogleClientSecret to Web.config.", "info");
+                return;
+            }
+
+            string state = GoogleOAuthClient.CreateState();
+            Session[Login.GoogleOAuthStateSessionKey] = state;
+            string redirectUri = GoogleOAuthClient.GetRedirectUri(Request);
+            string authorizationUrl = GoogleOAuthClient.BuildAuthorizationUrl(state, redirectUri);
+
+            Response.Redirect(authorizationUrl, false);
+            Context.ApplicationInstance.CompleteRequest();
         }
 
         protected void cvTerms_ServerValidate(object source, ServerValidateEventArgs args)

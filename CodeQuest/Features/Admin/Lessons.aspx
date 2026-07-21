@@ -21,6 +21,7 @@
                 <a href="../../AdminDashboard.aspx">Overview</a>
                 <a href="Content.aspx">Content studio</a>
                 <a class="active" href="Lessons.aspx">Lesson library</a>
+                <a href="Users.aspx">Users</a>
                 <a href="Support.aspx">Support tickets</a>
                 <a href="../Public/Courses.aspx">Public courses</a>
             </nav>

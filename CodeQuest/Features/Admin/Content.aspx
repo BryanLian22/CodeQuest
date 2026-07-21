@@ -20,6 +20,7 @@
                 <a href="../../AdminDashboard.aspx">Overview</a>
                 <a class="active" href="Content.aspx">Content studio</a>
                 <a href="Lessons.aspx">Lesson library</a>
+                <a href="Users.aspx">Users</a>
                 <a href="Support.aspx">Support tickets</a>
                 <a href="../Public/Courses.aspx">Public courses</a>
                 <a href="../Public/Tutorials.aspx">Tutorial library</a>

@@ -18,3 +18,8 @@ aligned with the supplied ERD.
 `Data/DbConnectionFactory.cs` and `Data/Repositories` contain the first
 database access layer. Add new repositories instead of putting SQL queries
 inside `.aspx.cs` page event handlers.
+
+Account features use `dbo.User`: learners edit their own safe profile fields in
+`Learner/Profile.aspx`, while administrators search accounts and manage the
+checked role/plan values in `Admin/Users.aspx`. Password hashes stay inside the
+authentication repository path and are never included in admin list records.

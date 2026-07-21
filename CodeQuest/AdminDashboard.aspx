@@ -19,6 +19,7 @@
                 <a class="active" href="AdminDashboard.aspx">Overview</a>
                 <a href="Features/Admin/Content.aspx">Content studio</a>
                 <a href="Features/Admin/Lessons.aspx">Lesson library</a>
+                <a href="Features/Admin/Users.aspx">Users</a>
                 <a href="Features/Admin/Support.aspx">Support tickets</a>
                 <a href="Features/Public/Courses.aspx">Public courses</a>
                 <a href="Features/Public/Tutorials.aspx">Tutorial library</a>

@@ -19,6 +19,8 @@
                 <a href="../../LearnerDashboard.aspx">Dashboard</a>
                 <a href="../Public/Courses.aspx">Courses</a>
                 <a href="../../LearnerDashboard.aspx#myLearning">My learning</a>
+                <a href="../AI/Assistant.aspx">AI assistant</a>
+                <a href="../Learner/Profile.aspx">Profile</a>
                 <a class="active" href="Tickets.aspx">Contact support</a>
             </nav>
             <div class="header-actions">

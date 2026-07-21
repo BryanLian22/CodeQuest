@@ -13,6 +13,12 @@ against CodeQuestDB before submitting a quiz or browsing filtered tutorials.
 The root `LearnerDashboard.aspx` is now database-backed. It reads the signed-in
 user's `UserID` from Session and loads enrollments through `EnrollmentRepository`.
 
+`Profile.aspx` loads the current learner from `dbo.User`. Learners can update
+their username and biography, while their email, role, plan and Google
+connection status are shown as account information. Password changes require
+the current password and replace `dbo.User.password` with a newly salted PBKDF2
+hash. The page never displays a stored password hash.
+
 `Enroll.aspx` is the course-specific enrolment step. It loads a course from
 `dbo.Course`, returns guests to Login and then back to the selected course,
 allows Basic learners to enrol in Beginner courses, and requires Premium for

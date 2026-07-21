@@ -19,6 +19,8 @@
                 <a href="../../LearnerDashboard.aspx">Dashboard</a>
                 <a href="../Public/Courses.aspx">Courses</a>
                 <a href="../../LearnerDashboard.aspx#myLearning">My learning</a>
+                <a href="../AI/Assistant.aspx">AI assistant</a>
+                <a href="../Learner/Profile.aspx">Profile</a>
                 <a class="active" href="Plans.aspx">Plans</a>
                 <a href="../Support/Tickets.aspx">Support</a>
             </nav>
@@ -73,15 +75,13 @@
                         <strong>Premium is active.</strong><span>Your learning path is fully unlocked.</span>
                     </asp:Panel>
                     <asp:Panel ID="pnlPremiumUpgrade" runat="server" CssClass="premium-upgrade-panel">
-                        <asp:Button ID="btnUpgrade" runat="server" CssClass="primary-button upgrade-button" Text="Activate Premium — RM29/month" OnClick="btnUpgrade_Click" />
-                        <small>Prototype checkout: no real charge and no card details are stored.</small>
+                        <asp:Button ID="btnUpgrade" runat="server" CssClass="primary-button upgrade-button" Text="Activate Premium - RM29/month" OnClick="btnUpgrade_Click" OnClientClick="openPaymentModal(); return false;" />
                     </asp:Panel>
                 </article>
             </section>
 
             <section class="checkout-note">
                 <div><p class="section-kicker">Demo checkout</p><h2>One clear step to unlock more.</h2></div>
-                <p>When you activate Premium, CodeQuest creates an Active subscription and a Completed demo payment in the database, then returns you to My learning.</p>
             </section>
 
             <section class="payment-history">
@@ -101,12 +101,66 @@
                     </asp:Repeater>
                 </div>
             </section>
+
+            <div id="paymentModal" class="payment-modal" role="dialog" aria-modal="true" aria-labelledby="paymentModalTitle" aria-hidden="true">
+                <div class="payment-modal-backdrop" onclick="closePaymentModal();" aria-hidden="true"></div>
+                <section class="payment-modal-card">
+                    <button type="button" class="payment-modal-close" onclick="closePaymentModal();" aria-label="Close payment dialog">&times;</button>
+                    <p class="section-kicker">Secure demo checkout</p>
+                    <h2 id="paymentModalTitle">Complete your Premium upgrade.</h2>
+                    <p class="payment-modal-copy">This is a simulated payment screen for the CodeQuest prototype. No payment provider is connected and no card details are stored.</p>
+
+                    <div class="payment-order-summary"><span>CodeQuest Premium</span><strong>RM29.00 <small>/ month</small></strong></div>
+
+                    <div class="payment-fields">
+                        <label>Cardholder name<input type="text" autocomplete="off" placeholder="Demo learner" /></label>
+                        <label>Card number<input type="text" inputmode="numeric" autocomplete="off" maxlength="19" placeholder="4242 4242 4242 4242" /></label>
+                        <label>Expiry date<input type="text" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="MM/YY" /></label>
+                        <label>CVV<input type="password" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="123" /></label>
+                    </div>
+
+                    <p class="payment-demo-note"><span aria-hidden="true">i</span> Use any placeholder values. This simulator only records a completed demo payment after confirmation.</p>
+                    <div class="payment-modal-actions">
+                        <button type="button" class="secondary-button" onclick="closePaymentModal();">Cancel</button>
+                        <asp:Button ID="btnConfirmUpgrade" runat="server" CssClass="primary-button upgrade-button" Text="Pay RM29.00 (demo)" OnClick="btnUpgrade_Click" UseSubmitBehavior="false" />
+                    </div>
+                </section>
+            </div>
         </main>
 
         <footer class="site-footer">
             <span>&copy; 2026 CodeQuest</span>
             <span>Learn &middot; Practise &middot; Build</span>
         </footer>
+
+        <script type="text/javascript">
+            (function () {
+                var modal = document.getElementById("paymentModal");
+
+                window.openPaymentModal = function () {
+                    if (!modal) { return false; }
+                    modal.classList.add("is-open");
+                    modal.setAttribute("aria-hidden", "false");
+                    document.body.classList.add("modal-open");
+                    var firstInput = modal.querySelector("input");
+                    if (firstInput) { firstInput.focus(); }
+                    return false;
+                };
+
+                window.closePaymentModal = function () {
+                    if (!modal) { return; }
+                    modal.classList.remove("is-open");
+                    modal.setAttribute("aria-hidden", "true");
+                    document.body.classList.remove("modal-open");
+                };
+
+                document.addEventListener("keydown", function (event) {
+                    if (event.key === "Escape" && modal && modal.classList.contains("is-open")) {
+                        window.closePaymentModal();
+                    }
+                });
+            }());
+        </script>
     </form>
 </body>
 </html>

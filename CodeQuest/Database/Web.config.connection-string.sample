@@ -2,3 +2,28 @@
 <add name="CodeQuestDb"
      connectionString="Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=CodeQuestDB;Integrated Security=True;MultipleActiveResultSets=True"
      providerName="System.Data.SqlClient" />
+
+<!-- Optional: add these appSettings for real password-reset email delivery. -->
+<!--
+<add key="CodeQuestSmtpHost" value="smtp.example.com" />
+<add key="CodeQuestSmtpPort" value="587" />
+<add key="CodeQuestSmtpSsl" value="true" />
+<add key="CodeQuestResetFromEmail" value="no-reply@example.com" />
+<add key="CodeQuestSmtpUsername" value="smtp-user" />
+<add key="CodeQuestSmtpPassword" value="smtp-password" />
+-->
+
+<!-- Optional: keep the Google AI Studio key server-side for the Premium assistant. -->
+<!--
+<add key="CodeQuestGoogleAiApiKey" value="replace-with-server-secret" />
+<add key="CodeQuestGoogleAiModel" value="gemini-3.5-flash" />
+<add key="CodeQuestGoogleAiEndpoint" value="https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent" />
+-->
+
+<!-- Optional: configure Google OAuth login. The redirect URI must exactly match
+     the URI registered for the OAuth Web application in Google Cloud Console. -->
+<!--
+<add key="CodeQuestGoogleClientId" value="your-client-id.apps.googleusercontent.com" />
+<add key="CodeQuestGoogleClientSecret" value="your-client-secret" />
+<add key="CodeQuestGoogleRedirectUri" value="https://localhost:44303/GoogleCallback.aspx" />
+-->

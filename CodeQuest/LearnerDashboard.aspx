@@ -19,10 +19,14 @@
                 <a class="active" href="LearnerDashboard.aspx">Dashboard</a>
                 <a href="Features/Public/Courses.aspx">Courses</a>
                 <a href="#myLearning">My learning</a>
-                <a href="#profile">Profile</a>
+                <a href="Features/AI/Assistant.aspx">AI assistant</a>
+                <a href="Features/Learner/Profile.aspx">Profile</a>
                 <a href="Features/Support/Tickets.aspx">Support</a>
             </nav>
-            <a class="header-cta" href="Guest.aspx">Home</a>
+            <div class="header-actions">
+                <a class="login-link" href="Guest.aspx">Home</a>
+                <a class="header-cta" href="Login.aspx?logout=1">Sign out</a>
+            </div>
         </header>
 
         <main class="learner-page">

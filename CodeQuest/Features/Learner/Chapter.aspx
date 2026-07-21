@@ -19,11 +19,13 @@
                 <a href="../../LearnerDashboard.aspx">Dashboard</a>
                 <a href="../Public/Courses.aspx">Courses</a>
                 <a class="active" href="../../LearnerDashboard.aspx#myLearning">My learning</a>
+                <a href="../AI/Assistant.aspx">AI assistant</a>
+                <a href="Profile.aspx">Profile</a>
                 <a href="../../Guest.aspx#about">About</a>
             </nav>
             <div class="header-actions">
                 <a class="login-link" href="../../LearnerDashboard.aspx">Dashboard</a>
-                <a class="header-cta" href="../../LearnerDashboard.aspx#myLearning">My learning</a>
+                <a class="header-cta" href="../../Login.aspx?logout=1">Sign out</a>
             </div>
         </header>
 
@@ -49,6 +51,7 @@
                     <h1><asp:Label ID="lblTitle" runat="server" /></h1>
                     <p class="chapter-description"><asp:Label ID="lblDescription" runat="server" /></p>
                     <asp:HyperLink ID="lnkCourse" runat="server" CssClass="back-link" Text="&larr; Back to course" />
+                    <asp:HyperLink ID="lnkAssistant" runat="server" CssClass="back-link" Text="Ask AI about this chapter &rarr;" />
                 </section>
 
                 <asp:Panel ID="pnlTutorial" runat="server" CssClass="lesson-card" Visible="false">

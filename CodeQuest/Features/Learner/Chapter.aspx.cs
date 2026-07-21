@@ -101,6 +101,7 @@ namespace CodeQuest.Features.Learner
             lblBreadcrumbCourse.Text = Server.HtmlEncode(lesson.CourseTitle);
             lblBreadcrumbModule.Text = Server.HtmlEncode(lesson.ModuleTitle);
             lnkCourse.NavigateUrl = "Course.aspx?courseId=" + lesson.CourseID;
+            lnkAssistant.NavigateUrl = "../AI/Assistant.aspx?chapterId=" + lesson.ChapterID;
             pnlQuizLink.Visible = false;
 
             if (lesson.TutorialID.HasValue)

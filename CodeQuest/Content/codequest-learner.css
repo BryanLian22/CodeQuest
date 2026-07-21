@@ -5,6 +5,10 @@
     padding: 70px 0 100px;
 }
 
+.header-actions { display: flex; align-items: center; gap: 12px; }
+.login-link { padding: 9px 12px; color: #c0d0df; font-size: .82rem; font-weight: 600; text-decoration: none; }
+.login-link:hover { color: var(--cyan); }
+
 .learner-heading {
     display: flex;
     align-items: flex-end;

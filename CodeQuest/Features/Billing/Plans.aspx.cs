@@ -53,8 +53,17 @@ namespace CodeQuest.Features.Billing
             try
             {
                 BillingRepository repository = new BillingRepository();
-                SubscriptionRecord subscription = repository.GetActiveSubscription(userID);
-                string plan = subscription == null ? Convert.ToString(Session["UserPlan"] ?? "Basic") : subscription.PlanType;
+                UserRecord account = new UserRepository().FindByID(userID);
+                if (account == null)
+                {
+                    ShowError("Your learner account could not be found in CodeQuestDB.");
+                    return;
+                }
+
+                // dbo.User is the source of truth. Subscription rows are billing
+                // history and must not make an administrator's Basic change look
+                // like an active Premium plan.
+                string plan = account.Plan;
                 if (string.IsNullOrWhiteSpace(plan))
                 {
                     plan = "Basic";

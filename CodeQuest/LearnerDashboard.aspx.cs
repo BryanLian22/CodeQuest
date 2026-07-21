@@ -61,6 +61,17 @@ namespace CodeQuest
             try
             {
                 int userID = Convert.ToInt32(Session["UserID"]);
+                UserRecord account = new UserRepository().FindByID(userID);
+                if (account != null)
+                {
+                    // Refresh access from the database so an administrator's
+                    // plan change is reflected without relying on stale session data.
+                    Session["DisplayName"] = account.Username;
+                    Session["UserPlan"] = account.Plan;
+                    lblDisplayName.Text = Server.HtmlEncode(account.Username);
+                    lblPlan.Text = Server.HtmlEncode(account.Plan);
+                }
+
                 IList<EnrollmentCourseRecord> enrollments = new EnrollmentRepository().GetForUser(userID);
                 rptEnrollments.DataSource = enrollments;
                 rptEnrollments.DataBind();

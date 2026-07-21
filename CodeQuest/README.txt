@@ -6,6 +6,12 @@ FILES
 Login.aspx                         Login page markup
 Login.aspx.cs                      C# code-behind and temporary demo login
 Login.aspx.designer.cs             Web Forms control declarations
+GoogleCallback.aspx                Google OAuth callback page
+GoogleCallback.aspx.cs             OAuth state validation and account linking
+ForgotPassword.aspx                Password-reset request page
+ForgotPassword.aspx.cs             Token issue and optional SMTP delivery
+ResetPassword.aspx                 One-time password reset page
+ResetPassword.aspx.cs              Token validation and transactional reset
 Content/codequest-auth.css         Responsive CodeQuest styling
 Guest.aspx                         Public CodeQuest home page
 Guest.aspx.cs                      Guest page code-behind
@@ -21,6 +27,7 @@ Database/Progress_Extension.sql  Progress, quiz attempts and tutorial categories
 Database/Seed_Demo_Content.sql    Optional courses and learning content
 Models/                            C# records matching ERD entities
 Data/                              SQL Server connection and repositories
+Data/GoogleOAuthClient.cs          Server-side Google OpenID Connect client
 Features/                          Feature folders and ERD mapping
 Features/Public/Courses.aspx      First database-driven public page
 Features/Public/Tutorials.aspx    Guest-accessible tutorial catalogue
@@ -28,11 +35,14 @@ Features/Learner/Enroll.aspx       Course-specific enrolment step
 Features/Learner/Course.aspx       Enrolled course and published modules
 Features/Learner/Chapter.aspx      Chapter tutorial and practice page
 Features/Learner/Quiz.aspx         Enrolled learner checkpoint quiz
+Features/Learner/Profile.aspx      Learner profile and secure password change
+Features/AI/Assistant.aspx        Premium Google AI Studio learning assistant
 Features/Billing/Plans.aspx        Basic/Premium plans and demo checkout
 LearnerDashboard.aspx              Database-backed learner dashboard
 AdminDashboard.aspx                Protected database-backed admin overview
 Features/Admin/Content.aspx        Admin course, module and chapter authoring
 Features/Admin/Lessons.aspx        Admin tutorial, exercise and quiz authoring
+Features/Admin/Users.aspx          Admin user search and role/plan controls
 Features/Support/Tickets.aspx      Learner ticket history and replies
 Features/Admin/Support.aspx        Admin ticket inbox, replies and status control
 Contact.aspx                       Role-aware Contact Us entry point
@@ -49,6 +59,16 @@ ticket by category, view a ticket reference and reply to open tickets.
 Administrators can review every ticket, respond and set Open, In Progress,
 Resolved or Closed status from Features/Admin/Support.aspx.
 
+Learners can update their username and biography from
+Features/Learner/Profile.aspx. Password changes verify the current password and
+save a new salted PBKDF2 hash. The email remains read-only in this version so a
+profile edit cannot accidentally change the account's sign-in identity.
+
+Features/Admin/Users.aspx searches dbo.User by username or email and shows safe
+account details plus enrolment and support-ticket totals. Administrators can
+change role and plan, but cannot remove their own Admin role or demote the final
+administrator. Password hashes are never loaded into the admin-facing model.
+
 HOW TO ADD THE FILES TO YOUR VISUAL STUDIO PROJECT
 --------------------------------------------------
 1. Close Login.aspx in Visual Studio if it is currently open.
@@ -61,6 +81,9 @@ HOW TO ADD THE FILES TO YOUR VISUAL STUDIO PROJECT
 6. Keep LearnerDashboard.aspx and AdminDashboard.aspx in the project root.
 7. In Solution Explorer, click "Show All Files" if the copied files do not
    appear, then right-click each file and choose "Include In Project".
+   Remember to include Models/UserManagementRecord.cs,
+   Features/Learner/Profile.aspx and Features/Admin/Users.aspx together with
+   their code-behind/designer files and the two new CSS files.
 8. Right-click Login.aspx and choose "Set as Start Page".
 9. Press Ctrl+F5 to run the website.
 
@@ -124,16 +147,33 @@ course, module and chapter creation plus module publishing controls.
 Features/Admin/Lessons.aspx adds public tutorial/exercise and learner quiz
 authoring, including answer choices.
 
-The Courses.aspx, Tutorials.aspx, About.aspx and ForgotPassword.aspx links are
-prepared for future pages. Contact.aspx now routes to the authenticated support
-ticket workspace.
+The Courses.aspx, Tutorials.aspx and About.aspx links remain part of the public
+navigation. Contact.aspx now routes to the authenticated support ticket
+workspace.
 
-Google login is currently a visual/testing button. A real Google sign-in needs
-an OAuth client ID, client secret, callback URL and backend configuration.
+Google login now uses a server-side OAuth authorization-code callback at
+GoogleCallback.aspx. It validates the state value, verifies the Google email,
+links an existing dbo.User by email when safe, or creates a Basic learner with
+a random unusable local password. Configure CodeQuestGoogleClientId,
+CodeQuestGoogleClientSecret and CodeQuestGoogleRedirectUri in Web.config; the
+redirect URI must exactly match the OAuth Web application configuration.
 
 Registration now inserts a learner into dbo.User using a salted PBKDF2 hash.
 Login checks dbo.User first and keeps the two demo accounts as a temporary
 fallback while the database is being configured.
+
+ForgotPassword.aspx creates a 30-minute, one-time password-reset token in
+dbo.Token. Only a SHA-256 digest is stored in the database. If SMTP app settings
+are present, the link is emailed; otherwise the local prototype shows a
+development-only link so the complete flow can be tested. ResetPassword.aspx
+consumes the token and replaces the account password inside a SQL transaction.
+
+The Premium AI assistant is available at Features/AI/Assistant.aspx. It checks
+the current learner plan from dbo.User, sends course-aware prompts through the
+server-side Google AI Studio Gemini client, and keeps temporary conversation
+history in Session until a persistent conversation table is added. Keep
+CodeQuestGoogleAiApiKey in Web.config only; never commit it to GitHub or expose
+it in browser JavaScript.
 
 The public course cards now open Features/Learner/Enroll.aspx with the selected
 CourseID. Guests are sent to Login and returned to that course after signing in.

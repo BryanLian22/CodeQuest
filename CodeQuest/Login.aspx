@@ -22,9 +22,9 @@
 
             <nav class="main-nav" aria-label="Main navigation">
                 <a href="Guest.aspx">Home</a>
-                <a href="Courses.aspx">Courses</a>
-                <a href="Tutorials.aspx">Tutorials</a>
-                <a href="About.aspx">About</a>
+                <a href="Features/Public/Courses.aspx">Courses</a>
+                <a href="Features/Public/Tutorials.aspx">Tutorials</a>
+                <a href="Guest.aspx#about">About</a>
             </nav>
 
             <a class="header-cta" href="Register.aspx">Get Started</a>
