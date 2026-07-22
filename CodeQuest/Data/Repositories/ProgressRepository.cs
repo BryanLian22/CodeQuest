@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -65,6 +66,62 @@ namespace CodeQuest.Data.Repositories
                 connection.Open();
                 return Convert.ToInt32(command.ExecuteScalar());
             }
+        }
+
+        public bool IsChapterCompleted(int userID, int chapterID)
+        {
+            const string sql = @"
+                SELECT COUNT(1)
+                FROM dbo.ChapterProgress
+                WHERE UserID = @userID
+                  AND ChapterID = @chapterID
+                  AND status = N'Completed';";
+
+            using (SqlConnection connection = DbConnectionFactory.Create())
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.Add("@userID", SqlDbType.Int).Value = userID;
+                command.Parameters.Add("@chapterID", SqlDbType.Int).Value = chapterID;
+                connection.Open();
+                return Convert.ToInt32(command.ExecuteScalar()) > 0;
+            }
+        }
+
+        public IDictionary<int, string> GetLatestQuizAnswers(int userID, int chapterID)
+        {
+            const string sql = @"
+                WITH LatestAttempts AS
+                (
+                    SELECT QuizID, selected_answer,
+                           ROW_NUMBER() OVER (PARTITION BY QuizID ORDER BY AttemptID DESC) AS row_number
+                    FROM dbo.QuizAttempt
+                    WHERE UserID = @userID
+                      AND ChapterID = @chapterID
+                )
+                SELECT QuizID, selected_answer
+                FROM LatestAttempts
+                WHERE row_number = 1;";
+
+            Dictionary<int, string> answers = new Dictionary<int, string>();
+            using (SqlConnection connection = DbConnectionFactory.Create())
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.Add("@userID", SqlDbType.Int).Value = userID;
+                command.Parameters.Add("@chapterID", SqlDbType.Int).Value = chapterID;
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int selectedAnswerOrdinal = reader.GetOrdinal("selected_answer");
+                        answers[reader.GetInt32(reader.GetOrdinal("QuizID"))] =
+                            reader.IsDBNull(selectedAnswerOrdinal) ? null : reader.GetString(selectedAnswerOrdinal);
+                    }
+                }
+            }
+
+            return answers;
         }
 
         public decimal? GetQuizAverage(int userID)

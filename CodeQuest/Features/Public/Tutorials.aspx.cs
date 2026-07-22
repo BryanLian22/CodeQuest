@@ -31,17 +31,39 @@ namespace CodeQuest.Features.Public
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            ConfigureHeader();
             if (!IsPostBack)
             {
                 LoadTutorials();
             }
         }
 
+        private void ConfigureHeader()
+        {
+            bool isAdmin = string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase);
+            phPublicNavigation.Visible = !isAdmin;
+            phAdminNavigation.Visible = isAdmin;
+            phPublicActions.Visible = !isAdmin;
+            phAdminActions.Visible = isAdmin;
+            pnlAdminPreview.Visible = isAdmin;
+        }
+
+        protected string GetTutorialActionText()
+        {
+            return string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase)
+                ? "Test tutorial"
+                : "Open free tutorial";
+        }
+
         private void LoadTutorials()
         {
             try
             {
-                IList<TutorialRecord> tutorials = new TutorialRepository().GetPublished(SelectedCategory);
+                bool isAdmin = string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase);
+                TutorialRepository repository = new TutorialRepository();
+                IList<TutorialRecord> tutorials = isAdmin
+                    ? repository.GetAll(SelectedCategory)
+                    : repository.GetPublished(SelectedCategory);
                 rptTutorials.DataSource = tutorials;
                 rptTutorials.DataBind();
                 pnlEmpty.Visible = tutorials.Count == 0;

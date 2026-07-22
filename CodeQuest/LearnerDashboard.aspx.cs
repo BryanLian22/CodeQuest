@@ -105,5 +105,19 @@ namespace CodeQuest
             lblMessage.Text = message;
             pnlMessage.Visible = true;
         }
+
+        protected string GetEnrollmentStatusCss(object statusValue)
+        {
+            return string.Equals(Convert.ToString(statusValue), "Completed", StringComparison.OrdinalIgnoreCase)
+                ? "enrollment-status completed"
+                : "enrollment-status";
+        }
+
+        protected string GetEnrollmentAction(object statusValue)
+        {
+            return string.Equals(Convert.ToString(statusValue), "Completed", StringComparison.OrdinalIgnoreCase)
+                ? "Review course &rarr;"
+                : "Continue course &rarr;";
+        }
     }
 }

@@ -13,6 +13,11 @@ namespace CodeQuest.Data.Repositories
     {
         public IList<QuizQuestionRecord> GetForChapter(int chapterID)
         {
+            return GetForChapter(chapterID, false);
+        }
+
+        public IList<QuizQuestionRecord> GetForChapter(int chapterID, bool includeUnpublished)
+        {
             const string sql = @"
                 SELECT q.QuizID, q.ChapterID, q.description, q.question, q.correct_answer,
                        a.QAnsID, a.Answer
@@ -21,7 +26,7 @@ namespace CodeQuest.Data.Repositories
                 INNER JOIN dbo.Module m ON m.ModuleID = c.ModuleID
                 LEFT JOIN dbo.QuizAns a ON a.QuizID = q.QuizID
                 WHERE q.ChapterID = @chapterID
-                  AND m.status = N'Published'
+                  AND (@includeUnpublished = 1 OR m.status = N'Published')
                 ORDER BY q.QuizID, a.QAnsID;";
 
             List<QuizQuestionRecord> questions = new List<QuizQuestionRecord>();
@@ -30,6 +35,7 @@ namespace CodeQuest.Data.Repositories
             using (SqlCommand command = new SqlCommand(sql, connection))
             {
                 command.Parameters.Add("@chapterID", SqlDbType.Int).Value = chapterID;
+                command.Parameters.Add("@includeUnpublished", SqlDbType.Bit).Value = includeUnpublished;
                 connection.Open();
 
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -70,17 +76,24 @@ namespace CodeQuest.Data.Repositories
 
         public bool HasQuiz(int chapterID)
         {
+            return HasQuiz(chapterID, false);
+        }
+
+        public bool HasQuiz(int chapterID, bool includeUnpublished)
+        {
             const string sql = @"
                 SELECT COUNT(1)
                 FROM dbo.Quiz q
                 INNER JOIN dbo.Chapter c ON c.ChapterID = q.ChapterID
                 INNER JOIN dbo.Module m ON m.ModuleID = c.ModuleID
-                WHERE q.ChapterID = @chapterID AND m.status = N'Published';";
+                WHERE q.ChapterID = @chapterID
+                  AND (@includeUnpublished = 1 OR m.status = N'Published');";
 
             using (SqlConnection connection = DbConnectionFactory.Create())
             using (SqlCommand command = new SqlCommand(sql, connection))
             {
                 command.Parameters.Add("@chapterID", SqlDbType.Int).Value = chapterID;
+                command.Parameters.Add("@includeUnpublished", SqlDbType.Bit).Value = includeUnpublished;
                 connection.Open();
                 return Convert.ToInt32(command.ExecuteScalar()) > 0;
             }

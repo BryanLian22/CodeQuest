@@ -15,20 +15,22 @@
             <a class="brand" href="../../Guest.aspx" aria-label="CodeQuest home">
                 <img class="brand-logo" src="../../Content/Images/CodeQuest_logo.png" alt="CodeQuest" />
             </a>
-            <nav class="main-nav" aria-label="Main navigation">
+            <nav class="main-nav" aria-label="Learner navigation">
                 <a href="../../LearnerDashboard.aspx">Dashboard</a>
-                <a class="active" href="../Public/Courses.aspx">Courses</a>
-                <a href="../../Guest.aspx#tutorials">Tutorials</a>
-                <a href="../../Guest.aspx#about">About</a>
+                <a class="active" href="Courses.aspx">Courses</a>
+                <a href="../../LearnerDashboard.aspx#myLearning">My learning</a>
+                <a href="../AI/Assistant.aspx">AI assistant</a>
+                <a href="Profile.aspx">Profile</a>
+                <a href="../Support/Tickets.aspx">Support</a>
             </nav>
             <div class="header-actions">
-                <a class="login-link" href="../../Login.aspx">Login</a>
-                <a class="header-cta" href="../../Register.aspx">Get Started</a>
+                <a class="login-link" href="../../Guest.aspx">Home</a>
+                <a class="header-cta" href="../../Login.aspx?logout=1">Sign out</a>
             </div>
         </header>
 
         <main class="enrol-page">
-            <a class="back-link" href="../Public/Courses.aspx">&larr; Back to courses</a>
+            <a class="back-link" href="Courses.aspx">&larr; Back to courses</a>
 
             <asp:Panel ID="pnlError" runat="server" CssClass="enrol-message error" Visible="false" role="alert">
                 <asp:Label ID="lblError" runat="server" />

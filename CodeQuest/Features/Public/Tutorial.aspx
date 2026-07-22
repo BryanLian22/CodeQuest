@@ -16,22 +16,43 @@
                 <img class="brand-logo" src="../../Content/Images/CodeQuest_logo.png" alt="CodeQuest" />
             </a>
             <nav class="main-nav" aria-label="Public navigation">
-                <a href="../../Guest.aspx">Home</a>
-                <a href="Courses.aspx">Courses</a>
-                <a class="active" href="Tutorials.aspx">Tutorials</a>
-                <a href="../../Guest.aspx#about">About</a>
+                <asp:PlaceHolder ID="phPublicNavigation" runat="server">
+                    <a href="../../Guest.aspx">Home</a>
+                    <a href="Courses.aspx">Courses</a>
+                    <a class="active" href="Tutorials.aspx">Tutorials</a>
+                    <a href="../../Guest.aspx#about">About</a>
+                </asp:PlaceHolder>
+                <asp:PlaceHolder ID="phAdminNavigation" runat="server" Visible="false">
+                    <a href="../../AdminDashboard.aspx">Overview</a>
+                    <a href="../Admin/Content.aspx">Content studio</a>
+                    <a href="../Admin/Lessons.aspx">Lesson library</a>
+                    <a href="../Admin/Users.aspx">Users</a>
+                    <a href="../Admin/Support.aspx">Support tickets</a>
+                    <a href="Courses.aspx">Preview courses</a>
+                    <a class="active" href="Tutorials.aspx">Preview tutorials</a>
+                </asp:PlaceHolder>
             </nav>
             <div class="header-actions">
-                <a class="login-link" href="../../Login.aspx">Login</a>
-                <a class="header-cta" href="../../Register.aspx">Get Started</a>
+                <asp:PlaceHolder ID="phPublicActions" runat="server">
+                    <a class="login-link" href="../../Login.aspx">Login</a>
+                    <a class="header-cta" href="../../Register.aspx">Get Started</a>
+                </asp:PlaceHolder>
+                <asp:PlaceHolder ID="phAdminActions" runat="server" Visible="false">
+                    <a class="login-link" href="../../Guest.aspx">View site</a>
+                    <a class="header-cta" href="../../Login.aspx?logout=1">Sign out</a>
+                </asp:PlaceHolder>
             </div>
         </header>
 
         <main class="tutorial-page">
-            <a class="tutorial-back" href="Tutorials.aspx">&larr; Back to free tutorials</a>
+            <a class="tutorial-back" href="Tutorials.aspx">&larr; Back to tutorial library</a>
 
             <asp:Panel ID="pnlError" runat="server" CssClass="tutorial-message error" Visible="false" role="alert">
                 <asp:Label ID="lblError" runat="server" />
+            </asp:Panel>
+
+            <asp:Panel ID="pnlAdminPreview" runat="server" CssClass="tutorial-message" Visible="false">
+                Admin preview mode: use the exercise below to verify that this tutorial behaves correctly before or after publication.
             </asp:Panel>
 
             <asp:Panel ID="pnlTutorial" runat="server" Visible="false">

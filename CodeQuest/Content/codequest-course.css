@@ -175,6 +175,30 @@
 .chapter-link:hover { color: var(--cyan); }
 .chapter-row span:last-child { margin-top: 4px; color: #7e94aa; font-size: .67rem; line-height: 1.45; }
 
+.chapter-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.chapter-row .chapter-title-row .chapter-complete {
+    display: inline-flex;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 4px 7px;
+    border: 1px solid rgba(92,242,181,.24);
+    border-radius: 999px;
+    color: var(--green);
+    background: rgba(92,242,181,.08);
+    font-family: Consolas, monospace;
+    font-size: .52rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.chapter-row .chapter-title-row .chapter-complete:empty { display: none; }
+
 @media (max-width: 760px) {
     .course-page { width: min(100% - 28px,1120px); padding-top: 42px; }
     .module-grid { grid-template-columns: 1fr; }

@@ -27,8 +27,20 @@ namespace CodeQuest.Features.Public
 
         private void LoadCourses()
         {
-            pnlGuestActions.Visible = Session["UserRole"] == null;
-            pnlSignedInActions.Visible = Session["UserRole"] != null;
+            bool isAdmin = string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase);
+            bool isLearner = string.Equals(Convert.ToString(Session["UserRole"]), "Learner", StringComparison.OrdinalIgnoreCase);
+            phPublicNavigation.Visible = !isAdmin;
+            phAdminNavigation.Visible = isAdmin;
+            phPublicActions.Visible = !isAdmin;
+            phAdminActions.Visible = isAdmin;
+            pnlAdminPreview.Visible = isAdmin;
+            if (isLearner)
+            {
+                lnkPrimaryHeader.NavigateUrl = "../Learner/Courses.aspx";
+                lnkPrimaryHeader.Text = "Learner courses";
+                lnkSecondaryHeader.NavigateUrl = "../../Login.aspx?logout=1";
+                lnkSecondaryHeader.Text = "Sign out";
+            }
 
             try
             {
@@ -44,6 +56,13 @@ namespace CodeQuest.Features.Public
 
                 foreach (CourseRecord course in courses)
                 {
+                    if (isAdmin)
+                    {
+                        course.ActionText = "Preview course";
+                        course.ActionUrl = "../Learner/Course.aspx?courseId=" + course.CourseID;
+                        continue;
+                    }
+
                     course.IsEnrolled = enrolledCourseIDs.Contains(course.CourseID);
                     course.ActionText = course.IsEnrolled
                         ? "Continue course"

@@ -102,6 +102,52 @@
 }
 
 .quiz-result { display: grid; gap: 4px; }
+.quiz-result-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.retake-quiz-link,
+.next-chapter-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 43px;
+    padding: 0 17px;
+    border-radius: 9px;
+    font-size: .75rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform .16s ease, box-shadow .16s ease;
+}
+
+.retake-quiz-link {
+    border: 1px solid rgba(79,228,255,.35);
+    color: var(--cyan);
+    background: rgba(79,228,255,.06);
+}
+
+.next-chapter-link {
+    border: 1px solid rgba(79,228,255,.35);
+    color: #04101c;
+    background: linear-gradient(90deg, var(--cyan), #6ea2ff);
+}
+
+.retake-quiz-link:hover {
+    color: #fff;
+    transform: translateY(-1px);
+    border-color: rgba(79,228,255,.65);
+}
+
+.next-chapter-link:hover {
+    color: #04101c;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(79,228,255,.16);
+}
+
 .save-notice { color: #ffc2cd; }
 .quiz-message.error { border-color: rgba(255,126,148,.3); color: #ffc2cd; background: rgba(255,126,148,.07); }
 

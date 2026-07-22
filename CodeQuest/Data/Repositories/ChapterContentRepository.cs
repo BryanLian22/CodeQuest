@@ -12,7 +12,54 @@ namespace CodeQuest.Data.Repositories
     /// </summary>
     public sealed class ChapterContentRepository
     {
+        public int? GetNextPublishedChapterID(int chapterID)
+        {
+            return GetNextChapterID(chapterID, false);
+        }
+
+        public int? GetNextChapterID(int chapterID, bool includeUnpublished)
+        {
+            const string sql = @"
+                SELECT TOP (1) nextChapter.ChapterID
+                FROM dbo.Chapter currentChapter
+                INNER JOIN dbo.Module currentModule
+                  ON currentModule.ModuleID = currentChapter.ModuleID
+                INNER JOIN dbo.Module nextModule
+                  ON nextModule.CourseID = currentModule.CourseID
+                 AND (@includeUnpublished = 1 OR nextModule.status = N'Published')
+                INNER JOIN dbo.Chapter nextChapter
+                  ON nextChapter.ModuleID = nextModule.ModuleID
+                WHERE currentChapter.ChapterID = @chapterID
+                  AND
+                  (
+                      nextModule.ModuleID > currentModule.ModuleID
+                      OR
+                      (
+                          nextModule.ModuleID = currentModule.ModuleID
+                          AND nextChapter.ChapterID > currentChapter.ChapterID
+                      )
+                  )
+                ORDER BY nextModule.ModuleID, nextChapter.ChapterID;";
+
+            using (SqlConnection connection = DbConnectionFactory.Create())
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.Add("@chapterID", SqlDbType.Int).Value = chapterID;
+                command.Parameters.Add("@includeUnpublished", SqlDbType.Bit).Value = includeUnpublished;
+                connection.Open();
+                object value = command.ExecuteScalar();
+                return value == null || value == System.DBNull.Value
+                    ? (int?)null
+                    : System.Convert.ToInt32(value);
+            }
+        }
+
         public ChapterLessonRecord GetChapter(int chapterID)
+        {
+            return GetChapter(chapterID, false);
+        }
+
+        public ChapterLessonRecord GetChapter(int chapterID, bool includeUnpublished)
         {
             const string chapterSql = @"
                 SELECT c.ChapterID, c.ModuleID, m.CourseID, co.course_title,
@@ -21,7 +68,7 @@ namespace CodeQuest.Data.Repositories
                 INNER JOIN dbo.Module m ON m.ModuleID = c.ModuleID
                 INNER JOIN dbo.Course co ON co.CourseID = m.CourseID
                 WHERE c.ChapterID = @chapterID
-                  AND m.status = N'Published';";
+                  AND (@includeUnpublished = 1 OR m.status = N'Published');";
 
             ChapterLessonRecord lesson = null;
 
@@ -32,6 +79,7 @@ namespace CodeQuest.Data.Repositories
                 using (SqlCommand command = new SqlCommand(chapterSql, connection))
                 {
                     command.Parameters.Add("@chapterID", SqlDbType.Int).Value = chapterID;
+                    command.Parameters.Add("@includeUnpublished", SqlDbType.Bit).Value = includeUnpublished;
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -61,11 +109,12 @@ namespace CodeQuest.Data.Repositories
                     SELECT TOP (1) TutorialID, tutorial_title, materials
                     FROM dbo.Tutorial
                     WHERE tutorial_title = @chapterTitle
-                      AND status = N'Published';";
+                      AND (@includeUnpublished = 1 OR status = N'Published');";
 
                 using (SqlCommand command = new SqlCommand(tutorialSql, connection))
                 {
                     command.Parameters.Add("@chapterTitle", SqlDbType.NVarChar, 200).Value = lesson.ChapterTitle;
+                    command.Parameters.Add("@includeUnpublished", SqlDbType.Bit).Value = includeUnpublished;
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {

@@ -22,8 +22,8 @@
                 <a href="Lessons.aspx">Lesson library</a>
                 <a href="Users.aspx">Users</a>
                 <a href="Support.aspx">Support tickets</a>
-                <a href="../Public/Courses.aspx">Public courses</a>
-                <a href="../Public/Tutorials.aspx">Tutorial library</a>
+                <a href="../Public/Courses.aspx">Preview courses</a>
+                <a href="../Public/Tutorials.aspx">Preview tutorials</a>
             </nav>
             <div class="header-actions">
                 <a class="login-link" href="../../Guest.aspx">View site</a>
@@ -56,6 +56,7 @@
                     <label class="field-label" for="ddlCourses">Selected course</label>
                     <asp:DropDownList ID="ddlCourses" runat="server" CssClass="studio-select" AutoPostBack="true" OnSelectedIndexChanged="ddlCourses_SelectedIndexChanged" />
                     <asp:Label ID="lblSelectedCourse" runat="server" CssClass="selection-note" />
+                    <asp:HyperLink ID="lnkPreviewCourse" runat="server" CssClass="mini-action" Visible="false" Text="Test selected course &rarr;" />
 
                     <div class="studio-form-divider"></div>
                     <p class="form-kicker">New course</p>
@@ -128,6 +129,7 @@
                                 <ItemTemplate>
                                     <article class="studio-list-item chapter-item">
                                         <div><strong><%# Server.HtmlEncode(Eval("Title").ToString()) %></strong><span>CHAPTER-<%# Eval("ChapterID") %></span></div>
+                                        <a class="mini-action" href="../Learner/Chapter.aspx?chapterId=<%# Eval("ChapterID") %>">Test chapter &rarr;</a>
                                     </article>
                                 </ItemTemplate>
                             </asp:Repeater>

@@ -144,6 +144,7 @@
     <Content Include="Features\Billing\Plans.aspx" />
     <Content Include="Features\Learner\Chapter.aspx" />
     <Content Include="Features\Learner\Course.aspx" />
+    <Content Include="Features\Learner\Courses.aspx" />
     <Content Include="Features\Learner\Enroll.aspx" />
     <Content Include="Features\Learner\Profile.aspx" />
     <Content Include="Features\Learner\Quiz.aspx" />
@@ -246,6 +247,13 @@
     </Compile>
     <Compile Include="Features\Learner\Course.aspx.designer.cs">
       <DependentUpon>Course.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Learner\Courses.aspx.cs">
+      <DependentUpon>Courses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Features\Learner\Courses.aspx.designer.cs">
+      <DependentUpon>Courses.aspx</DependentUpon>
     </Compile>
     <Compile Include="Features\Learner\Enroll.aspx.cs">
       <DependentUpon>Enroll.aspx</DependentUpon>

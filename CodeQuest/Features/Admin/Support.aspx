@@ -22,7 +22,8 @@
                 <a href="Lessons.aspx">Lesson library</a>
                 <a href="Users.aspx">Users</a>
                 <a class="active" href="Support.aspx">Support tickets</a>
-                <a href="../Public/Courses.aspx">Public courses</a>
+                <a href="../Public/Courses.aspx">Preview courses</a>
+                <a href="../Public/Tutorials.aspx">Preview tutorials</a>
             </nav>
             <div class="header-actions">
                 <a class="login-link" href="../../Guest.aspx">View site</a>

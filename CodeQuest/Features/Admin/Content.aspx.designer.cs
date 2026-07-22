@@ -15,6 +15,7 @@ namespace CodeQuest.Features.Admin
         protected global::System.Web.UI.WebControls.Label lblSuccess;
         protected global::System.Web.UI.WebControls.DropDownList ddlCourses;
         protected global::System.Web.UI.WebControls.Label lblSelectedCourse;
+        protected global::System.Web.UI.WebControls.HyperLink lnkPreviewCourse;
         protected global::System.Web.UI.WebControls.TextBox txtCourseTitle;
         protected global::System.Web.UI.WebControls.TextBox txtCourseDescription;
         protected global::System.Web.UI.WebControls.DropDownList ddlCourseDifficulty;

@@ -15,6 +15,7 @@ namespace CodeQuest.Features.Admin
         protected global::System.Web.UI.WebControls.Label lblSuccess;
         protected global::System.Web.UI.WebControls.DropDownList ddlTutorials;
         protected global::System.Web.UI.WebControls.Label lblSelectedTutorial;
+        protected global::System.Web.UI.WebControls.HyperLink lnkPreviewTutorial;
         protected global::System.Web.UI.WebControls.LinkButton btnPublishTutorial;
         protected global::System.Web.UI.WebControls.LinkButton btnReviewTutorial;
         protected global::System.Web.UI.WebControls.TextBox txtTutorialTitle;
@@ -30,6 +31,8 @@ namespace CodeQuest.Features.Admin
         protected global::System.Web.UI.WebControls.Button btnCreateExercise;
         protected global::System.Web.UI.WebControls.DropDownList ddlChapters;
         protected global::System.Web.UI.WebControls.Label lblSelectedChapter;
+        protected global::System.Web.UI.WebControls.HyperLink lnkPreviewChapter;
+        protected global::System.Web.UI.WebControls.HyperLink lnkPreviewQuiz;
         protected global::System.Web.UI.WebControls.TextBox txtQuizDescription;
         protected global::System.Web.UI.WebControls.TextBox txtQuizQuestion;
         protected global::System.Web.UI.WebControls.TextBox txtQuizCorrectAnswer;

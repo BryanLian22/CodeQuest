@@ -4,18 +4,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeQuest.Features.Public
+namespace CodeQuest.Features.Learner
 {
     public partial class Courses
     {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-        protected global::System.Web.UI.WebControls.PlaceHolder phPublicNavigation;
-        protected global::System.Web.UI.WebControls.PlaceHolder phAdminNavigation;
-        protected global::System.Web.UI.WebControls.PlaceHolder phPublicActions;
-        protected global::System.Web.UI.WebControls.HyperLink lnkPrimaryHeader;
-        protected global::System.Web.UI.WebControls.HyperLink lnkSecondaryHeader;
-        protected global::System.Web.UI.WebControls.PlaceHolder phAdminActions;
-        protected global::System.Web.UI.WebControls.Panel pnlAdminPreview;
         protected global::System.Web.UI.WebControls.Panel pnlError;
         protected global::System.Web.UI.WebControls.Label lblError;
         protected global::System.Web.UI.WebControls.Panel pnlEmpty;

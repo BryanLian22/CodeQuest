@@ -185,6 +185,19 @@ see "Enrol now", and enrolled learners see "Continue course". The learner
 dashboard Continue link opens Features/Learner/Course.aspx, which checks
 Enrollment and displays published Module and Chapter content.
 
+Authenticated learner navigation now uses Features/Learner/Courses.aspx rather
+than the public guest catalogue. This learner-only catalogue keeps the Dashboard,
+My learning, AI assistant, Profile, Support and Sign out header and displays
+Enrol now, Continue course or Review course from the learner's enrollment status.
+
+When an administrator opens the public course or tutorial catalogue, the page
+now keeps the Admin workspace navigation and labels the actions as previews.
+Administrators can open published courses, chapters, exercises and quizzes to
+test them without an enrollment. Admin quiz attempts and chapter views are
+read-only previews and do not write ChapterProgress or QuizAttempt records.
+Published public tutorial exercises can also be tested while retaining the
+Admin header.
+
 The demo seed now adds published HTML, CSS and JavaScript tutorial content,
 matching Tutorial and Exercise rows, and HTML/CSS checkpoint Quiz questions.
 Course chapter links open Features/Learner/Chapter.aspx and require a logged-in
@@ -194,6 +207,19 @@ require login. Login is reserved for learner-only course chapters, quizzes and
 saving completion/progress records. Run Database/Progress_Extension.sql once
 against CodeQuestDB before submitting a quiz or using tutorial category
 filters; it adds ChapterProgress, QuizAttempt and Tutorial.category.
+
+Opening an enrolled learner chapter marks its ChapterProgress as Completed, and
+the course directory displays a Done badge beside viewed chapters. When every
+chapter in the course's published modules has been viewed,
+dbo.Enrollment.status changes to Completed and the learner dashboard shows
+Review course. Chapter and quiz breadcrumbs link back to the learner dashboard,
+course and chapter pages. The dashboard also recalculates enrollment completion
+when it loads. Returning to a quiz restores the learner's latest saved
+selections and latest score. Quiz attempts require at least 75 percent to pass.
+A failed attempt offers Retake quiz only; a passed attempt offers both Retake
+quiz and the next published chapter (or returns to the completed course when it
+was the final chapter). The chapter lesson itself also provides next-chapter
+navigation.
 
 All future website images should be placed in Content/Images. Reference them
 from an .aspx page with a path such as Content/Images/example.png.

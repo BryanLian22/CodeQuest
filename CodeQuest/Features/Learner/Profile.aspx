@@ -17,7 +17,7 @@
             </a>
             <nav class="main-nav" aria-label="Learner navigation">
                 <a href="../../LearnerDashboard.aspx">Dashboard</a>
-                <a href="../Public/Courses.aspx">Courses</a>
+                <a href="Courses.aspx">Courses</a>
                 <a href="../../LearnerDashboard.aspx#myLearning">My learning</a>
                 <a href="../AI/Assistant.aspx">AI assistant</a>
                 <a class="active" href="Profile.aspx">Profile</a>

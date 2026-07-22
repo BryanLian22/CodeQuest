@@ -9,8 +9,13 @@ namespace CodeQuest.Features.Public
     public partial class Tutorial
     {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.PlaceHolder phPublicNavigation;
+        protected global::System.Web.UI.WebControls.PlaceHolder phAdminNavigation;
+        protected global::System.Web.UI.WebControls.PlaceHolder phPublicActions;
+        protected global::System.Web.UI.WebControls.PlaceHolder phAdminActions;
         protected global::System.Web.UI.WebControls.Panel pnlError;
         protected global::System.Web.UI.WebControls.Label lblError;
+        protected global::System.Web.UI.WebControls.Panel pnlAdminPreview;
         protected global::System.Web.UI.WebControls.Panel pnlTutorial;
         protected global::System.Web.UI.WebControls.Label lblTutorialID;
         protected global::System.Web.UI.WebControls.Label lblCategory;

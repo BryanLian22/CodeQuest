@@ -23,7 +23,8 @@
                 <a class="active" href="Lessons.aspx">Lesson library</a>
                 <a href="Users.aspx">Users</a>
                 <a href="Support.aspx">Support tickets</a>
-                <a href="../Public/Courses.aspx">Public courses</a>
+                <a href="../Public/Courses.aspx">Preview courses</a>
+                <a href="../Public/Tutorials.aspx">Preview tutorials</a>
             </nav>
             <div class="header-actions">
                 <a class="login-link" href="../../Guest.aspx">View site</a>
@@ -56,6 +57,7 @@
                     <label class="field-label" for="ddlTutorials">Selected tutorial</label>
                     <asp:DropDownList ID="ddlTutorials" runat="server" CssClass="studio-select" AutoPostBack="true" OnSelectedIndexChanged="ddlTutorials_SelectedIndexChanged" />
                     <asp:Label ID="lblSelectedTutorial" runat="server" CssClass="selection-note" />
+                    <asp:HyperLink ID="lnkPreviewTutorial" runat="server" CssClass="mini-action" Visible="false" Text="Test selected tutorial &rarr;" />
                     <div class="status-actions">
                         <asp:LinkButton ID="btnPublishTutorial" runat="server" CssClass="mini-action" Text="Publish tutorial" OnClick="btnPublishTutorial_Click" />
                         <asp:LinkButton ID="btnReviewTutorial" runat="server" CssClass="mini-action muted" Text="Move to review" OnClick="btnReviewTutorial_Click" />
@@ -106,6 +108,10 @@
                     <label class="field-label" for="ddlChapters">Selected chapter</label>
                     <asp:DropDownList ID="ddlChapters" runat="server" CssClass="studio-select" AutoPostBack="true" OnSelectedIndexChanged="ddlChapters_SelectedIndexChanged" />
                     <asp:Label ID="lblSelectedChapter" runat="server" CssClass="selection-note" />
+                    <div class="status-actions">
+                        <asp:HyperLink ID="lnkPreviewChapter" runat="server" CssClass="mini-action" Visible="false" Text="Test chapter &rarr;" />
+                        <asp:HyperLink ID="lnkPreviewQuiz" runat="server" CssClass="mini-action muted" Visible="false" Text="Test quiz &rarr;" />
+                    </div>
 
                     <div class="studio-form-divider"></div>
                     <p class="form-kicker">New quiz</p>

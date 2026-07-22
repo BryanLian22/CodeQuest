@@ -18,34 +18,49 @@ namespace CodeQuest.Data.Repositories
 
         public IList<TutorialRecord> GetPublished(string category)
         {
-            const string sql = @"
-                SELECT t.TutorialID, t.category, t.tutorial_title, t.materials,
-                       e.ExerciseID, e.question, e.correct_answer
-                FROM dbo.Tutorial t
-                LEFT JOIN dbo.Exercise e ON e.TutorialID = t.TutorialID
-                WHERE t.status = N'Published'
-                  AND (@category IS NULL OR t.category = @category)
-                ORDER BY t.TutorialID, e.ExerciseID;";
-
-            return ReadTutorials(sql, null, category);
+            return GetTutorials(category, false);
         }
 
-        public TutorialRecord GetPublishedByID(int tutorialID)
+        public IList<TutorialRecord> GetAll(string category)
+        {
+            return GetTutorials(category, true);
+        }
+
+        private IList<TutorialRecord> GetTutorials(string category, bool includeUnpublished)
         {
             const string sql = @"
                 SELECT t.TutorialID, t.category, t.tutorial_title, t.materials,
                        e.ExerciseID, e.question, e.correct_answer
                 FROM dbo.Tutorial t
                 LEFT JOIN dbo.Exercise e ON e.TutorialID = t.TutorialID
-                WHERE t.status = N'Published'
+                WHERE (@includeUnpublished = 1 OR t.status = N'Published')
+                  AND (@category IS NULL OR t.category = @category)
+                ORDER BY t.TutorialID, e.ExerciseID;";
+
+            return ReadTutorials(sql, null, category, includeUnpublished);
+        }
+
+        public TutorialRecord GetPublishedByID(int tutorialID)
+        {
+            return GetByID(tutorialID, false);
+        }
+
+        public TutorialRecord GetByID(int tutorialID, bool includeUnpublished)
+        {
+            const string sql = @"
+                SELECT t.TutorialID, t.category, t.tutorial_title, t.materials,
+                       e.ExerciseID, e.question, e.correct_answer
+                FROM dbo.Tutorial t
+                LEFT JOIN dbo.Exercise e ON e.TutorialID = t.TutorialID
+                WHERE (@includeUnpublished = 1 OR t.status = N'Published')
                   AND t.TutorialID = @tutorialID
                 ORDER BY e.ExerciseID;";
 
-            IList<TutorialRecord> tutorials = ReadTutorials(sql, tutorialID, null);
+            IList<TutorialRecord> tutorials = ReadTutorials(sql, tutorialID, null, includeUnpublished);
             return tutorials.Count == 0 ? null : tutorials[0];
         }
 
-        private IList<TutorialRecord> ReadTutorials(string sql, int? tutorialID, string category)
+        private IList<TutorialRecord> ReadTutorials(string sql, int? tutorialID, string category, bool includeUnpublished)
         {
             List<TutorialRecord> tutorials = new List<TutorialRecord>();
             Dictionary<int, TutorialRecord> tutorialsByID = new Dictionary<int, TutorialRecord>();
@@ -60,6 +75,7 @@ namespace CodeQuest.Data.Repositories
 
                 command.Parameters.Add("@category", SqlDbType.NVarChar, 30).Value =
                     string.IsNullOrWhiteSpace(category) ? (object)System.DBNull.Value : category;
+                command.Parameters.Add("@includeUnpublished", SqlDbType.Bit).Value = includeUnpublished;
 
                 connection.Open();
 

@@ -14,6 +14,10 @@ slice: Admins can create courses, add modules and chapters, and publish or
 archive modules. `Features/Admin/Lessons.aspx` adds tutorial, guest exercise
 and chapter quiz creation, including answer choices and publishing status.
 
+Administrators can keep the Admin navigation while previewing courses and
+tutorials. Direct test links in Content studio and Lesson library can open
+draft, review, published or archived content without writing learner progress.
+
 `Features/Admin/Users.aspx` is the protected user-management directory. It
 searches `dbo.User` by username or email, counts each account's enrolments and
 support tickets, and lets an administrator update the checked `role` and

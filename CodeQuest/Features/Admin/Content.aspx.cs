@@ -228,6 +228,7 @@ namespace CodeQuest.Features.Admin
                 pnlChapterEditor.Visible = false;
                 pnlNoModule.Visible = true;
                 lblSelectedCourse.Text = string.Empty;
+                lnkPreviewCourse.Visible = false;
             }
         }
 
@@ -239,12 +240,15 @@ namespace CodeQuest.Features.Admin
                 pnlNoCourse.Visible = true;
                 pnlChapterEditor.Visible = false;
                 pnlNoModule.Visible = true;
+                lnkPreviewCourse.Visible = false;
                 return;
             }
 
             pnlNoCourse.Visible = false;
             pnlModuleEditor.Visible = true;
             lblSelectedCourse.Text = "Course ID " + courseID.Value;
+            lnkPreviewCourse.NavigateUrl = "../Learner/Course.aspx?courseId=" + courseID.Value;
+            lnkPreviewCourse.Visible = true;
 
             IList<AdminModuleRecord> modules = new AdminContentRepository().GetModules(courseID.Value);
             ddlModules.DataSource = modules;

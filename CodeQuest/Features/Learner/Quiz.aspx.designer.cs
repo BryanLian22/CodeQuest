@@ -9,11 +9,18 @@ namespace CodeQuest.Features.Learner
     public partial class Quiz
     {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.PlaceHolder phLearnerNavigation;
+        protected global::System.Web.UI.WebControls.PlaceHolder phAdminNavigation;
+        protected global::System.Web.UI.WebControls.PlaceHolder phLearnerActions;
+        protected global::System.Web.UI.WebControls.PlaceHolder phAdminActions;
         protected global::System.Web.UI.WebControls.Panel pnlError;
         protected global::System.Web.UI.WebControls.Label lblError;
+        protected global::System.Web.UI.WebControls.Panel pnlAdminPreview;
         protected global::System.Web.UI.WebControls.Panel pnlQuiz;
-        protected global::System.Web.UI.WebControls.Label lblBreadcrumbCourse;
-        protected global::System.Web.UI.WebControls.Label lblBreadcrumbChapter;
+        protected global::System.Web.UI.WebControls.PlaceHolder phLearnerBreadcrumb;
+        protected global::System.Web.UI.WebControls.PlaceHolder phAdminBreadcrumb;
+        protected global::System.Web.UI.WebControls.HyperLink lnkBreadcrumbCourse;
+        protected global::System.Web.UI.WebControls.HyperLink lnkBreadcrumbChapter;
         protected global::System.Web.UI.WebControls.Label lblChapterID;
         protected global::System.Web.UI.WebControls.Label lblChapterTitle;
         protected global::System.Web.UI.WebControls.HyperLink lnkBackToChapter;
@@ -24,5 +31,7 @@ namespace CodeQuest.Features.Learner
         protected global::System.Web.UI.WebControls.Panel pnlResult;
         protected global::System.Web.UI.WebControls.Label lblResult;
         protected global::System.Web.UI.WebControls.Label lblSaveNotice;
+        protected global::System.Web.UI.WebControls.HyperLink lnkRetakeQuiz;
+        protected global::System.Web.UI.WebControls.HyperLink lnkNextChapter;
     }
 }

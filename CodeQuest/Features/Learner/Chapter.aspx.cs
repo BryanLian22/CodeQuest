@@ -35,6 +35,19 @@ namespace CodeQuest.Features.Learner
                 return;
             }
 
+            bool isAdmin = string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase);
+            phLearnerNavigation.Visible = !isAdmin;
+            phAdminNavigation.Visible = isAdmin;
+            phLearnerActions.Visible = !isAdmin;
+            phAdminActions.Visible = isAdmin;
+            phLearnerBreadcrumb.Visible = !isAdmin;
+            phAdminBreadcrumb.Visible = isAdmin;
+            pnlAdminPreview.Visible = isAdmin;
+            lnkAssistant.Visible = !isAdmin;
+            lblChapterNavigationNote.Text = isAdmin
+                ? "Preview complete. No learner progress was recorded."
+                : "This chapter is marked as done.";
+
             if (!IsPostBack)
             {
                 LoadChapter();
@@ -49,14 +62,16 @@ namespace CodeQuest.Features.Learner
                 return;
             }
 
-            if (!string.Equals(Convert.ToString(Session["UserRole"]), "Learner", StringComparison.OrdinalIgnoreCase))
+            bool isAdmin = string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase);
+            bool isLearner = string.Equals(Convert.ToString(Session["UserRole"]), "Learner", StringComparison.OrdinalIgnoreCase);
+            if (!isLearner && !isAdmin)
             {
-                ShowError("Only learner accounts can open chapter content.");
+                ShowError("Only learner or administrator accounts can open chapter content.");
                 return;
             }
 
-            int userID;
-            if (!int.TryParse(Convert.ToString(Session["UserID"]), out userID) || userID <= 0)
+            int userID = 0;
+            if (isLearner && (!int.TryParse(Convert.ToString(Session["UserID"]), out userID) || userID <= 0))
             {
                 ShowError("This sign-in is not linked to a database learner. Register a real account to save learning progress.");
                 return;
@@ -64,21 +79,33 @@ namespace CodeQuest.Features.Learner
 
             try
             {
-                ChapterLessonRecord lesson = new ChapterContentRepository().GetChapter(ChapterID);
+                ChapterLessonRecord lesson = new ChapterContentRepository().GetChapter(ChapterID, isAdmin);
                 if (lesson == null)
                 {
                     ShowError("That chapter could not be found or is not published.");
                     return;
                 }
 
-                if (!new EnrollmentRepository().IsEnrolled(userID, lesson.CourseID))
+                if (isLearner && !new EnrollmentRepository().IsEnrolled(userID, lesson.CourseID))
                 {
                     Response.Redirect("Course.aspx?courseId=" + lesson.CourseID, false);
                     Context.ApplicationInstance.CompleteRequest();
                     return;
                 }
 
-                BindLesson(lesson);
+                bool courseCompleted = false;
+                if (isLearner)
+                {
+                    ProgressRepository progress = new ProgressRepository();
+                    progress.MarkChapterCompleted(userID, lesson.ChapterID);
+                    courseCompleted = new EnrollmentRepository().CompleteCourseIfReady(userID, lesson.CourseID);
+                    if (courseCompleted)
+                    {
+                        Session["DashboardMessage"] = "Congratulations! You completed " + lesson.CourseTitle + ".";
+                    }
+                }
+
+                BindLesson(lesson, courseCompleted);
             }
             catch (ConfigurationErrorsException)
             {
@@ -90,7 +117,7 @@ namespace CodeQuest.Features.Learner
             }
         }
 
-        private void BindLesson(ChapterLessonRecord lesson)
+        private void BindLesson(ChapterLessonRecord lesson, bool courseCompleted)
         {
             pnlChapter.Visible = true;
             lblChapterID.Text = lesson.ChapterID.ToString();
@@ -98,11 +125,25 @@ namespace CodeQuest.Features.Learner
             lblDescription.Text = Server.HtmlEncode(string.IsNullOrWhiteSpace(lesson.ChapterDescription)
                 ? "Work through this chapter and complete the practice question."
                 : lesson.ChapterDescription);
-            lblBreadcrumbCourse.Text = Server.HtmlEncode(lesson.CourseTitle);
-            lblBreadcrumbModule.Text = Server.HtmlEncode(lesson.ModuleTitle);
+            lnkBreadcrumbCourse.Text = Server.HtmlEncode(lesson.CourseTitle);
+            lnkBreadcrumbCourse.NavigateUrl = "Course.aspx?courseId=" + lesson.CourseID;
+            lnkBreadcrumbModule.Text = Server.HtmlEncode(lesson.ModuleTitle);
+            lnkBreadcrumbModule.NavigateUrl = "Course.aspx?courseId=" + lesson.CourseID + "#module-" + lesson.ModuleID;
             lnkCourse.NavigateUrl = "Course.aspx?courseId=" + lesson.CourseID;
             lnkAssistant.NavigateUrl = "../AI/Assistant.aspx?chapterId=" + lesson.ChapterID;
             pnlQuizLink.Visible = false;
+            bool isAdmin = string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase);
+            int? nextChapterID = new ChapterContentRepository().GetNextChapterID(lesson.ChapterID, isAdmin);
+            if (nextChapterID.HasValue)
+            {
+                lnkNextChapter.Text = "Next chapter &rarr;";
+                lnkNextChapter.NavigateUrl = "Chapter.aspx?chapterId=" + nextChapterID.Value;
+            }
+            else
+            {
+                lnkNextChapter.Text = courseCompleted ? "Back to completed course &rarr;" : "Back to course &rarr;";
+                lnkNextChapter.NavigateUrl = "Course.aspx?courseId=" + lesson.CourseID;
+            }
 
             if (lesson.TutorialID.HasValue)
             {
@@ -126,7 +167,7 @@ namespace CodeQuest.Features.Learner
                 ViewState["CorrectAnswer"] = exercise.CorrectAnswer;
             }
 
-            if (new QuizRepository().HasQuiz(lesson.ChapterID))
+            if (new QuizRepository().HasQuiz(lesson.ChapterID, isAdmin))
             {
                 pnlQuizLink.Visible = true;
                 lnkQuiz.NavigateUrl = "Quiz.aspx?chapterId=" + lesson.ChapterID;

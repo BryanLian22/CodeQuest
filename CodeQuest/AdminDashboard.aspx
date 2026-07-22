@@ -21,8 +21,8 @@
                 <a href="Features/Admin/Lessons.aspx">Lesson library</a>
                 <a href="Features/Admin/Users.aspx">Users</a>
                 <a href="Features/Admin/Support.aspx">Support tickets</a>
-                <a href="Features/Public/Courses.aspx">Public courses</a>
-                <a href="Features/Public/Tutorials.aspx">Tutorial library</a>
+                <a href="Features/Public/Courses.aspx">Preview courses</a>
+                <a href="Features/Public/Tutorials.aspx">Preview tutorials</a>
                 <a href="Guest.aspx#about">About</a>
             </nav>
             <div class="header-actions">
@@ -74,7 +74,7 @@
                                 <div class="course-card-topline"><span>COURSE-<%# Eval("CourseID") %></span><span><%# Server.HtmlEncode(Eval("Difficulty").ToString()) %></span></div>
                                 <h3><%# Server.HtmlEncode(Eval("Title").ToString()) %></h3>
                                 <p>Owner: <%# Server.HtmlEncode(Eval("OwnerName").ToString()) %></p>
-                                <footer><span><%# Eval("ModuleCount") %> modules</span><a href="Features/Public/Courses.aspx">View catalogue &rarr;</a></footer>
+                                <footer><span><%# Eval("ModuleCount") %> modules</span><a href="Features/Learner/Course.aspx?courseId=<%# Eval("CourseID") %>">Test course &rarr;</a></footer>
                             </article>
                         </ItemTemplate>
                     </asp:Repeater>

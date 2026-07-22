@@ -9,8 +9,14 @@ namespace CodeQuest.Features.Learner
     public partial class Course
     {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.PlaceHolder phLearnerNavigation;
+        protected global::System.Web.UI.WebControls.PlaceHolder phAdminNavigation;
+        protected global::System.Web.UI.WebControls.PlaceHolder phLearnerActions;
+        protected global::System.Web.UI.WebControls.PlaceHolder phAdminActions;
+        protected global::System.Web.UI.WebControls.HyperLink lnkBack;
         protected global::System.Web.UI.WebControls.Panel pnlError;
         protected global::System.Web.UI.WebControls.Label lblError;
+        protected global::System.Web.UI.WebControls.Panel pnlAdminPreview;
         protected global::System.Web.UI.WebControls.Panel pnlCourse;
         protected global::System.Web.UI.WebControls.Label lblCourseID;
         protected global::System.Web.UI.WebControls.Label lblTitle;

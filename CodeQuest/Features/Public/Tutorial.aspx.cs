@@ -27,10 +27,21 @@ namespace CodeQuest.Features.Public
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            ConfigureHeader();
             if (!IsPostBack)
             {
                 LoadTutorial();
             }
+        }
+
+        private void ConfigureHeader()
+        {
+            bool isAdmin = string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase);
+            phPublicNavigation.Visible = !isAdmin;
+            phAdminNavigation.Visible = isAdmin;
+            phPublicActions.Visible = !isAdmin;
+            phAdminActions.Visible = isAdmin;
+            pnlAdminPreview.Visible = isAdmin;
         }
 
         private void LoadTutorial()
@@ -43,7 +54,8 @@ namespace CodeQuest.Features.Public
 
             try
             {
-                TutorialRecord tutorial = new TutorialRepository().GetPublishedByID(TutorialID);
+                bool isAdmin = string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase);
+                TutorialRecord tutorial = new TutorialRepository().GetByID(TutorialID, isAdmin);
                 if (tutorial == null)
                 {
                     ShowError("That public tutorial could not be found.");

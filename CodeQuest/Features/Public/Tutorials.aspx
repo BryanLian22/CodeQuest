@@ -16,14 +16,31 @@
                 <img class="brand-logo" src="../../Content/Images/CodeQuest_logo.png" alt="CodeQuest" />
             </a>
             <nav class="main-nav" aria-label="Main navigation">
-                <a href="../../Guest.aspx">Home</a>
-                <a href="Courses.aspx">Courses</a>
-                <a class="active" href="Tutorials.aspx">Tutorials</a>
-                <a href="../../Guest.aspx#about">About</a>
+                <asp:PlaceHolder ID="phPublicNavigation" runat="server">
+                    <a href="../../Guest.aspx">Home</a>
+                    <a href="Courses.aspx">Courses</a>
+                    <a class="active" href="Tutorials.aspx">Tutorials</a>
+                    <a href="../../Guest.aspx#about">About</a>
+                </asp:PlaceHolder>
+                <asp:PlaceHolder ID="phAdminNavigation" runat="server" Visible="false">
+                    <a href="../../AdminDashboard.aspx">Overview</a>
+                    <a href="../Admin/Content.aspx">Content studio</a>
+                    <a href="../Admin/Lessons.aspx">Lesson library</a>
+                    <a href="../Admin/Users.aspx">Users</a>
+                    <a href="../Admin/Support.aspx">Support tickets</a>
+                    <a href="Courses.aspx">Preview courses</a>
+                    <a class="active" href="Tutorials.aspx">Preview tutorials</a>
+                </asp:PlaceHolder>
             </nav>
             <div class="header-actions">
-                <a class="login-link" href="../../Login.aspx">Login</a>
-                <a class="header-cta" href="../../Register.aspx">Get Started</a>
+                <asp:PlaceHolder ID="phPublicActions" runat="server">
+                    <a class="login-link" href="../../Login.aspx">Login</a>
+                    <a class="header-cta" href="../../Register.aspx">Get Started</a>
+                </asp:PlaceHolder>
+                <asp:PlaceHolder ID="phAdminActions" runat="server" Visible="false">
+                    <a class="login-link" href="../../Guest.aspx">View site</a>
+                    <a class="header-cta" href="../../Login.aspx?logout=1">Sign out</a>
+                </asp:PlaceHolder>
             </div>
         </header>
 
@@ -33,6 +50,10 @@
                 <h1>Learn the basics.<br /><em>Build in public.</em></h1>
                 <p>Read beginner-friendly HTML, CSS and JavaScript tutorials and try the exercises without creating an account. Sign in only when you want to save progress or take quizzes.</p>
             </section>
+
+            <asp:Panel ID="pnlAdminPreview" runat="server" CssClass="tutorial-message" Visible="false">
+                Admin preview mode: open any draft, review or published tutorial to verify its lesson material and test its exercise.
+            </asp:Panel>
 
             <nav class="tutorial-category-nav" aria-label="Tutorial categories">
                 <a class="category-link" href="Tutorials.aspx">All tutorials</a>
@@ -52,7 +73,7 @@
             </asp:Panel>
 
             <asp:Panel ID="pnlEmpty" runat="server" CssClass="tutorial-message" Visible="false">
-                No public tutorials have been published yet.
+                No tutorials are available in this category yet.
             </asp:Panel>
 
             <section class="tutorial-grid" aria-label="Free tutorials">
@@ -66,7 +87,7 @@
                             <p class="module-label">Tutorial-<%# Eval("TutorialID") %></p>
                             <h2><%# Server.HtmlEncode(Eval("Title").ToString()) %></h2>
                             <p><%# Server.HtmlEncode(Eval("Materials") == null ? "Read the lesson and try the practice question." : Eval("Materials").ToString()) %></p>
-                            <a href="Tutorial.aspx?tutorialId=<%# Eval("TutorialID") %>">Open free tutorial &rarr;</a>
+                            <a href="Tutorial.aspx?tutorialId=<%# Eval("TutorialID") %>"><%# GetTutorialActionText() %> &rarr;</a>
                         </article>
                     </ItemTemplate>
                 </asp:Repeater>

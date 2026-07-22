@@ -17,10 +17,11 @@
             </a>
             <nav class="main-nav" aria-label="Learner navigation">
                 <a href="../../LearnerDashboard.aspx">Dashboard</a>
-                <a href="../Public/Courses.aspx">Courses</a>
+                <a href="../Learner/Courses.aspx">Courses</a>
                 <a href="../../LearnerDashboard.aspx#myLearning">My learning</a>
                 <a class="active" href="Assistant.aspx">AI assistant</a>
                 <a href="../Learner/Profile.aspx">Profile</a>
+                <a href="../Support/Tickets.aspx">Support</a>
             </nav>
             <div class="header-actions">
                 <a class="login-link" href="../Billing/Plans.aspx">Manage plan</a>

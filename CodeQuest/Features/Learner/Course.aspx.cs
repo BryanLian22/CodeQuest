@@ -36,6 +36,18 @@ namespace CodeQuest.Features.Learner
                 return;
             }
 
+            bool isAdmin = string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase);
+            phLearnerNavigation.Visible = !isAdmin;
+            phAdminNavigation.Visible = isAdmin;
+            phLearnerActions.Visible = !isAdmin;
+            phAdminActions.Visible = isAdmin;
+            pnlAdminPreview.Visible = isAdmin;
+            if (isAdmin)
+            {
+                lnkBack.NavigateUrl = "../Public/Courses.aspx";
+                lnkBack.Text = "&larr; Back to course previews";
+            }
+
             if (!IsPostBack)
             {
                 LoadCourse();
@@ -50,14 +62,16 @@ namespace CodeQuest.Features.Learner
                 return;
             }
 
-            if (!string.Equals(Convert.ToString(Session["UserRole"]), "Learner", StringComparison.OrdinalIgnoreCase))
+            bool isAdmin = string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase);
+            bool isLearner = string.Equals(Convert.ToString(Session["UserRole"]), "Learner", StringComparison.OrdinalIgnoreCase);
+            if (!isLearner && !isAdmin)
             {
-                ShowError("Only learner accounts can open course content.");
+                ShowError("Only learner or administrator accounts can open course content.");
                 return;
             }
 
-            int userID;
-            if (!int.TryParse(Convert.ToString(Session["UserID"]), out userID) || userID <= 0)
+            int userID = 0;
+            if (isLearner && (!int.TryParse(Convert.ToString(Session["UserID"]), out userID) || userID <= 0))
             {
                 ShowError("This sign-in is not linked to a database learner. Register a real account to open course content.");
                 return;
@@ -80,14 +94,21 @@ namespace CodeQuest.Features.Learner
                     : course.Description);
                 lblDifficulty.Text = Server.HtmlEncode(course.Difficulty);
 
-                if (!new EnrollmentRepository().IsEnrolled(userID, course.CourseID))
+                if (isLearner && !new EnrollmentRepository().IsEnrolled(userID, course.CourseID))
                 {
                     pnlNotEnrolled.Visible = true;
                     lnkEnroll.NavigateUrl = "Enroll.aspx?courseId=" + course.CourseID;
                     return;
                 }
 
-                IList<ModuleRecord> modules = new CourseContentRepository().GetPublishedModules(course.CourseID);
+                CourseContentRepository contentRepository = new CourseContentRepository();
+                IList<ModuleRecord> modules = isAdmin
+                    ? contentRepository.GetModulesForPreview(course.CourseID)
+                    : contentRepository.GetPublishedModules(course.CourseID, userID);
+                if (isLearner)
+                {
+                    new EnrollmentRepository().CompleteCourseIfReady(userID, course.CourseID);
+                }
                 pnlContent.Visible = true;
                 rptModules.DataSource = modules;
                 rptModules.DataBind();

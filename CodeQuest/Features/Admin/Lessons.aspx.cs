@@ -220,6 +220,8 @@ namespace CodeQuest.Features.Admin
                 pnlNoTutorial.Visible = false;
                 pnlExerciseEditor.Visible = true;
                 lblSelectedTutorial.Text = "Tutorial ID " + tutorialID;
+                lnkPreviewTutorial.NavigateUrl = "../Public/Tutorial.aspx?tutorialId=" + tutorialID;
+                lnkPreviewTutorial.Visible = true;
                 rptExercises.DataSource = new AdminContentRepository().GetExercisesForTutorial(tutorialID);
                 rptExercises.DataBind();
             }
@@ -228,6 +230,7 @@ namespace CodeQuest.Features.Admin
                 pnlNoTutorial.Visible = true;
                 pnlExerciseEditor.Visible = false;
                 lblSelectedTutorial.Text = string.Empty;
+                lnkPreviewTutorial.Visible = false;
             }
         }
 
@@ -254,6 +257,10 @@ namespace CodeQuest.Features.Admin
             {
                 pnlNoChapter.Visible = false;
                 lblSelectedChapter.Text = "Chapter ID " + chapterID;
+                lnkPreviewChapter.NavigateUrl = "../Learner/Chapter.aspx?chapterId=" + chapterID;
+                lnkPreviewChapter.Visible = true;
+                lnkPreviewQuiz.NavigateUrl = "../Learner/Quiz.aspx?chapterId=" + chapterID;
+                lnkPreviewQuiz.Visible = true;
                 rptQuizzes.DataSource = new AdminContentRepository().GetQuizzesForChapter(chapterID);
                 rptQuizzes.DataBind();
             }
@@ -261,6 +268,8 @@ namespace CodeQuest.Features.Admin
             {
                 pnlNoChapter.Visible = true;
                 lblSelectedChapter.Text = string.Empty;
+                lnkPreviewChapter.Visible = false;
+                lnkPreviewQuiz.Visible = false;
                 rptQuizzes.DataSource = null;
                 rptQuizzes.DataBind();
             }

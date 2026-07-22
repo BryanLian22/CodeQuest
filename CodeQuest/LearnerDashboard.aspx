@@ -17,7 +17,7 @@
             </a>
             <nav class="main-nav" aria-label="Learner navigation">
                 <a class="active" href="LearnerDashboard.aspx">Dashboard</a>
-                <a href="Features/Public/Courses.aspx">Courses</a>
+                <a href="Features/Learner/Courses.aspx">Courses</a>
                 <a href="#myLearning">My learning</a>
                 <a href="Features/AI/Assistant.aspx">AI assistant</a>
                 <a href="Features/Learner/Profile.aspx">Profile</a>
@@ -56,7 +56,7 @@
                         <p class="section-kicker">My learning</p>
                         <h2 id="learningTitle">Continue your courses.</h2>
                     </div>
-                    <a href="Features/Public/Courses.aspx">Browse courses &rarr;</a>
+                    <a href="Features/Learner/Courses.aspx">Browse courses &rarr;</a>
                 </div>
 
                 <asp:Panel ID="pnlEmpty" runat="server" CssClass="learner-message" Visible="false">
@@ -68,11 +68,11 @@
                         <ItemTemplate>
                             <article class="enrollment-card">
                                 <div class="enrollment-icon">&lt;/&gt;</div>
-                                <span class="enrollment-status"><%# Eval("Status") %></span>
+                                <span class="<%# GetEnrollmentStatusCss(Eval("Status")) %>"><%# Eval("Status") %></span>
                                 <p>COURSE-<%# Eval("CourseID") %></p>
                                 <h3><%# Server.HtmlEncode(Eval("CourseTitle").ToString()) %></h3>
                                 <span class="enrollment-level"><%# Eval("Difficulty") %></span>
-                                <a href="Features/Learner/Course.aspx?courseId=<%# Eval("CourseID") %>">Continue course &rarr;</a>
+                                <a href="Features/Learner/Course.aspx?courseId=<%# Eval("CourseID") %>"><%# GetEnrollmentAction(Eval("Status")) %></a>
                             </article>
                         </ItemTemplate>
                     </asp:Repeater>

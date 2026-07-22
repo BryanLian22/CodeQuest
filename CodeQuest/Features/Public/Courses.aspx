@@ -16,19 +16,32 @@
                 <img class="brand-logo" src="../../Content/Images/CodeQuest_logo.png" alt="CodeQuest" />
             </a>
             <nav class="main-nav" aria-label="Main navigation">
-                <a href="../../Guest.aspx">Home</a>
-                <a class="active" href="Courses.aspx">Courses</a>
-                <a href="../../Guest.aspx#tutorials">Tutorials</a>
-                <a href="../../Guest.aspx#about">About</a>
+                <asp:PlaceHolder ID="phPublicNavigation" runat="server">
+                    <a href="../../Guest.aspx">Home</a>
+                    <a class="active" href="Courses.aspx">Courses</a>
+                    <a href="Tutorials.aspx">Tutorials</a>
+                    <a href="../../Guest.aspx#about">About</a>
+                </asp:PlaceHolder>
+                <asp:PlaceHolder ID="phAdminNavigation" runat="server" Visible="false">
+                    <a href="../../AdminDashboard.aspx">Overview</a>
+                    <a href="../Admin/Content.aspx">Content studio</a>
+                    <a href="../Admin/Lessons.aspx">Lesson library</a>
+                    <a href="../Admin/Users.aspx">Users</a>
+                    <a href="../Admin/Support.aspx">Support tickets</a>
+                    <a class="active" href="Courses.aspx">Preview courses</a>
+                    <a href="Tutorials.aspx">Preview tutorials</a>
+                </asp:PlaceHolder>
             </nav>
-            <asp:Panel ID="pnlGuestActions" runat="server" CssClass="header-actions">
-                <a class="login-link" href="../../Login.aspx">Login</a>
-                <a class="header-cta" href="../../Register.aspx">Get Started</a>
-            </asp:Panel>
-            <asp:Panel ID="pnlSignedInActions" runat="server" CssClass="header-actions" Visible="false">
-                <a class="login-link" href="../../LearnerDashboard.aspx">Dashboard</a>
-                <a class="header-cta" href="../../LearnerDashboard.aspx#myLearning">My learning</a>
-            </asp:Panel>
+            <div class="header-actions">
+                <asp:PlaceHolder ID="phPublicActions" runat="server">
+                    <asp:HyperLink ID="lnkPrimaryHeader" runat="server" CssClass="login-link" NavigateUrl="../../Login.aspx" Text="Login" />
+                    <asp:HyperLink ID="lnkSecondaryHeader" runat="server" CssClass="header-cta" NavigateUrl="../../Register.aspx" Text="Get Started" />
+                </asp:PlaceHolder>
+                <asp:PlaceHolder ID="phAdminActions" runat="server" Visible="false">
+                    <a class="login-link" href="../../Guest.aspx">View site</a>
+                    <a class="header-cta" href="../../Login.aspx?logout=1">Sign out</a>
+                </asp:PlaceHolder>
+            </div>
         </header>
 
         <main class="catalogue-page">
@@ -37,6 +50,10 @@
                 <h1>Find your next <em>skill.</em></h1>
                 <p>Browse the courses managed by CodeQuest administrators. Guests can preview the catalogue; log in to enrol and save progress.</p>
             </section>
+
+            <asp:Panel ID="pnlAdminPreview" runat="server" CssClass="catalogue-message" Visible="false">
+                Admin preview mode: open a course to test draft, published or archived modules, chapters, exercises and quizzes without affecting learner records.
+            </asp:Panel>
 
             <asp:Panel ID="pnlError" runat="server" CssClass="catalogue-message error" Visible="false" role="alert">
                 <asp:Label ID="lblError" runat="server" />
