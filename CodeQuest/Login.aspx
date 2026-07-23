@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="CodeQuest.Login" UnobtrusiveValidationMode="None" %>
+<!-- Page purpose: Authenticates database users or the administrator demo and starts a role-based session. -->
 
 <!DOCTYPE html>
 
@@ -11,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet" />
-    <link href="Content/codequest-auth.css" rel="stylesheet" />
+    <link href="Content/codequest-auth.css?v=50" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -165,11 +166,6 @@
 
                 <div class="demo-box">
                     <div>
-                        <span>Demo learner</span>
-                        <code>learner@codequest.io</code>
-                        <small>Password: Learner123!</small>
-                    </div>
-                    <div>
                         <span>Demo admin</span>
                         <code>admin@codequest.io</code>
                         <small>Password: Admin123!</small>
@@ -201,5 +197,6 @@
             });
         }());
     </script>
+    <script src="Content/codequest-responsive-nav.js?v=50"></script>
 </body>
 </html>

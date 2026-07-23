@@ -1,3 +1,4 @@
+// Purpose: Aggregates learner enrolment, progress, streak, quiz and plan data for the dashboard.
 using System;
 using System.Collections.Generic;
 using System.Configuration;

@@ -1,3 +1,4 @@
+// Purpose: Creates learner tickets, loads conversations and stores learner replies.
 using System;
 using System.Collections.Generic;
 using System.Configuration;

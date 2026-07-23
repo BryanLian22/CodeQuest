@@ -113,7 +113,17 @@ allows the built-in Web Forms validators to work in a blank .NET Framework
 project without requiring a jQuery ScriptResourceMapping.
 
 The page code-behind also sets the HTTP response and charset to UTF-8. This
-prevents symbols such as arrows from appearing as "â†’" in the browser.
+prevents arrows and other symbols from appearing as garbled text in the
+browser.
+
+SOURCE-CODE COMMENTS
+--------------------
+Every hand-maintained ASPX page, C# source file, stylesheet and JavaScript file
+starts with a short purpose comment. Complex authentication and navigation
+flows also include major-section comments. The SQL scripts retain their
+introductory setup and safety notes. Visual Studio-generated *.designer.cs
+files are intentionally left with their generated-code headers because manual
+changes to those files are overwritten when the Web Forms designer runs.
 
 CODEDOM CONFIGURATION FALLBACK
 ------------------------------
@@ -124,21 +134,17 @@ the project. Then delete bin and obj, choose Build > Clean Solution, and use
 Build > Rebuild Solution. The included C# files do not require that optional
 provider block.
 
-TEMPORARY DEMO ACCOUNTS
------------------------
-Learner
-Email:    learner@codequest.io
-Password: Learner123!
-
-Administrator
+TEMPORARY DEMO ADMINISTRATOR
+----------------------------
 Email:    admin@codequest.io
 Password: Admin123!
 
 IMPORTANT
 ---------
-The demo passwords are hard-coded only to test the first page. Do not use this
-approach in the completed system. The next authentication step should store
-users in SQL Server and store password hashes, never plain-text passwords.
+The administrator demo password is hard-coded only as a marking and
+demonstration fallback. Registered learners authenticate through SQL Server
+using salted PBKDF2 password hashes; plain-text learner passwords are not
+stored.
 
 AdminDashboard.aspx is now a protected content overview for Admin accounts.
 It reads course, module, chapter, tutorial, exercise and quiz counts from the
@@ -159,8 +165,8 @@ CodeQuestGoogleClientSecret and CodeQuestGoogleRedirectUri in Web.config; the
 redirect URI must exactly match the OAuth Web application configuration.
 
 Registration now inserts a learner into dbo.User using a salted PBKDF2 hash.
-Login checks dbo.User first and keeps the two demo accounts as a temporary
-fallback while the database is being configured.
+Login checks dbo.User first and keeps only the demo administrator account as a
+temporary fallback while the database is being configured.
 
 ForgotPassword.aspx creates a 30-minute, one-time password-reset token in
 dbo.Token. Only a SHA-256 digest is stored in the database. If SMTP app settings
@@ -195,6 +201,23 @@ now keeps the Admin workspace navigation and labels the actions as previews.
 Administrators can open published courses, chapters, exercises and quizzes to
 test them without an enrollment. Admin quiz attempts and chapter views are
 read-only previews and do not write ChapterProgress or QuizAttempt records.
+The public home header is also session-aware. Administrators returning through
+View site see an Admin button back to their workspace, learners see Dashboard
+and Sign out, and signed-out visitors continue to see Login and Get Started.
+The public tutorial catalogue and tutorial detail pages use the same learner
+account actions instead of displaying guest Login and Get Started links.
+
+Shared authentication, public, learner and admin styles enable a short
+same-origin page transition with a fade and vertical movement. Browsers that
+do not support cross-document View Transitions use the page-entry animation,
+while reduced-motion preferences disable the effect.
+
+All pages with a CodeQuest header load the shared responsive navigation
+script. On tablet and phone widths it creates an accessible menu button,
+places the current account actions inside the dropdown, closes after a
+selection or Escape, and keeps long admin navigation lists scrollable.
+Admin and learner dashboard grids, headings, badges and course cards also
+collapse safely at narrow widths.
 Published public tutorial exercises can also be tested while retaining the
 Admin header.
 

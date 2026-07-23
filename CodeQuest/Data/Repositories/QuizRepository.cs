@@ -1,3 +1,4 @@
+// Purpose: Encapsulates parameterized SQL Server operations for Quiz data and related transactions.
 using System;
 using System.Collections.Generic;
 using System.Data;

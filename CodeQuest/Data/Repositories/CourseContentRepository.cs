@@ -1,3 +1,4 @@
+// Purpose: Encapsulates parameterized SQL Server operations for CourseContent data and related transactions.
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -98,6 +99,19 @@ namespace CodeQuest.Data.Repositories
                                 IsCompleted = reader.GetBoolean(isCompletedOrdinal)
                             });
                         }
+                    }
+                }
+            }
+
+            foreach (ModuleRecord module in modules)
+            {
+                module.IsCompleted = module.Chapters.Count > 0;
+                foreach (ChapterRecord chapter in module.Chapters)
+                {
+                    if (!chapter.IsCompleted)
+                    {
+                        module.IsCompleted = false;
+                        break;
                     }
                 }
             }

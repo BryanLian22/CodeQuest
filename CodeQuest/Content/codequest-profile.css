@@ -1,3 +1,4 @@
+/* Purpose: Styles learner profile summary and editable account fields across desktop and mobile. */
 .profile-page { width: min(1120px, calc(100% - 48px)); min-height: calc(100vh - 170px); margin: 0 auto; padding: 66px 0 105px; }
 .profile-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 35px; margin-bottom: 38px; }
 .profile-heading h1 { margin: 0; font-family: "Space Grotesk", sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: .98; letter-spacing: -.05em; }

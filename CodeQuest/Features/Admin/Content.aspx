@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Content.aspx.cs" Inherits="CodeQuest.Features.Admin.Content" %>
+<!-- Page purpose: Lets administrators create, select, edit, publish and preview courses, modules and chapters. -->
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -6,9 +7,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Content Studio | CodeQuest</title>
-    <link href="../../Content/codequest-home.css" rel="stylesheet" />
-    <link href="../../Content/codequest-admin.css" rel="stylesheet" />
-    <link href="../../Content/codequest-admin-content.css" rel="stylesheet" />
+    <link href="../../Content/codequest-home.css?v=50" rel="stylesheet" />
+    <link href="../../Content/codequest-admin.css?v=50" rel="stylesheet" />
+    <link href="../../Content/codequest-admin-content.css?v=46" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -56,10 +57,14 @@
                     <label class="field-label" for="ddlCourses">Selected course</label>
                     <asp:DropDownList ID="ddlCourses" runat="server" CssClass="studio-select" AutoPostBack="true" OnSelectedIndexChanged="ddlCourses_SelectedIndexChanged" />
                     <asp:Label ID="lblSelectedCourse" runat="server" CssClass="selection-note" />
-                    <asp:HyperLink ID="lnkPreviewCourse" runat="server" CssClass="mini-action" Visible="false" Text="Test selected course &rarr;" />
+                    <div class="status-actions">
+                        <asp:HyperLink ID="lnkPreviewCourse" runat="server" CssClass="admin-action-button preview" Visible="false" Text="Test selected course &rarr;" />
+                        <asp:LinkButton ID="btnEditCourse" runat="server" CssClass="admin-edit-button" Visible="false" Text="Edit selected course" OnClick="btnEditCourse_Click" />
+                    </div>
+                    <asp:HiddenField ID="hdnEditCourseID" runat="server" />
 
                     <div class="studio-form-divider"></div>
-                    <p class="form-kicker">New course</p>
+                    <p class="form-kicker"><asp:Label ID="lblCourseFormMode" runat="server" Text="New course" /></p>
                     <label class="field-label" for="txtCourseTitle">Title</label>
                     <asp:TextBox ID="txtCourseTitle" runat="server" CssClass="studio-input" MaxLength="150" placeholder="e.g. Web Accessibility Foundations" />
                     <label class="field-label" for="txtCourseDescription">Description</label>
@@ -71,6 +76,7 @@
                         <asp:ListItem Text="Advanced" Value="Advanced" />
                     </asp:DropDownList>
                     <asp:Button ID="btnCreateCourse" runat="server" CssClass="studio-button" Text="Create course" OnClick="btnCreateCourse_Click" />
+                    <asp:LinkButton ID="btnResetCourse" runat="server" CssClass="edit-reset" Visible="false" Text="Cancel editing and create a new course" OnClick="btnResetCourse_Click" />
                 </section>
 
                 <section class="studio-card">
@@ -82,19 +88,23 @@
                         <label class="field-label" for="ddlModules">Selected module</label>
                         <asp:DropDownList ID="ddlModules" runat="server" CssClass="studio-select" AutoPostBack="true" OnSelectedIndexChanged="ddlModules_SelectedIndexChanged" />
                         <asp:Label ID="lblSelectedModule" runat="server" CssClass="selection-note" />
+                        <asp:LinkButton ID="btnEditModule" runat="server" CssClass="admin-edit-button edit-selected" Visible="false" Text="Edit selected module" OnClick="btnEditModule_Click" />
+                        <asp:HiddenField ID="hdnEditModuleID" runat="server" />
 
                         <div class="studio-form-divider"></div>
-                        <p class="form-kicker">New module</p>
+                        <p class="form-kicker"><asp:Label ID="lblModuleFormMode" runat="server" Text="New module" /></p>
                         <label class="field-label" for="txtModuleTitle">Title</label>
                         <asp:TextBox ID="txtModuleTitle" runat="server" CssClass="studio-input" MaxLength="150" placeholder="e.g. Semantic HTML" />
                         <label class="field-label" for="txtModuleDescription">Description</label>
                         <asp:TextBox ID="txtModuleDescription" runat="server" CssClass="studio-input studio-textarea" TextMode="MultiLine" Rows="3" placeholder="What does this module cover?" />
-                        <label class="field-label" for="ddlModuleStatus">Initial status</label>
+                        <label class="field-label" for="ddlModuleStatus">Status</label>
                         <asp:DropDownList ID="ddlModuleStatus" runat="server" CssClass="studio-select">
                             <asp:ListItem Text="Draft" Value="Draft" />
                             <asp:ListItem Text="Published" Value="Published" />
+                            <asp:ListItem Text="Archived" Value="Archived" />
                         </asp:DropDownList>
                         <asp:Button ID="btnCreateModule" runat="server" CssClass="studio-button" Text="Add module" OnClick="btnCreateModule_Click" />
+                        <asp:LinkButton ID="btnResetModule" runat="server" CssClass="edit-reset" Visible="false" Text="Cancel editing and add a new module" OnClick="btnResetModule_Click" />
 
                         <div class="studio-list">
                             <p class="form-kicker">Existing modules</p>
@@ -102,8 +112,8 @@
                                 <ItemTemplate>
                                     <article class="studio-list-item">
                                         <div><strong><%# Server.HtmlEncode(Eval("Title").ToString()) %></strong><span><%# Eval("ChapterCount") %> chapters &middot; <%# Eval("Status") %></span></div>
-                                        <asp:LinkButton ID="btnPublishModule" runat="server" CssClass="mini-action" CommandName="Publish" CommandArgument='<%# Eval("ModuleID") %>' OnCommand="btnModuleStatus_Command">Publish</asp:LinkButton>
-                                        <asp:LinkButton ID="btnArchiveModule" runat="server" CssClass="mini-action muted" CommandName="Archive" CommandArgument='<%# Eval("ModuleID") %>' OnCommand="btnModuleStatus_Command">Archive</asp:LinkButton>
+                                        <asp:LinkButton ID="btnPublishModule" runat="server" CssClass="admin-action-button compact publish" CommandName="Publish" CommandArgument='<%# Eval("ModuleID") %>' OnCommand="btnModuleStatus_Command">Publish</asp:LinkButton>
+                                        <asp:LinkButton ID="btnArchiveModule" runat="server" CssClass="admin-action-button compact archive" CommandName="Archive" CommandArgument='<%# Eval("ModuleID") %>' OnCommand="btnModuleStatus_Command">Archive</asp:LinkButton>
                                     </article>
                                 </ItemTemplate>
                             </asp:Repeater>
@@ -117,11 +127,14 @@
                     </div>
                     <asp:Panel ID="pnlNoModule" runat="server" CssClass="studio-empty" Visible="false">Choose a module to add learner chapters.</asp:Panel>
                     <asp:Panel ID="pnlChapterEditor" runat="server" Visible="false">
+                        <p class="form-kicker"><asp:Label ID="lblChapterFormMode" runat="server" Text="New chapter" /></p>
+                        <asp:HiddenField ID="hdnEditChapterID" runat="server" />
                         <label class="field-label" for="txtChapterTitle">Title</label>
                         <asp:TextBox ID="txtChapterTitle" runat="server" CssClass="studio-input" MaxLength="150" placeholder="e.g. Headings and paragraphs" />
                         <label class="field-label" for="txtChapterDescription">Description</label>
                         <asp:TextBox ID="txtChapterDescription" runat="server" CssClass="studio-input studio-textarea" TextMode="MultiLine" Rows="3" placeholder="What will the learner practise?" />
                         <asp:Button ID="btnCreateChapter" runat="server" CssClass="studio-button" Text="Add chapter" OnClick="btnCreateChapter_Click" />
+                        <asp:LinkButton ID="btnResetChapter" runat="server" CssClass="edit-reset" Visible="false" Text="Cancel editing and add a new chapter" OnClick="btnResetChapter_Click" />
 
                         <div class="studio-list">
                             <p class="form-kicker">Existing chapters</p>
@@ -129,7 +142,10 @@
                                 <ItemTemplate>
                                     <article class="studio-list-item chapter-item">
                                         <div><strong><%# Server.HtmlEncode(Eval("Title").ToString()) %></strong><span>CHAPTER-<%# Eval("ChapterID") %></span></div>
-                                        <a class="mini-action" href="../Learner/Chapter.aspx?chapterId=<%# Eval("ChapterID") %>">Test chapter &rarr;</a>
+                                        <div class="item-actions">
+                                            <asp:LinkButton ID="btnEditChapter" runat="server" CssClass="admin-edit-button compact" CommandArgument='<%# Eval("ChapterID") %>' OnCommand="btnEditChapter_Command">Edit chapter</asp:LinkButton>
+                                            <a class="admin-action-button compact preview" href="../Learner/Chapter.aspx?chapterId=<%# Eval("ChapterID") %>">Test chapter &rarr;</a>
+                                        </div>
                                     </article>
                                 </ItemTemplate>
                             </asp:Repeater>
@@ -144,5 +160,6 @@
             <span>Admin &middot; Create &middot; Publish</span>
         </footer>
     </form>
+    <script src="../../Content/codequest-responsive-nav.js?v=50"></script>
 </body>
 </html>

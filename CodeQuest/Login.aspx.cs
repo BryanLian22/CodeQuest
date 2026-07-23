@@ -1,3 +1,4 @@
+// Purpose: Authenticates local and demo administrator credentials, establishes sessions and applies safe redirects.
 using System;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -13,14 +14,12 @@ namespace CodeQuest
     {
         internal const string GoogleOAuthStateSessionKey = "CodeQuestGoogleOAuthState";
 
-        // Temporary accounts for interface testing only.
-        // Replace this method with a SQL Server lookup and password-hash verification
-        // when the User table is implemented.
-        private const string LearnerEmail = "learner@codequest.io";
-        private const string LearnerPassword = "Learner123!";
+        // Temporary administrator fallback for marking and demonstration.
+        // Normal learner authentication always uses the SQL Server user record.
         private const string AdminEmail = "admin@codequest.io";
         private const string AdminPassword = "Admin123!";
 
+        // Configure UTF-8 before the page writes any text to the response.
         protected override void OnPreInit(EventArgs e)
         {
             Response.ContentEncoding = Encoding.UTF8;
@@ -67,6 +66,7 @@ namespace CodeQuest
             }
         }
 
+        // Authenticate database accounts first, then allow the administrator-only demo fallback.
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             if (!Page.IsValid)
@@ -90,19 +90,11 @@ namespace CodeQuest
             }
             catch (ConfigurationErrorsException)
             {
-                ShowMessage("The database connection is not configured yet. Demo accounts are still available.", "info");
+                ShowMessage("The database connection is not configured yet. The demo administrator account is still available.", "info");
             }
             catch (SqlException)
             {
-                ShowMessage("The database could not be reached. Demo accounts are still available.", "info");
-            }
-
-            if (email.Equals(LearnerEmail, StringComparison.OrdinalIgnoreCase) &&
-                password == LearnerPassword)
-            {
-                SignIn("Alex", LearnerEmail, "Learner");
-                RedirectAfterSignIn("Learner");
-                return;
+                ShowMessage("The database could not be reached. The demo administrator account is still available.", "info");
             }
 
             if (email.Equals(AdminEmail, StringComparison.OrdinalIgnoreCase) &&
@@ -134,6 +126,7 @@ namespace CodeQuest
             ShowMessage("The email address or password is incorrect.", "error");
         }
 
+        // Start Google OAuth with a session-bound state value to prevent forged callbacks.
         protected void btnGoogle_Click(object sender, EventArgs e)
         {
             if (!GoogleOAuthClient.IsConfigured)
@@ -151,6 +144,7 @@ namespace CodeQuest
             Context.ApplicationInstance.CompleteRequest();
         }
 
+        // Store only the minimum identity and authorization data required by protected pages.
         private void SignIn(string displayName, string email, string role)
         {
             SignIn(displayName, email, role, null, null);
@@ -203,6 +197,7 @@ namespace CodeQuest
             RedirectByRole(role);
         }
 
+        // Accept only local return paths and prevent learners from entering administrator routes.
         private static bool IsReturnUrlAllowedForRole(string returnUrl, string role)
         {
             if (string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase))
@@ -230,6 +225,7 @@ namespace CodeQuest
             pnlMessage.Visible = true;
         }
 
+        // Supports the short-lived registration session before its database-backed sign-in completes.
         private bool IsRegisteredLearner(string email, string password)
         {
             if (Session["RegisteredEmail"] == null ||

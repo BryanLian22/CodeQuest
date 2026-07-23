@@ -1,3 +1,4 @@
+// Purpose: Redirects authenticated visitors into the correct support workflow.
 using System;
 
 namespace CodeQuest

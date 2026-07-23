@@ -1,3 +1,4 @@
+// Purpose: Encapsulates parameterized SQL Server operations for Enrollment data and related transactions.
 using System;
 using System.Collections.Generic;
 using System.Data;

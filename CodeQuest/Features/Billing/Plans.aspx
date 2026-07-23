@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Plans.aspx.cs" Inherits="CodeQuest.Features.Billing.Plans" %>
+<!-- Page purpose: Shows learner plans, simulated checkout and persisted payment history. -->
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -6,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Plans | CodeQuest</title>
-    <link href="../../Content/codequest-home.css" rel="stylesheet" />
+    <link href="../../Content/codequest-home.css?v=50" rel="stylesheet" />
     <link href="../../Content/codequest-billing.css" rel="stylesheet" />
 </head>
 <body>
@@ -49,9 +50,9 @@
 
             <section class="plans-grid" aria-label="Subscription plans">
                 <article class="plan-card basic-plan">
-                    <div class="plan-card-topline"><span>PLAN 01</span><span class="plan-tag">Free forever</span></div>
+                    <div class="plan-card-topline"><span>PLAN 01</span><span class="plan-tag">Lifetime access</span></div>
                     <h2>Basic</h2>
-                    <p class="plan-price"><strong>RM0</strong><span> forever</span></p>
+                    <p class="plan-price"><strong>RM0</strong><span> lifetime</span></p>
                     <p class="plan-description">A friendly starting point for learning the foundations of web development.</p>
                     <ul class="plan-features">
                         <li>Beginner courses</li>
@@ -115,7 +116,7 @@
                     <div class="payment-order-summary"><span>CodeQuest Premium</span><strong>RM29.00 <small>/ month</small></strong></div>
 
                     <div class="payment-fields">
-                        <label>Cardholder name<input type="text" autocomplete="off" placeholder="Demo learner" /></label>
+                        <label>Cardholder name<input type="text" autocomplete="off" placeholder="Sample cardholder" /></label>
                         <label>Card number<input type="text" inputmode="numeric" autocomplete="off" maxlength="19" placeholder="4242 4242 4242 4242" /></label>
                         <label>Expiry date<input type="text" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="MM/YY" /></label>
                         <label>CVV<input type="password" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="123" /></label>
@@ -164,5 +165,6 @@
             }());
         </script>
     </form>
+    <script src="../../Content/codequest-responsive-nav.js?v=50"></script>
 </body>
 </html>

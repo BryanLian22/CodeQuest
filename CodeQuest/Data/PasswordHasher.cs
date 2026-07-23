@@ -1,3 +1,4 @@
+// Purpose: Creates and verifies salted PBKDF2 password hashes using a versioned storage format.
 using System;
 using System.Security.Cryptography;
 

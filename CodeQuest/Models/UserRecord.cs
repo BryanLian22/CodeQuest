@@ -1,3 +1,4 @@
+// Purpose: Defines the UserRecord data shape shared between repositories and Web Forms pages.
 namespace CodeQuest.Models
 {
     /// <summary>

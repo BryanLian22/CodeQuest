@@ -1,3 +1,4 @@
+// Purpose: Loads the protected administrator overview, content totals and recent course records.
 using System;
 using System.Collections.Generic;
 using System.Configuration;

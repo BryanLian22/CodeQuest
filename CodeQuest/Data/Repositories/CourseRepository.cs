@@ -1,3 +1,4 @@
+// Purpose: Encapsulates parameterized SQL Server operations for Course data and related transactions.
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;

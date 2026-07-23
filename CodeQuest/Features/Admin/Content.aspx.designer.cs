@@ -16,24 +16,35 @@ namespace CodeQuest.Features.Admin
         protected global::System.Web.UI.WebControls.DropDownList ddlCourses;
         protected global::System.Web.UI.WebControls.Label lblSelectedCourse;
         protected global::System.Web.UI.WebControls.HyperLink lnkPreviewCourse;
+        protected global::System.Web.UI.WebControls.LinkButton btnEditCourse;
+        protected global::System.Web.UI.WebControls.HiddenField hdnEditCourseID;
+        protected global::System.Web.UI.WebControls.Label lblCourseFormMode;
         protected global::System.Web.UI.WebControls.TextBox txtCourseTitle;
         protected global::System.Web.UI.WebControls.TextBox txtCourseDescription;
         protected global::System.Web.UI.WebControls.DropDownList ddlCourseDifficulty;
         protected global::System.Web.UI.WebControls.Button btnCreateCourse;
+        protected global::System.Web.UI.WebControls.LinkButton btnResetCourse;
         protected global::System.Web.UI.WebControls.Panel pnlNoCourse;
         protected global::System.Web.UI.WebControls.Panel pnlModuleEditor;
         protected global::System.Web.UI.WebControls.DropDownList ddlModules;
         protected global::System.Web.UI.WebControls.Label lblSelectedModule;
+        protected global::System.Web.UI.WebControls.LinkButton btnEditModule;
+        protected global::System.Web.UI.WebControls.HiddenField hdnEditModuleID;
+        protected global::System.Web.UI.WebControls.Label lblModuleFormMode;
         protected global::System.Web.UI.WebControls.TextBox txtModuleTitle;
         protected global::System.Web.UI.WebControls.TextBox txtModuleDescription;
         protected global::System.Web.UI.WebControls.DropDownList ddlModuleStatus;
         protected global::System.Web.UI.WebControls.Button btnCreateModule;
+        protected global::System.Web.UI.WebControls.LinkButton btnResetModule;
         protected global::System.Web.UI.WebControls.Repeater rptModules;
         protected global::System.Web.UI.WebControls.Panel pnlNoModule;
         protected global::System.Web.UI.WebControls.Panel pnlChapterEditor;
+        protected global::System.Web.UI.WebControls.Label lblChapterFormMode;
+        protected global::System.Web.UI.WebControls.HiddenField hdnEditChapterID;
         protected global::System.Web.UI.WebControls.TextBox txtChapterTitle;
         protected global::System.Web.UI.WebControls.TextBox txtChapterDescription;
         protected global::System.Web.UI.WebControls.Button btnCreateChapter;
+        protected global::System.Web.UI.WebControls.LinkButton btnResetChapter;
         protected global::System.Web.UI.WebControls.Repeater rptChapters;
     }
 }

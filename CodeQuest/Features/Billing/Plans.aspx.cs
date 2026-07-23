@@ -1,3 +1,4 @@
+// Purpose: Loads plan state and payment history and completes the simulated Premium checkout.
 using System;
 using System.Collections.Generic;
 using System.Configuration;

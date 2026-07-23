@@ -1,3 +1,4 @@
+// Purpose: Loads an enrolled course hierarchy and calculates chapter, module and course completion state.
 using System;
 using System.Collections.Generic;
 using System.Configuration;

@@ -1,3 +1,4 @@
+/* Purpose: Styles one public tutorial article, examples, exercises and reference media. */
 .tutorial-page {
     width: min(900px, calc(100% - 48px));
     min-height: calc(100vh - 170px);

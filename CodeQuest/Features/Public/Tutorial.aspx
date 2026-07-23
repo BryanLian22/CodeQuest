@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Tutorial.aspx.cs" Inherits="CodeQuest.Features.Public.Tutorial" %>
+<!-- Page purpose: Shows one free public tutorial and its exercise without requiring enrolment. -->
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -6,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tutorial | CodeQuest</title>
-    <link href="../../Content/codequest-home.css" rel="stylesheet" />
+    <link href="../../Content/codequest-home.css?v=50" rel="stylesheet" />
     <link href="../../Content/codequest-tutorial.css" rel="stylesheet" />
 </head>
 <body>
@@ -36,6 +37,10 @@
                 <asp:PlaceHolder ID="phPublicActions" runat="server">
                     <a class="login-link" href="../../Login.aspx">Login</a>
                     <a class="header-cta" href="../../Register.aspx">Get Started</a>
+                </asp:PlaceHolder>
+                <asp:PlaceHolder ID="phLearnerActions" runat="server" Visible="false">
+                    <a class="login-link" href="../../LearnerDashboard.aspx">Dashboard</a>
+                    <a class="header-cta session-cta" href="../../Login.aspx?logout=1">Sign out</a>
                 </asp:PlaceHolder>
                 <asp:PlaceHolder ID="phAdminActions" runat="server" Visible="false">
                     <a class="login-link" href="../../Guest.aspx">View site</a>
@@ -131,5 +136,6 @@
             <span>Learn &middot; Practise &middot; Build</span>
         </footer>
     </form>
+    <script src="../../Content/codequest-responsive-nav.js?v=50"></script>
 </body>
 </html>

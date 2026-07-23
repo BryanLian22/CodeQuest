@@ -1,3 +1,4 @@
+/* Purpose: Styles chapter quiz questions, answer choices, results and pass or retake actions. */
 .quiz-page {
     width: min(900px, calc(100% - 48px));
     min-height: calc(100vh - 170px);

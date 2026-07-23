@@ -1,3 +1,4 @@
+// Purpose: Authorizes premium learners, builds lesson-aware prompts and coordinates Gemini chat responses.
 using System;
 using System.Collections.Generic;
 using System.Configuration;

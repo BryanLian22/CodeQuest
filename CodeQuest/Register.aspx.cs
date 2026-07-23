@@ -1,3 +1,4 @@
+// Purpose: Validates new learner details, hashes passwords and starts email or Google registration.
 using System;
 using System.Configuration;
 using System.Data.SqlClient;

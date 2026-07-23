@@ -1,3 +1,4 @@
+// Purpose: Restores saved answers, grades attempts at 75 percent and advances chapter progress after a pass.
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -232,6 +233,7 @@ namespace CodeQuest.Features.Learner
                 bool courseCompleted = false;
                 if (passed && isLearner)
                 {
+                    progress.MarkChapterCompleted(userID, ChapterID);
                     courseCompleted = new EnrollmentRepository().CompleteCourseIfReady(userID, lesson.CourseID);
                 }
 
@@ -270,8 +272,13 @@ namespace CodeQuest.Features.Learner
             int correct = CountCorrectAnswers(questions, savedAnswers);
             decimal scorePercent = CalculateScorePercent(correct, questions.Count);
             bool passed = scorePercent >= 75m;
-            bool courseCompleted = passed
-                && new EnrollmentRepository().CompleteCourseIfReady(Convert.ToInt32(Session["UserID"]), lesson.CourseID);
+            bool courseCompleted = false;
+            if (passed)
+            {
+                int userID = Convert.ToInt32(Session["UserID"]);
+                new ProgressRepository().MarkChapterCompleted(userID, lesson.ChapterID);
+                courseCompleted = new EnrollmentRepository().CompleteCourseIfReady(userID, lesson.CourseID);
+            }
 
             pnlResult.Visible = true;
             lblResult.Text = passed

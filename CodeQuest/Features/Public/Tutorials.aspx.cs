@@ -1,3 +1,4 @@
+// Purpose: Loads published tutorials by category and builds role-aware public navigation.
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -41,9 +42,11 @@ namespace CodeQuest.Features.Public
         private void ConfigureHeader()
         {
             bool isAdmin = string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase);
+            bool isLearner = string.Equals(Convert.ToString(Session["UserRole"]), "Learner", StringComparison.OrdinalIgnoreCase);
             phPublicNavigation.Visible = !isAdmin;
             phAdminNavigation.Visible = isAdmin;
-            phPublicActions.Visible = !isAdmin;
+            phPublicActions.Visible = !isAdmin && !isLearner;
+            phLearnerActions.Visible = isLearner;
             phAdminActions.Visible = isAdmin;
             pnlAdminPreview.Visible = isAdmin;
         }

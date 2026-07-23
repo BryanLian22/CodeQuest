@@ -1,3 +1,4 @@
+/* Purpose: Styles the shared administrator shell, overview cards, catalogue summaries and breakpoints. */
 .admin-page {
     width: min(1120px, calc(100% - 48px));
     min-height: calc(100vh - 170px);
@@ -50,8 +51,14 @@
 @media (max-width: 620px) {
     .admin-page { width: min(100% - 28px, 1120px); padding-top: 46px; }
     .admin-heading, .section-heading-row { display: block; }
-    .admin-badge { display: inline-block; margin-top: 22px; }
+    .admin-heading h1 { font-size: clamp(2.15rem, 11vw, 3.1rem); line-height: 1.03; overflow-wrap: anywhere; }
+    .admin-badge { display: block; width: min(100%, 270px); margin-top: 22px; overflow-wrap: anywhere; }
     .admin-stats { grid-template-columns: repeat(2, 1fr); }
     .admin-course-grid { grid-template-columns: 1fr; }
     .coming-soon { display: inline-block; margin-top: 12px; }
+    .admin-course-card footer { flex-wrap: wrap; }
+}
+
+@media (max-width: 390px) {
+    .admin-stats { grid-template-columns: 1fr; }
 }

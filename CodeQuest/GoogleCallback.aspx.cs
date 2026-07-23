@@ -1,3 +1,4 @@
+// Purpose: Validates Google OAuth state and identity before linking or creating a learner session.
 using System;
 using System.Data.SqlClient;
 using System.Security.Cryptography;

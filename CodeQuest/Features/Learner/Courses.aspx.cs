@@ -1,3 +1,4 @@
+// Purpose: Loads the learner catalogue and selects enrol, continue or completed actions for each course.
 using System;
 using System.Collections.Generic;
 using System.Configuration;

@@ -1,3 +1,4 @@
+/* Purpose: Styles forgot-password and reset-password cards, states and responsive sizing. */
 .reset-page { display: grid; min-height: calc(100vh - 150px); place-items: center; width: min(100% - 48px, 760px); margin: 0 auto; padding: 58px 0 72px; }
 .reset-card { position: relative; width: min(100%, 520px); padding: 34px; border: 1px solid rgba(121,167,215,.23); border-radius: var(--radius); background: linear-gradient(145deg, rgba(17,36,60,.96), rgba(9,22,39,.98)); box-shadow: 0 30px 90px rgba(0,0,0,.42), 0 0 60px rgba(74,124,255,.08); }
 .reset-card::before { position: absolute; top: 0; right: 14%; left: 14%; height: 1px; content: ""; background: linear-gradient(90deg, transparent, var(--cyan), transparent); }

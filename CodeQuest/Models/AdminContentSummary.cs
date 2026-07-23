@@ -1,3 +1,4 @@
+// Purpose: Defines the AdminContentSummary data shape shared between repositories and Web Forms pages.
 namespace CodeQuest.Models
 {
     public sealed class AdminContentSummary

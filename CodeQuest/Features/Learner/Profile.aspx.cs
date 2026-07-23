@@ -1,3 +1,4 @@
+// Purpose: Loads and validates learner profile updates without exposing authentication secrets.
 using System;
 using System.Configuration;
 using System.Data.SqlClient;

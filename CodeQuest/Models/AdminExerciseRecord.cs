@@ -1,3 +1,4 @@
+// Purpose: Defines the AdminExerciseRecord data shape shared between repositories and Web Forms pages.
 namespace CodeQuest.Models
 {
     public sealed class AdminExerciseRecord

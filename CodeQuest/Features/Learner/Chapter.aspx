@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Chapter.aspx.cs" Inherits="CodeQuest.Features.Learner.Chapter" %>
+<!-- Page purpose: Shows an enrolled chapter, lesson material, practice and navigation to its quiz or next chapter. -->
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -6,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Chapter | CodeQuest</title>
-    <link href="../../Content/codequest-home.css" rel="stylesheet" />
+    <link href="../../Content/codequest-home.css?v=50" rel="stylesheet" />
     <link href="../../Content/codequest-chapter.css?v=37" rel="stylesheet" />
 </head>
 <body>
@@ -124,5 +125,6 @@
             <span>Learn &middot; Practise &middot; Build</span>
         </footer>
     </form>
+    <script src="../../Content/codequest-responsive-nav.js?v=50"></script>
 </body>
 </html>

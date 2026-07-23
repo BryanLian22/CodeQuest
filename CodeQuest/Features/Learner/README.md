@@ -29,9 +29,13 @@ Intermediate and Advanced courses. Successful enrolments are inserted into
 learner's `Enrollment` record and lists published `Module` and `Chapter` rows
 from the course content chain.
 
-`Chapter.aspx` is learner-only course content. It checks the learner's
-`Enrollment` record before listing the matching chapter lesson. Public
+`Chapter.aspx` checks the learner's `Enrollment` record before listing the
+matching chapter lesson. Chapters without quizzes complete when viewed.
+Chapters with quizzes complete only after a score of 75% or higher. When every
+chapter in a module is complete, the learner course page labels that module
+`COMPLETED`. Public
 `Tutorial.aspx` is separate and reads `Tutorial` and `Exercise` rows without
 requiring login. `Quiz.aspx` is learner-only, checks enrollment again, records
-each selected answer, and marks a chapter completed when all its answers are
-correct. The dashboard reads completed chapters and the saved quiz average.
+each selected answer, and marks the chapter complete only after the passing
+threshold is reached. The dashboard reads completed chapters and the saved
+quiz average.

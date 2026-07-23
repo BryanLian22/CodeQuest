@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Quiz.aspx.cs" Inherits="CodeQuest.Features.Learner.Quiz" %>
+<!-- Page purpose: Runs chapter quizzes, applies the 75 percent pass rule and stores attempts and answers. -->
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -6,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Chapter quiz | CodeQuest</title>
-    <link href="../../Content/codequest-home.css" rel="stylesheet" />
+    <link href="../../Content/codequest-home.css?v=50" rel="stylesheet" />
     <link href="../../Content/codequest-quiz.css?v=38" rel="stylesheet" />
 </head>
 <body>
@@ -117,5 +118,6 @@
             <span>Learn &middot; Practise &middot; Build</span>
         </footer>
     </form>
+    <script src="../../Content/codequest-responsive-nav.js?v=50"></script>
 </body>
 </html>

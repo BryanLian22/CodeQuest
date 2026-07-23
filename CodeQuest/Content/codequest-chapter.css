@@ -1,3 +1,4 @@
+/* Purpose: Styles enrolled chapter lessons, practice feedback, completion banner and chapter navigation. */
 .chapter-page {
     width: min(900px, calc(100% - 48px));
     min-height: calc(100vh - 170px);

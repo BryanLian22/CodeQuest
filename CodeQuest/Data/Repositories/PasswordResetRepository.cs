@@ -1,3 +1,4 @@
+// Purpose: Encapsulates parameterized SQL Server operations for PasswordReset data and related transactions.
 using System;
 using System.Data;
 using System.Data.SqlClient;

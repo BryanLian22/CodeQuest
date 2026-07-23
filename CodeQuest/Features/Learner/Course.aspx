@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Course.aspx.cs" Inherits="CodeQuest.Features.Learner.Course" %>
+<!-- Page purpose: Shows the selected enrolled course, module completion and chapter progress. -->
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -6,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Course | CodeQuest</title>
-    <link href="../../Content/codequest-home.css" rel="stylesheet" />
+    <link href="../../Content/codequest-home.css?v=50" rel="stylesheet" />
     <link href="../../Content/codequest-course.css?v=37" rel="stylesheet" />
 </head>
 <body>
@@ -90,7 +91,7 @@
                                 <article id="module-<%# Eval("ModuleID") %>" class="module-card">
                                     <div class="module-topline">
                                         <span>MODULE-<%# Eval("ModuleID") %></span>
-                                        <span class="module-status"><%# Eval("Status") %></span>
+                                        <span class="module-status"><%# Eval("DisplayStatus") %></span>
                                     </div>
                                     <h3><%# Server.HtmlEncode(Eval("Title").ToString()) %></h3>
                                     <p><%# Server.HtmlEncode(Eval("Description") == null ? "Work through the chapters in this learning module." : Eval("Description").ToString()) %></p>
@@ -123,5 +124,6 @@
             <span>Learn &middot; Practise &middot; Build</span>
         </footer>
     </form>
+    <script src="../../Content/codequest-responsive-nav.js?v=50"></script>
 </body>
 </html>

@@ -1,3 +1,4 @@
+// Purpose: Defines the ChapterLessonRecord data shape shared between repositories and Web Forms pages.
 using System.Collections.Generic;
 
 namespace CodeQuest.Models

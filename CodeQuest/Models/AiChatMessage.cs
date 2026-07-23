@@ -1,3 +1,4 @@
+// Purpose: Defines the AiChatMessage data shape shared between repositories and Web Forms pages.
 using System;
 
 namespace CodeQuest.Models

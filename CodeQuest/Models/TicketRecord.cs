@@ -1,3 +1,4 @@
+// Purpose: Defines the TicketRecord data shape shared between repositories and Web Forms pages.
 using System;
 using System.Collections.Generic;
 

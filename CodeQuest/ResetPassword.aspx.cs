@@ -1,3 +1,4 @@
+// Purpose: Validates one-time tokens and replaces passwords with salted PBKDF2 hashes.
 using System;
 using System.Configuration;
 using System.Data.SqlClient;

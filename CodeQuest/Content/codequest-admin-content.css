@@ -1,3 +1,4 @@
+/* Purpose: Styles the three-stage administrator content studio, edit controls and responsive stacking. */
 .content-studio-page {
     width: min(1180px, calc(100% - 48px));
     min-height: calc(100vh - 170px);
@@ -29,11 +30,72 @@
 .studio-textarea { min-height: 82px; padding-top: 10px; resize: vertical; }
 .studio-select option { color: #18283a; background: #e8f3ff; }
 .selection-note { display: block; margin-top: 8px; color: #7892aa; font-family: Consolas, monospace; font-size: .62rem; }
+.status-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 11px; }
+.edit-selected { display: inline-block; margin-top: 10px; }
+.admin-edit-button {
+    display: inline-flex;
+    min-height: 34px;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 0 13px;
+    border: 1px solid rgba(79,228,255,.45);
+    border-radius: 8px;
+    color: #bff5ff;
+    background: rgba(79,228,255,.1);
+    font-size: .65rem;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 0 0 1px rgba(79,228,255,.03) inset;
+    transition: border-color .15s ease, background .15s ease, transform .15s ease;
+}
+.admin-edit-button::before { content: "EDIT"; margin-right: 8px; color: var(--cyan); font-family: Consolas, monospace; font-size: .53rem; letter-spacing: .1em; }
+.admin-edit-button:hover { border-color: var(--cyan); color: #effcff; background: rgba(79,228,255,.17); transform: translateY(-1px); }
+.admin-edit-button.compact { min-height: 29px; padding: 0 10px; }
+.admin-action-button {
+    display: inline-flex;
+    min-height: 34px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    padding: 0 13px;
+    border: 1px solid rgba(110,162,255,.48);
+    border-radius: 8px;
+    color: #d8e6ff;
+    background: rgba(110,162,255,.1);
+    font-size: .65rem;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: border-color .15s ease, background .15s ease, transform .15s ease;
+}
+.admin-action-button::before {
+    margin-right: 8px;
+    font-family: Consolas, monospace;
+    font-size: .53rem;
+    letter-spacing: .1em;
+}
+.admin-action-button:hover { transform: translateY(-1px); }
+.admin-action-button.compact { min-height: 29px; padding: 0 10px; }
+.admin-action-button.preview { border-color: rgba(110,162,255,.5); color: #dce8ff; background: rgba(110,162,255,.11); }
+.admin-action-button.preview::before { content: "VIEW"; color: #8ab4ff; }
+.admin-action-button.preview:hover { border-color: #8ab4ff; color: #f3f7ff; background: rgba(110,162,255,.2); }
+.admin-action-button.publish { border-color: rgba(92,242,181,.45); color: #c8fae5; background: rgba(92,242,181,.09); }
+.admin-action-button.publish::before { content: "PUBLISH"; color: var(--green); }
+.admin-action-button.publish:hover { border-color: var(--green); color: #effff8; background: rgba(92,242,181,.17); }
+.admin-action-button.review { border-color: rgba(255,198,92,.43); color: #ffe6b8; background: rgba(255,198,92,.08); }
+.admin-action-button.review::before { content: "REVIEW"; color: #ffc65c; }
+.admin-action-button.review:hover { border-color: #ffc65c; color: #fff8e9; background: rgba(255,198,92,.16); }
+.admin-action-button.archive { border-color: rgba(255,126,148,.38); color: #ffc5cf; background: rgba(255,126,148,.07); }
+.admin-action-button.archive::before { content: "ARCHIVE"; color: #ff8aa0; }
+.admin-action-button.archive:hover { border-color: #ff8aa0; color: #fff1f4; background: rgba(255,126,148,.14); }
 .studio-form-divider { height: 1px; margin: 24px 0 20px; background: rgba(145,177,212,.14); }
 .studio-button { width: 100%; min-height: 42px; margin-top: 18px; border: 0; border-radius: 8px; color: #04101c; background: linear-gradient(90deg, var(--cyan), #6ea2ff); font-size: .75rem; font-weight: 700; cursor: pointer; }
+.edit-reset { display: block; margin-top: 12px; color: #8ea8bf; font-size: .64rem; font-weight: 700; text-align: center; text-decoration: none; }
+.edit-reset:hover { color: var(--cyan); }
 .studio-empty { padding: 13px; border: 1px dashed rgba(145,177,212,.25); border-radius: 9px; color: #8ea8bf; font-size: .76rem; line-height: 1.5; }
 .studio-list { margin-top: 27px; }
-.studio-list-item { display: flex; align-items: center; gap: 8px; padding: 12px 0; border-top: 1px solid rgba(145,177,212,.13); }
+.studio-list-item { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px 0; border-top: 1px solid rgba(145,177,212,.13); }
 .studio-list-item > div { min-width: 0; flex: 1; }
 .studio-list-item strong { display: block; overflow: hidden; color: #d7e8f7; font-size: .77rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
 .studio-list-item span { display: block; margin-top: 4px; color: #7892aa; font-size: .64rem; }
@@ -41,6 +103,7 @@
 .mini-action.muted { color: #8ea8bf; }
 .chapter-item { display: block; }
 .chapter-item strong { white-space: normal; }
+.item-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
 
 .studio-message { margin-bottom: 21px; padding: 13px 15px; border: 1px solid rgba(79,228,255,.2); border-radius: 9px; color: #bcefff; background: rgba(79,228,255,.06); font-size: .78rem; line-height: 1.5; }
 .studio-message.success { border-color: rgba(92,242,181,.25); color: #baf7dd; background: rgba(92,242,181,.06); }

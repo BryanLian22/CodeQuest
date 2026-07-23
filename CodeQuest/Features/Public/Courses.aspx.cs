@@ -1,3 +1,4 @@
+// Purpose: Loads public courses and produces role-aware catalogue actions and navigation.
 using System;
 using System.Collections.Generic;
 using System.Configuration;

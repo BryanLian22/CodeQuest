@@ -1,3 +1,4 @@
+// Purpose: Creates SQL Server connections from the single CodeQuestDb configuration entry.
 using System;
 using System.Configuration;
 using System.Data.SqlClient;

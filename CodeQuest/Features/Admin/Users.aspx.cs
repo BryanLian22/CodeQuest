@@ -1,7 +1,9 @@
+// Purpose: Loads searchable account records and validates administrator changes to email, role and plan.
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Net.Mail;
 using System.Text;
 using CodeQuest.Data.Repositories;
 using CodeQuest.Models;
@@ -149,6 +151,88 @@ namespace CodeQuest.Features.Admin
             }
         }
 
+        protected void btnSaveEmail_Click(object sender, EventArgs e)
+        {
+            ResetMessages();
+            int selectedUserID = SelectedUserID;
+            if (selectedUserID <= 0)
+            {
+                ShowError("Select a valid learner before changing an email address.");
+                return;
+            }
+
+            string email = (txtLearnerEmail.Text ?? string.Empty).Trim().ToLowerInvariant();
+            if (!IsValidEmail(email))
+            {
+                ShowError("Enter a valid email address, such as learner@example.com.");
+                return;
+            }
+
+            try
+            {
+                UserRepository repository = new UserRepository();
+                int adminUserID;
+                if (!TryGetAdminUserID(repository, out adminUserID))
+                {
+                    ShowError("This administrator session is not linked to an admin row in dbo.User. Sign out and sign in again.");
+                    return;
+                }
+
+                UserManagementRecord user = repository.GetManagedUser(selectedUserID);
+                if (user == null)
+                {
+                    ShowError("That account could not be found.");
+                    return;
+                }
+
+                if (!string.Equals(user.Role, "Learner", StringComparison.OrdinalIgnoreCase))
+                {
+                    ShowError("Only learner email addresses can be changed from User Management.");
+                    BindSelectedUser(user);
+                    return;
+                }
+
+                UserRecord existing = repository.FindByEmail(email);
+                if (existing != null && existing.UserID != selectedUserID)
+                {
+                    ShowError("That email address is already connected to another CodeQuest account.");
+                    BindSelectedUser(user);
+                    return;
+                }
+
+                if (string.Equals(user.Email, email, StringComparison.OrdinalIgnoreCase))
+                {
+                    ShowSuccess(user.Username + " already uses that email address.");
+                    BindSelectedUser(user);
+                    return;
+                }
+
+                if (!repository.UpdateLearnerEmail(selectedUserID, email))
+                {
+                    ShowError("The learner email could not be updated. Refresh the account and try again.");
+                    return;
+                }
+
+                ShowSuccess("Email updated for " + user.Username + ". The learner can now sign in and reset their password using " + email + ".");
+                LoadUsers();
+            }
+            catch (ConfigurationErrorsException)
+            {
+                ShowError("The database connection is not configured. Add CodeQuestDb to Web.config.");
+            }
+            catch (SqlException exception)
+            {
+                if (exception.Number == 2601 || exception.Number == 2627)
+                {
+                    ShowError("That email address is already connected to another CodeQuest account.");
+                }
+                else
+                {
+                    ShowError("The learner email could not be saved to CodeQuestDB.");
+                }
+            }
+        }
+
         protected string GetInitial(object value)
         {
             string username = Convert.ToString(value).Trim();
@@ -220,6 +304,10 @@ namespace CodeQuest.Features.Admin
             lblSelectedEnrollments.Text = user.EnrollmentCount.ToString();
             lblSelectedTickets.Text = user.TicketCount.ToString();
             lblSelectedBio.Text = Server.HtmlEncode(string.IsNullOrWhiteSpace(user.Bio) ? "No biography added." : user.Bio);
+            bool isLearner = string.Equals(user.Role, "Learner", StringComparison.OrdinalIgnoreCase);
+            pnlLearnerEmailEditor.Visible = isLearner;
+            pnlProtectedEmail.Visible = !isLearner;
+            txtLearnerEmail.Text = isLearner ? user.Email : string.Empty;
 
             if (ddlRole.Items.FindByValue(user.Role) != null)
             {
@@ -261,6 +349,24 @@ namespace CodeQuest.Features.Admin
             Session["UserID"] = user.UserID;
             Session["UserPlan"] = user.Plan;
             return true;
+        }
+
+        private static bool IsValidEmail(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value) || value.Length > 254)
+            {
+                return false;
+            }
+
+            try
+            {
+                MailAddress address = new MailAddress(value);
+                return string.Equals(address.Address, value, StringComparison.OrdinalIgnoreCase);
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
         }
 
         private void ResetMessages()

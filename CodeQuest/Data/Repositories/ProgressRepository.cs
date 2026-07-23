@@ -1,3 +1,4 @@
+// Purpose: Encapsulates parameterized SQL Server operations for Progress data and related transactions.
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -34,10 +35,18 @@ namespace CodeQuest.Data.Repositories
         public void MarkChapterCompleted(int userID, int chapterID)
         {
             const string sql = @"
-                IF EXISTS (SELECT 1 FROM dbo.ChapterProgress WHERE UserID = @userID AND ChapterID = @chapterID)
+                IF EXISTS
+                (
+                    SELECT 1
+                    FROM dbo.ChapterProgress
+                    WHERE UserID = @userID
+                      AND ChapterID = @chapterID
+                )
                     UPDATE dbo.ChapterProgress
                     SET status = N'Completed', completed_at = SYSUTCDATETIME()
-                    WHERE UserID = @userID AND ChapterID = @chapterID;
+                    WHERE UserID = @userID
+                      AND ChapterID = @chapterID
+                      AND status <> N'Completed';
                 ELSE
                     INSERT INTO dbo.ChapterProgress(UserID, ChapterID, status, completed_at)
                     VALUES (@userID, @chapterID, N'Completed', SYSUTCDATETIME());";

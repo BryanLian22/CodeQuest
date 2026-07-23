@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Guest.aspx.cs" Inherits="CodeQuest.Guest" %>
+<!-- Page purpose: Provides the public CodeQuest landing page with role-aware navigation. -->
 
 <!DOCTYPE html>
 
@@ -11,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet" />
-    <link href="Content/codequest-home.css" rel="stylesheet" />
+    <link href="Content/codequest-home.css?v=50" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -33,8 +34,17 @@
             </nav>
 
             <div class="header-actions">
-                <a class="login-link" href="Login.aspx">Login</a>
-                <a class="header-cta" href="Register.aspx">Get Started</a>
+                <asp:PlaceHolder ID="phGuestHeaderActions" runat="server">
+                    <a class="login-link" href="Login.aspx">Login</a>
+                    <a class="header-cta" href="Register.aspx">Get Started</a>
+                </asp:PlaceHolder>
+                <asp:PlaceHolder ID="phLearnerHeaderActions" runat="server" Visible="false">
+                    <a class="login-link" href="LearnerDashboard.aspx">Dashboard</a>
+                    <a class="header-cta session-cta" href="Login.aspx?logout=1">Sign out</a>
+                </asp:PlaceHolder>
+                <asp:PlaceHolder ID="phAdminHeaderActions" runat="server" Visible="false">
+                    <a class="header-cta session-cta" href="AdminDashboard.aspx">Admin</a>
+                </asp:PlaceHolder>
             </div>
         </header>
 
@@ -188,19 +198,6 @@
 
     <script>
         (function () {
-            var menuButton = document.getElementById('menuButton');
-            var navigation = document.getElementById('mainNavigation');
-
-            menuButton.addEventListener('click', function () {
-                var isOpen = navigation.classList.toggle('open');
-                menuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-            });
-
-            navigation.addEventListener('click', function () {
-                navigation.classList.remove('open');
-                menuButton.setAttribute('aria-expanded', 'false');
-            });
-
             var snippets = {
                 html: '<span class="num">01</span> <span class="purple">&lt;!DOCTYPE</span> <span class="blue">html</span><span class="purple">&gt;</span>\n<span class="num">02</span> <span class="purple">&lt;html</span> <span class="blue">lang</span>=<span class="green">"en"</span><span class="purple">&gt;</span>\n<span class="num">03</span>   <span class="purple">&lt;body&gt;</span>\n<span class="num">04</span>     Hello, Web!\n<span class="num">05</span>   <span class="purple">&lt;/body&gt;</span>\n<span class="num">06</span> <span class="purple">&lt;/html&gt;</span>',
                 css: '<span class="num">01</span> <span class="blue">body</span> {\n<span class="num">02</span>   <span class="purple">display</span>: grid;\n<span class="num">03</span>   <span class="purple">place-items</span>: center;\n<span class="num">04</span>   <span class="purple">color</span>: <span class="green">#07101d</span>;\n<span class="num">05</span> }',
@@ -218,5 +215,6 @@
             });
         }());
     </script>
+    <script src="Content/codequest-responsive-nav.js?v=50"></script>
 </body>
 </html>

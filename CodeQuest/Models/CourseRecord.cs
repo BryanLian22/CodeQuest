@@ -1,3 +1,4 @@
+// Purpose: Defines the CourseRecord data shape shared between repositories and Web Forms pages.
 namespace CodeQuest.Models
 {
     /// <summary>

@@ -1,3 +1,4 @@
+// Purpose: Defines the PasswordResetIssue data shape shared between repositories and Web Forms pages.
 using System;
 
 namespace CodeQuest.Models

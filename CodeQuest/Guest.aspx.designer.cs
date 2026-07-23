@@ -9,5 +9,11 @@ namespace CodeQuest
     public partial class Guest
     {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+
+        protected global::System.Web.UI.WebControls.PlaceHolder phGuestHeaderActions;
+
+        protected global::System.Web.UI.WebControls.PlaceHolder phLearnerHeaderActions;
+
+        protected global::System.Web.UI.WebControls.PlaceHolder phAdminHeaderActions;
     }
 }

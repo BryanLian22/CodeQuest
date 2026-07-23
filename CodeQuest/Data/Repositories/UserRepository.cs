@@ -1,3 +1,4 @@
+// Purpose: Encapsulates parameterized SQL Server operations for User data and related transactions.
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,8 +8,8 @@ using CodeQuest.Models;
 namespace CodeQuest.Data.Repositories
 {
     /// <summary>
-    /// Database operations for dbo.User. The login page can be switched from
-    /// demo accounts to these methods after the database is connected.
+    /// Database operations for dbo.User, including local credentials, Google
+    /// account linking, profile maintenance and administrator account updates.
     /// </summary>
     public sealed class UserRepository
     {
@@ -162,6 +163,31 @@ namespace CodeQuest.Data.Repositories
                 command.Parameters.Add("@username", SqlDbType.NVarChar, 50).Value = username.Trim();
                 command.Parameters.Add("@bio", SqlDbType.NVarChar, 1000).Value =
                     string.IsNullOrWhiteSpace(bio) ? (object)DBNull.Value : bio.Trim();
+                connection.Open();
+                return command.ExecuteNonQuery() == 1;
+            }
+        }
+
+        public bool UpdateLearnerEmail(int userID, string email)
+        {
+            const string sql = @"
+                UPDATE dbo.[User]
+                SET email = @email
+                WHERE UserID = @userID
+                  AND role = N'Learner'
+                  AND NOT EXISTS
+                  (
+                      SELECT 1
+                      FROM dbo.[User] otherUser
+                      WHERE otherUser.email = @email
+                        AND otherUser.UserID <> @userID
+                  );";
+
+            using (SqlConnection connection = DbConnectionFactory.Create())
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.Add("@userID", SqlDbType.Int).Value = userID;
+                command.Parameters.Add("@email", SqlDbType.NVarChar, 254).Value = email.Trim();
                 connection.Open();
                 return command.ExecuteNonQuery() == 1;
             }

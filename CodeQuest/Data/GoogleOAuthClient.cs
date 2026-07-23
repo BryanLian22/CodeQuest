@@ -1,3 +1,4 @@
+// Purpose: Builds Google OAuth requests, exchanges authorization codes and validates returned identity claims.
 using System;
 using System.Collections.Generic;
 using System.Configuration;

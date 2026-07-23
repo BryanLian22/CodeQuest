@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Assistant.aspx.cs" Inherits="CodeQuest.Features.AI.Assistant" %>
+<!-- Page purpose: Presents the premium learning assistant, current lesson context and chat interaction. -->
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -6,8 +7,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>AI learning assistant | CodeQuest</title>
-    <link href="../../Content/codequest-home.css" rel="stylesheet" />
-    <link href="../../Content/codequest-ai.css" rel="stylesheet" />
+    <link href="../../Content/codequest-home.css?v=50" rel="stylesheet" />
+    <link href="../../Content/codequest-ai.css?v=42" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -44,9 +45,13 @@
             </asp:Panel>
 
             <asp:Panel ID="pnlLocked" runat="server" CssClass="locked-card" Visible="false">
-                <div class="locked-icon">✦</div>
-                <div><p class="section-kicker">Premium only</p><h2>Unlock your learning copilot.</h2><p>Upgrade to Premium to ask CodeQuest AI about HTML, CSS, JavaScript and your enrolled chapters.</p></div>
-                <a class="ai-button" href="../Billing/Plans.aspx">View Premium &rarr;</a>
+                <div class="locked-icon" aria-hidden="true">&#10022;</div>
+                <div class="locked-content">
+                    <p class="section-kicker">Premium only</p>
+                    <h2>Unlock your learning copilot.</h2>
+                    <p>Upgrade to Premium to ask CodeQuest AI about HTML, CSS, JavaScript and your enrolled chapters.</p>
+                    <a class="ai-button locked-action" href="../Billing/Plans.aspx">View Premium &rarr;</a>
+                </div>
             </asp:Panel>
 
             <asp:Panel ID="pnlAssistant" runat="server" Visible="false">
@@ -95,5 +100,6 @@
             if (input) { input.value = value; input.focus(); }
         }
     </script>
+    <script src="../../Content/codequest-responsive-nav.js?v=50"></script>
 </body>
 </html>

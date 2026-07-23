@@ -3,7 +3,7 @@
 `Plans.aspx` is the learner-facing subscription page. It follows the prototype's
 two plans:
 
-- Basic: RM0 forever and beginner-course access.
+- Basic: RM0 lifetime access and beginner-course access.
 - Premium: RM29/month and access to beginner, intermediate and advanced courses.
 
 The Premium button is a simulated checkout for this academic prototype. It does

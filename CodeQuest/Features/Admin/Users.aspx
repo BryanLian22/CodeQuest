@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Users.aspx.cs" Inherits="CodeQuest.Features.Admin.Users" %>
+<!-- Page purpose: Lets administrators find users and manage learner email, role and plan details. -->
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -6,9 +7,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>User management | CodeQuest</title>
-    <link href="../../Content/codequest-home.css" rel="stylesheet" />
-    <link href="../../Content/codequest-admin.css" rel="stylesheet" />
-    <link href="../../Content/codequest-admin-users.css" rel="stylesheet" />
+    <link href="../../Content/codequest-home.css?v=50" rel="stylesheet" />
+    <link href="../../Content/codequest-admin.css?v=50" rel="stylesheet" />
+    <link href="../../Content/codequest-admin-users.css?v=43" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -108,6 +109,19 @@
                         <p><asp:Label ID="lblSelectedBio" runat="server" /></p>
                     </div>
 
+                    <asp:Panel ID="pnlLearnerEmailEditor" runat="server" CssClass="email-editor" Visible="false">
+                        <p class="section-kicker">Learner email</p>
+                        <label class="field-label" for="txtLearnerEmail">Email address</label>
+                        <asp:TextBox ID="txtLearnerEmail" runat="server" CssClass="users-input" TextMode="Email"
+                            MaxLength="254" autocomplete="off" placeholder="learner@example.com" />
+                        <p class="email-note">This becomes the learner's email/password login and password-reset destination. A connected Google account remains linked.</p>
+                        <asp:Button ID="btnSaveEmail" runat="server" CssClass="users-button" Text="Update learner email" OnClick="btnSaveEmail_Click" />
+                    </asp:Panel>
+
+                    <asp:Panel ID="pnlProtectedEmail" runat="server" CssClass="protected-email-note" Visible="false">
+                        Administrator email addresses are protected here. This control is available only when the selected account is a learner.
+                    </asp:Panel>
+
                     <div class="access-editor">
                         <p class="section-kicker">Access controls</p>
                         <label class="field-label" for="ddlRole">Role</label>
@@ -134,5 +148,6 @@
             <span>Admin &middot; Accounts &middot; Access</span>
         </footer>
     </form>
+    <script src="../../Content/codequest-responsive-nav.js?v=50"></script>
 </body>
 </html>

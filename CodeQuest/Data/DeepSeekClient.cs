@@ -1,3 +1,4 @@
+// Purpose: Calls the configured generative-AI endpoint and normalizes service errors for the UI.
 using System;
 using System.Collections.Generic;
 using System.Configuration;

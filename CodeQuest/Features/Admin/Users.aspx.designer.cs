@@ -30,6 +30,10 @@ namespace CodeQuest.Features.Admin
         protected global::System.Web.UI.WebControls.Label lblSelectedEnrollments;
         protected global::System.Web.UI.WebControls.Label lblSelectedTickets;
         protected global::System.Web.UI.WebControls.Label lblSelectedBio;
+        protected global::System.Web.UI.WebControls.Panel pnlLearnerEmailEditor;
+        protected global::System.Web.UI.WebControls.TextBox txtLearnerEmail;
+        protected global::System.Web.UI.WebControls.Button btnSaveEmail;
+        protected global::System.Web.UI.WebControls.Panel pnlProtectedEmail;
         protected global::System.Web.UI.WebControls.DropDownList ddlRole;
         protected global::System.Web.UI.WebControls.DropDownList ddlPlan;
         protected global::System.Web.UI.WebControls.Button btnSaveAccess;

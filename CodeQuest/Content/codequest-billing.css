@@ -1,3 +1,4 @@
+/* Purpose: Styles plan comparison cards, simulated payment modal, receipts and billing history. */
 .billing-page {
     width: min(1120px, calc(100% - 48px));
     min-height: calc(100vh - 170px);

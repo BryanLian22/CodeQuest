@@ -1,3 +1,4 @@
+// Purpose: Defines the AdminChapterOptionRecord data shape shared between repositories and Web Forms pages.
 namespace CodeQuest.Models
 {
     public sealed class AdminChapterOptionRecord

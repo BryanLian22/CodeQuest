@@ -1,3 +1,4 @@
+// Purpose: Loads support conversations and handles administrator replies and status changes.
 using System;
 using System.Collections.Generic;
 using System.Configuration;

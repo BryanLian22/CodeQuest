@@ -1,3 +1,4 @@
+// Purpose: Encapsulates parameterized SQL Server operations for AdminContent data and related transactions.
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -51,13 +52,13 @@ namespace CodeQuest.Data.Repositories
         public IList<AdminCourseRecord> GetCourses()
         {
             const string sql = @"
-                SELECT TOP (12) c.CourseID, c.course_title, c.difficulty,
+                SELECT c.CourseID, c.course_title, c.description, c.difficulty,
                        u.username,
                        COUNT(m.ModuleID) AS ModuleCount
                 FROM dbo.Course c
                 INNER JOIN dbo.[User] u ON u.UserID = c.UserID
                 LEFT JOIN dbo.Module m ON m.CourseID = c.CourseID
-                GROUP BY c.CourseID, c.course_title, c.difficulty, u.username
+                GROUP BY c.CourseID, c.course_title, c.description, c.difficulty, u.username
                 ORDER BY c.CourseID DESC;";
 
             List<AdminCourseRecord> courses = new List<AdminCourseRecord>();
@@ -73,6 +74,7 @@ namespace CodeQuest.Data.Repositories
                         {
                             CourseID = Convert.ToInt32(reader["CourseID"]),
                             Title = Convert.ToString(reader["course_title"]),
+                            Description = reader["description"] == DBNull.Value ? null : Convert.ToString(reader["description"]),
                             Difficulty = Convert.ToString(reader["difficulty"]),
                             OwnerName = Convert.ToString(reader["username"]),
                             ModuleCount = Convert.ToInt32(reader["ModuleCount"])
@@ -212,6 +214,74 @@ namespace CodeQuest.Data.Repositories
             }
         }
 
+        public bool UpdateCourse(int courseID, string title, string description, string difficulty)
+        {
+            const string sql = @"
+                UPDATE dbo.Course
+                SET course_title = @title,
+                    description = @description,
+                    difficulty = @difficulty
+                WHERE CourseID = @courseID;";
+
+            using (SqlConnection connection = DbConnectionFactory.Create())
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.Add("@courseID", SqlDbType.Int).Value = courseID;
+                command.Parameters.Add("@title", SqlDbType.NVarChar, 150).Value = title.Trim();
+                command.Parameters.Add("@description", SqlDbType.NVarChar, -1).Value =
+                    string.IsNullOrWhiteSpace(description) ? (object)DBNull.Value : description.Trim();
+                command.Parameters.Add("@difficulty", SqlDbType.NVarChar, 20).Value = difficulty;
+                connection.Open();
+                return command.ExecuteNonQuery() == 1;
+            }
+        }
+
+        public bool UpdateModule(int moduleID, int courseID, string title, string description, string status)
+        {
+            const string sql = @"
+                UPDATE dbo.Module
+                SET module_title = @title,
+                    description = @description,
+                    status = @status
+                WHERE ModuleID = @moduleID
+                  AND CourseID = @courseID;";
+
+            using (SqlConnection connection = DbConnectionFactory.Create())
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.Add("@moduleID", SqlDbType.Int).Value = moduleID;
+                command.Parameters.Add("@courseID", SqlDbType.Int).Value = courseID;
+                command.Parameters.Add("@title", SqlDbType.NVarChar, 150).Value = title.Trim();
+                command.Parameters.Add("@description", SqlDbType.NVarChar, -1).Value =
+                    string.IsNullOrWhiteSpace(description) ? (object)DBNull.Value : description.Trim();
+                command.Parameters.Add("@status", SqlDbType.NVarChar, 20).Value = status;
+                connection.Open();
+                return command.ExecuteNonQuery() == 1;
+            }
+        }
+
+        public bool UpdateChapter(int chapterID, int moduleID, string title, string description)
+        {
+            const string sql = @"
+                UPDATE dbo.Chapter
+                SET title = @title,
+                    description = @description
+                WHERE ChapterID = @chapterID
+                  AND ModuleID = @moduleID;";
+
+            using (SqlConnection connection = DbConnectionFactory.Create())
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.Add("@chapterID", SqlDbType.Int).Value = chapterID;
+                command.Parameters.Add("@moduleID", SqlDbType.Int).Value = moduleID;
+                command.Parameters.Add("@title", SqlDbType.NVarChar, 150).Value = title.Trim();
+                command.Parameters.Add("@description", SqlDbType.NVarChar, -1).Value =
+                    string.IsNullOrWhiteSpace(description) ? (object)DBNull.Value : description.Trim();
+                connection.Open();
+                return command.ExecuteNonQuery() == 1;
+            }
+        }
+
         public void UpdateModuleStatus(int moduleID, string status)
         {
             const string sql = @"
@@ -332,12 +402,12 @@ namespace CodeQuest.Data.Repositories
         public IList<AdminChapterQuizRecord> GetQuizzesForChapter(int chapterID)
         {
             const string sql = @"
-                SELECT q.QuizID, q.ChapterID, q.question, q.correct_answer,
+                SELECT q.QuizID, q.ChapterID, q.description, q.question, q.correct_answer,
                        COUNT(a.QAnsID) AS AnswerCount
                 FROM dbo.Quiz q
                 LEFT JOIN dbo.QuizAns a ON a.QuizID = q.QuizID
                 WHERE q.ChapterID = @chapterID
-                GROUP BY q.QuizID, q.ChapterID, q.question, q.correct_answer
+                GROUP BY q.QuizID, q.ChapterID, q.description, q.question, q.correct_answer
                 ORDER BY q.QuizID;";
 
             List<AdminChapterQuizRecord> quizzes = new List<AdminChapterQuizRecord>();
@@ -354,6 +424,7 @@ namespace CodeQuest.Data.Repositories
                         {
                             QuizID = Convert.ToInt32(reader["QuizID"]),
                             ChapterID = Convert.ToInt32(reader["ChapterID"]),
+                            Description = reader["description"] == DBNull.Value ? null : Convert.ToString(reader["description"]),
                             Question = Convert.ToString(reader["question"]),
                             CorrectAnswer = Convert.ToString(reader["correct_answer"]),
                             AnswerCount = Convert.ToInt32(reader["AnswerCount"])
@@ -400,6 +471,51 @@ namespace CodeQuest.Data.Repositories
                 command.Parameters.Add("@correctAnswer", SqlDbType.NVarChar, 2000).Value = correctAnswer.Trim();
                 connection.Open();
                 return Convert.ToInt32(command.ExecuteScalar());
+            }
+        }
+
+        public bool UpdateTutorial(int tutorialID, string title, string category, string materials, string status)
+        {
+            const string sql = @"
+                UPDATE dbo.Tutorial
+                SET tutorial_title = @title,
+                    category = @category,
+                    materials = @materials,
+                    status = @status
+                WHERE TutorialID = @tutorialID;";
+
+            using (SqlConnection connection = DbConnectionFactory.Create())
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.Add("@tutorialID", SqlDbType.Int).Value = tutorialID;
+                command.Parameters.Add("@title", SqlDbType.NVarChar, 200).Value = title.Trim();
+                command.Parameters.Add("@category", SqlDbType.NVarChar, 30).Value = category;
+                command.Parameters.Add("@materials", SqlDbType.NVarChar, -1).Value =
+                    string.IsNullOrWhiteSpace(materials) ? (object)DBNull.Value : materials.Trim();
+                command.Parameters.Add("@status", SqlDbType.NVarChar, 20).Value = status;
+                connection.Open();
+                return command.ExecuteNonQuery() == 1;
+            }
+        }
+
+        public bool UpdateExercise(int exerciseID, int tutorialID, string question, string correctAnswer)
+        {
+            const string sql = @"
+                UPDATE dbo.Exercise
+                SET question = @question,
+                    correct_answer = @correctAnswer
+                WHERE ExerciseID = @exerciseID
+                  AND TutorialID = @tutorialID;";
+
+            using (SqlConnection connection = DbConnectionFactory.Create())
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.Add("@exerciseID", SqlDbType.Int).Value = exerciseID;
+                command.Parameters.Add("@tutorialID", SqlDbType.Int).Value = tutorialID;
+                command.Parameters.Add("@question", SqlDbType.NVarChar, -1).Value = question.Trim();
+                command.Parameters.Add("@correctAnswer", SqlDbType.NVarChar, 2000).Value = correctAnswer.Trim();
+                connection.Open();
+                return command.ExecuteNonQuery() == 1;
             }
         }
 
@@ -458,6 +574,109 @@ namespace CodeQuest.Data.Repositories
 
                         transaction.Commit();
                         return quizID;
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
+        public IList<QuizAnswerRecord> GetQuizAnswers(int quizID)
+        {
+            const string sql = @"
+                SELECT QAnsID, Answer
+                FROM dbo.QuizAns
+                WHERE QuizID = @quizID
+                ORDER BY QAnsID;";
+
+            List<QuizAnswerRecord> answers = new List<QuizAnswerRecord>();
+            using (SqlConnection connection = DbConnectionFactory.Create())
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.Add("@quizID", SqlDbType.Int).Value = quizID;
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        answers.Add(new QuizAnswerRecord
+                        {
+                            QAnsID = Convert.ToInt32(reader["QAnsID"]),
+                            Answer = Convert.ToString(reader["Answer"])
+                        });
+                    }
+                }
+            }
+
+            return answers;
+        }
+
+        public bool UpdateQuiz(
+            int quizID,
+            int chapterID,
+            string description,
+            string question,
+            string correctAnswer,
+            IList<string> answers)
+        {
+            const string updateQuizSql = @"
+                UPDATE dbo.Quiz
+                SET description = @description,
+                    question = @question,
+                    correct_answer = @correctAnswer
+                WHERE QuizID = @quizID
+                  AND ChapterID = @chapterID;";
+
+            using (SqlConnection connection = DbConnectionFactory.Create())
+            {
+                connection.Open();
+                using (SqlTransaction transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        int affected;
+                        using (SqlCommand command = new SqlCommand(updateQuizSql, connection, transaction))
+                        {
+                            command.Parameters.Add("@quizID", SqlDbType.Int).Value = quizID;
+                            command.Parameters.Add("@chapterID", SqlDbType.Int).Value = chapterID;
+                            command.Parameters.Add("@description", SqlDbType.NVarChar, -1).Value =
+                                string.IsNullOrWhiteSpace(description) ? (object)DBNull.Value : description.Trim();
+                            command.Parameters.Add("@question", SqlDbType.NVarChar, -1).Value = question.Trim();
+                            command.Parameters.Add("@correctAnswer", SqlDbType.NVarChar, 2000).Value = correctAnswer.Trim();
+                            affected = command.ExecuteNonQuery();
+                        }
+
+                        if (affected != 1)
+                        {
+                            transaction.Rollback();
+                            return false;
+                        }
+
+                        using (SqlCommand command = new SqlCommand(
+                            "DELETE FROM dbo.QuizAns WHERE QuizID = @quizID;", connection, transaction))
+                        {
+                            command.Parameters.Add("@quizID", SqlDbType.Int).Value = quizID;
+                            command.ExecuteNonQuery();
+                        }
+
+                        const string answerSql = @"
+                            INSERT INTO dbo.QuizAns(QuizID, Answer)
+                            VALUES (@quizID, @answer);";
+                        foreach (string answer in answers)
+                        {
+                            using (SqlCommand command = new SqlCommand(answerSql, connection, transaction))
+                            {
+                                command.Parameters.Add("@quizID", SqlDbType.Int).Value = quizID;
+                                command.Parameters.Add("@answer", SqlDbType.NVarChar, 2000).Value = answer.Trim();
+                                command.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                        return true;
                     }
                     catch
                     {

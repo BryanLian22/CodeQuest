@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="CodeQuest.Register" UnobtrusiveValidationMode="None" %>
+<!-- Page purpose: Creates a learner account through email registration or Google OAuth. -->
 
 <!DOCTYPE html>
 
@@ -11,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet" />
-    <link href="Content/codequest-auth.css" rel="stylesheet" />
+    <link href="Content/codequest-auth.css?v=50" rel="stylesheet" />
     <link href="Content/codequest-register.css" rel="stylesheet" />
 </head>
 <body>
@@ -168,5 +169,6 @@
             });
         }());
     </script>
+    <script src="Content/codequest-responsive-nav.js?v=50"></script>
 </body>
 </html>

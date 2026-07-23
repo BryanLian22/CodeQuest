@@ -1,3 +1,4 @@
+// Purpose: Issues time-limited reset tokens and sends neutral, privacy-safe reset responses.
 using System;
 using System.Configuration;
 using System.Data.SqlClient;

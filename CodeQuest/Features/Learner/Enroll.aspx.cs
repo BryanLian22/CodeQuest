@@ -1,3 +1,4 @@
+// Purpose: Validates learner and plan access before creating an idempotent course enrolment.
 using System;
 using System.Configuration;
 using System.Data.SqlClient;

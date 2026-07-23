@@ -1,3 +1,4 @@
+/* Purpose: Styles course enrolment confirmation, access messages and learner actions. */
 .enrol-page {
     width: min(1120px, calc(100% - 48px));
     min-height: calc(100vh - 170px);

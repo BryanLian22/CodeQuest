@@ -12,6 +12,7 @@ namespace CodeQuest.Features.Public
         protected global::System.Web.UI.WebControls.PlaceHolder phPublicNavigation;
         protected global::System.Web.UI.WebControls.PlaceHolder phAdminNavigation;
         protected global::System.Web.UI.WebControls.PlaceHolder phPublicActions;
+        protected global::System.Web.UI.WebControls.PlaceHolder phLearnerActions;
         protected global::System.Web.UI.WebControls.PlaceHolder phAdminActions;
         protected global::System.Web.UI.WebControls.Panel pnlError;
         protected global::System.Web.UI.WebControls.Label lblError;

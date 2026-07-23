@@ -1,3 +1,4 @@
+// Purpose: Defines the ChapterRecord data shape shared between repositories and Web Forms pages.
 namespace CodeQuest.Models
 {
     public sealed class ChapterRecord

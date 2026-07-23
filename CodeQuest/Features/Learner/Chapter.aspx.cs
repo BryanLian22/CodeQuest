@@ -1,3 +1,4 @@
+// Purpose: Enforces learner access, renders chapter content and maintains view or quiz-based progress rules.
 using System;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -44,9 +45,6 @@ namespace CodeQuest.Features.Learner
             phAdminBreadcrumb.Visible = isAdmin;
             pnlAdminPreview.Visible = isAdmin;
             lnkAssistant.Visible = !isAdmin;
-            lblChapterNavigationNote.Text = isAdmin
-                ? "Preview complete. No learner progress was recorded."
-                : "This chapter is marked as done.";
 
             if (!IsPostBack)
             {
@@ -93,11 +91,18 @@ namespace CodeQuest.Features.Learner
                     return;
                 }
 
+                bool hasQuiz = new QuizRepository().HasQuiz(lesson.ChapterID, isAdmin);
+                bool chapterCompleted = false;
                 bool courseCompleted = false;
                 if (isLearner)
                 {
                     ProgressRepository progress = new ProgressRepository();
-                    progress.MarkChapterCompleted(userID, lesson.ChapterID);
+                    if (!hasQuiz)
+                    {
+                        progress.MarkChapterCompleted(userID, lesson.ChapterID);
+                    }
+
+                    chapterCompleted = progress.IsChapterCompleted(userID, lesson.ChapterID);
                     courseCompleted = new EnrollmentRepository().CompleteCourseIfReady(userID, lesson.CourseID);
                     if (courseCompleted)
                     {
@@ -105,7 +110,7 @@ namespace CodeQuest.Features.Learner
                     }
                 }
 
-                BindLesson(lesson, courseCompleted);
+                BindLesson(lesson, courseCompleted, hasQuiz, chapterCompleted, isAdmin);
             }
             catch (ConfigurationErrorsException)
             {
@@ -117,7 +122,12 @@ namespace CodeQuest.Features.Learner
             }
         }
 
-        private void BindLesson(ChapterLessonRecord lesson, bool courseCompleted)
+        private void BindLesson(
+            ChapterLessonRecord lesson,
+            bool courseCompleted,
+            bool hasQuiz,
+            bool chapterCompleted,
+            bool isAdmin)
         {
             pnlChapter.Visible = true;
             lblChapterID.Text = lesson.ChapterID.ToString();
@@ -132,17 +142,37 @@ namespace CodeQuest.Features.Learner
             lnkCourse.NavigateUrl = "Course.aspx?courseId=" + lesson.CourseID;
             lnkAssistant.NavigateUrl = "../AI/Assistant.aspx?chapterId=" + lesson.ChapterID;
             pnlQuizLink.Visible = false;
-            bool isAdmin = string.Equals(Convert.ToString(Session["UserRole"]), "Admin", StringComparison.OrdinalIgnoreCase);
-            int? nextChapterID = new ChapterContentRepository().GetNextChapterID(lesson.ChapterID, isAdmin);
-            if (nextChapterID.HasValue)
+            if (isAdmin)
             {
-                lnkNextChapter.Text = "Next chapter &rarr;";
-                lnkNextChapter.NavigateUrl = "Chapter.aspx?chapterId=" + nextChapterID.Value;
+                lblChapterNavigationNote.Text = "Preview complete. No learner progress was recorded.";
+            }
+            else if (hasQuiz && !chapterCompleted)
+            {
+                lblChapterNavigationNote.Text = "Pass the chapter quiz with 75% or higher to mark this chapter as done.";
             }
             else
             {
-                lnkNextChapter.Text = courseCompleted ? "Back to completed course &rarr;" : "Back to course &rarr;";
-                lnkNextChapter.NavigateUrl = "Course.aspx?courseId=" + lesson.CourseID;
+                lblChapterNavigationNote.Text = "This chapter is marked as done.";
+            }
+
+            if (!isAdmin && hasQuiz && !chapterCompleted)
+            {
+                lnkNextChapter.Text = "Take quiz to complete &rarr;";
+                lnkNextChapter.NavigateUrl = "Quiz.aspx?chapterId=" + lesson.ChapterID;
+            }
+            else
+            {
+                int? nextChapterID = new ChapterContentRepository().GetNextChapterID(lesson.ChapterID, isAdmin);
+                if (nextChapterID.HasValue)
+                {
+                    lnkNextChapter.Text = "Next chapter &rarr;";
+                    lnkNextChapter.NavigateUrl = "Chapter.aspx?chapterId=" + nextChapterID.Value;
+                }
+                else
+                {
+                    lnkNextChapter.Text = courseCompleted ? "Back to completed course &rarr;" : "Back to course &rarr;";
+                    lnkNextChapter.NavigateUrl = "Course.aspx?courseId=" + lesson.CourseID;
+                }
             }
 
             if (lesson.TutorialID.HasValue)
@@ -167,7 +197,7 @@ namespace CodeQuest.Features.Learner
                 ViewState["CorrectAnswer"] = exercise.CorrectAnswer;
             }
 
-            if (new QuizRepository().HasQuiz(lesson.ChapterID, isAdmin))
+            if (hasQuiz)
             {
                 pnlQuizLink.Visible = true;
                 lnkQuiz.NavigateUrl = "Quiz.aspx?chapterId=" + lesson.ChapterID;
