@@ -14,6 +14,7 @@ namespace CodeQuest
         protected global::System.Web.UI.WebControls.Panel pnlMessage;
         protected global::System.Web.UI.WebControls.Label lblMessage;
         protected global::System.Web.UI.WebControls.Label lblCourseCount;
+        protected global::System.Web.UI.WebControls.Label lblCompletedCourses;
         protected global::System.Web.UI.WebControls.Label lblCompletedLessons;
         protected global::System.Web.UI.WebControls.Label lblQuizAverage;
         protected global::System.Web.UI.WebControls.Panel pnlEmpty;

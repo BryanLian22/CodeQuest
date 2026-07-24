@@ -26,6 +26,7 @@
                 <a href="Guest.aspx#courses">Courses</a>
                 <a href="Guest.aspx#tutorials">Tutorials</a>
                 <a href="Guest.aspx#about">About</a>
+                <a href="Contact.aspx">Contact Us</a>
             </nav>
             <a class="header-cta" href="Login.aspx">Login</a>
         </header>

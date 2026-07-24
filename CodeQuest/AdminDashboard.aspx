@@ -24,10 +24,9 @@
                 <a href="Features/Admin/Support.aspx">Support tickets</a>
                 <a href="Features/Public/Courses.aspx">Preview courses</a>
                 <a href="Features/Public/Tutorials.aspx">Preview tutorials</a>
-                <a href="Guest.aspx#about">About</a>
             </nav>
             <div class="header-actions">
-                <a class="login-link" href="Guest.aspx">View site</a>
+                <a class="login-link" href="Guest.aspx">Home</a>
                 <a class="header-cta" href="Login.aspx?logout=1">Sign out</a>
             </div>
         </header>

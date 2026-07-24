@@ -39,7 +39,7 @@
                     <asp:HyperLink ID="lnkSecondaryHeader" runat="server" CssClass="header-cta" NavigateUrl="../../Register.aspx" Text="Get Started" />
                 </asp:PlaceHolder>
                 <asp:PlaceHolder ID="phAdminActions" runat="server" Visible="false">
-                    <a class="login-link" href="../../Guest.aspx">View site</a>
+                    <a class="login-link" href="../../Guest.aspx">Home</a>
                     <a class="header-cta" href="../../Login.aspx?logout=1">Sign out</a>
                 </asp:PlaceHolder>
             </div>

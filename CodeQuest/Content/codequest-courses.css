@@ -80,6 +80,12 @@
     text-transform: uppercase;
 }
 
+.catalogue-level-restricted {
+    border: 1px solid rgba(255, 111, 135, .3);
+    color: #ff8ba0;
+    background: rgba(255, 90, 120, .12);
+}
+
 .catalogue-card h2 {
     margin: 30px 0 10px;
     font-family: "Space Grotesk", sans-serif;

@@ -77,6 +77,7 @@ namespace CodeQuest
                 rptEnrollments.DataSource = enrollments;
                 rptEnrollments.DataBind();
                 lblCourseCount.Text = enrollments.Count.ToString();
+                lblCompletedCourses.Text = CountCompletedCourses(enrollments).ToString();
                 pnlEmpty.Visible = enrollments.Count == 0;
 
                 try
@@ -88,7 +89,7 @@ namespace CodeQuest
                 }
                 catch (SqlException)
                 {
-                    ShowMessage("Saved quiz progress is unavailable. Check the CodeQuestDb connection and automatic database setup.");
+                    ShowMessage("Run Database/Progress_Extension.sql to enable saved quiz progress.");
                 }
             }
             catch (ConfigurationErrorsException)
@@ -105,6 +106,25 @@ namespace CodeQuest
         {
             lblMessage.Text = message;
             pnlMessage.Visible = true;
+        }
+
+        /// <summary>
+        /// Counts enrolments that have been promoted to Completed after all
+        /// published chapters in the course have been completed.
+        /// </summary>
+        private static int CountCompletedCourses(IList<EnrollmentCourseRecord> enrollments)
+        {
+            int completedCount = 0;
+
+            foreach (EnrollmentCourseRecord enrollment in enrollments)
+            {
+                if (string.Equals(enrollment.Status, "Completed", StringComparison.OrdinalIgnoreCase))
+                {
+                    completedCount++;
+                }
+            }
+
+            return completedCount;
         }
 
         protected string GetEnrollmentStatusCss(object statusValue)

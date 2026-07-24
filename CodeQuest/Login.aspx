@@ -26,6 +26,7 @@
                 <a href="Features/Public/Courses.aspx">Courses</a>
                 <a href="Features/Public/Tutorials.aspx">Tutorials</a>
                 <a href="Guest.aspx#about">About</a>
+                <a href="Contact.aspx">Contact Us</a>
             </nav>
 
             <a class="header-cta" href="Register.aspx">Get Started</a>

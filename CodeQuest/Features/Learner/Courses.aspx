@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Learner Courses | CodeQuest</title>
     <link href="../../Content/codequest-home.css?v=50" rel="stylesheet" />
-    <link href="../../Content/codequest-courses.css?v=39" rel="stylesheet" />
+    <link href="../../Content/codequest-courses.css?v=51" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -51,7 +51,7 @@
                         <article class="catalogue-card">
                             <div class="catalogue-card-top">
                                 <span class="catalogue-code">COURSE-<%# Eval("CourseID") %></span>
-                                <span class="catalogue-level"><%# Eval("Difficulty") %></span>
+                                <span class="<%# GetDifficultyCss(Eval("Difficulty")) %>"><%# Eval("Difficulty") %></span>
                             </div>
                             <h2><%# Server.HtmlEncode(Eval("Title").ToString()) %></h2>
                             <p><%# Server.HtmlEncode(Eval("Description") == null ? "Build practical web development skills with guided lessons." : Eval("Description").ToString()) %></p>

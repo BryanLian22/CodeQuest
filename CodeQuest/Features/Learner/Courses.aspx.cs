@@ -11,6 +11,8 @@ namespace CodeQuest.Features.Learner
 {
     public partial class Courses : System.Web.UI.Page
     {
+        private string userPlan = "Basic";
+
         protected override void OnPreInit(EventArgs e)
         {
             Response.ContentEncoding = Encoding.UTF8;
@@ -52,6 +54,19 @@ namespace CodeQuest.Features.Learner
 
             try
             {
+                UserRecord account = new UserRepository().FindByID(userID);
+                if (account != null)
+                {
+                    // Refresh the plan so administrator changes immediately affect
+                    // both course access and the catalogue's restricted styling.
+                    userPlan = string.IsNullOrWhiteSpace(account.Plan) ? "Basic" : account.Plan;
+                    Session["UserPlan"] = userPlan;
+                }
+                else
+                {
+                    userPlan = Convert.ToString(Session["UserPlan"] ?? "Basic");
+                }
+
                 IList<CourseRecord> courses = new CourseRepository().GetAllCourses();
                 IList<EnrollmentCourseRecord> enrollments = new EnrollmentRepository().GetForUser(userID);
                 Dictionary<int, string> statusByCourseID = new Dictionary<int, string>();
@@ -92,6 +107,21 @@ namespace CodeQuest.Features.Learner
             {
                 ShowError("The learner course catalogue could not connect to CodeQuestDB.");
             }
+        }
+
+        /// <summary>
+        /// Uses the same access rule as the enrolment page: Basic learners can
+        /// access Beginner courses, while other difficulties require Premium.
+        /// </summary>
+        protected string GetDifficultyCss(object difficultyValue)
+        {
+            string difficulty = Convert.ToString(difficultyValue);
+            bool canAccess = string.Equals(userPlan, "Premium", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(difficulty, "Beginner", StringComparison.OrdinalIgnoreCase);
+
+            return canAccess
+                ? "catalogue-level"
+                : "catalogue-level catalogue-level-restricted";
         }
 
         private void ShowError(string message)

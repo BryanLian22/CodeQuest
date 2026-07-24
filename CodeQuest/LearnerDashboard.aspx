@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Learner Dashboard | CodeQuest</title>
     <link href="Content/codequest-auth.css?v=50" rel="stylesheet" />
-    <link href="Content/codequest-learner.css?v=50" rel="stylesheet" />
+    <link href="Content/codequest-learner.css?v=51" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -46,6 +46,7 @@
 
             <section class="learner-stats" aria-label="Learning statistics">
                 <article><span>Courses enrolled</span><strong><asp:Label ID="lblCourseCount" runat="server" Text="0" /></strong></article>
+                <article><span>Courses completed</span><strong><asp:Label ID="lblCompletedCourses" runat="server" Text="0" /></strong></article>
                 <article><span>Lessons completed</span><strong><asp:Label ID="lblCompletedLessons" runat="server" Text="0" /></strong></article>
                 <article><span>Learning streak</span><strong>0 days</strong></article>
                 <article><span>Quiz average</span><strong><asp:Label ID="lblQuizAverage" runat="server" Text="--" /></strong></article>

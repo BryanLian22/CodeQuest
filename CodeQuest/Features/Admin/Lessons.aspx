@@ -28,7 +28,7 @@
                 <a href="../Public/Tutorials.aspx">Preview tutorials</a>
             </nav>
             <div class="header-actions">
-                <a class="login-link" href="../../Guest.aspx">View site</a>
+                <a class="login-link" href="../../Guest.aspx">Home</a>
                 <a class="header-cta" href="../../Login.aspx?logout=1">Sign out</a>
             </div>
         </header>
