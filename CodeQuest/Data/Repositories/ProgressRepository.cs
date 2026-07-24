@@ -8,7 +8,7 @@ namespace CodeQuest.Data.Repositories
 {
     /// <summary>
     /// Persists learner quiz attempts and completed chapter progress.
-    /// Run Database/Progress_Extension.sql once before using these methods.
+    /// The automatic database initializer creates the required extension tables.
     /// </summary>
     public sealed class ProgressRepository
     {

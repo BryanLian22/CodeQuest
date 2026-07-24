@@ -42,7 +42,7 @@ namespace CodeQuest.Features.Admin
                 }
                 catch (SqlException)
                 {
-                    ShowError("The lesson library could not connect to CodeQuestDB. Confirm that Progress_Extension.sql has been run.");
+                    ShowError("The lesson library could not connect to CodeQuestDB. Check LocalDB and automatic database setup.");
                 }
             }
         }
@@ -750,7 +750,7 @@ namespace CodeQuest.Features.Admin
             }
             else if (sqlException != null)
             {
-                ShowError("The lesson change could not be saved to CodeQuestDB. Confirm that Progress_Extension.sql has been run.");
+                ShowError("The lesson change could not be saved to CodeQuestDB. Check LocalDB and automatic database setup.");
             }
             else
             {

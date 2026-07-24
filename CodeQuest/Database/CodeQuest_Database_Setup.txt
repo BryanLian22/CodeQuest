@@ -1,34 +1,32 @@
 CODEQUEST DATABASE SETUP
 ========================
 
-The supplied ERD contains these 14 tables:
+AUTOMATIC LOCAL SETUP (DEFAULT)
+-------------------------------
+1. Install Visual Studio's "Data storage and processing" workload, or install
+   SQL Server Express LocalDB separately.
+2. Open CodeQuest.slnx and run the web application.
+3. On the first database request, CodeQuest automatically creates CodeQuestDB,
+   applies CodeQuest_Database.sql and Progress_Extension.sql, and inserts the
+   demo content from Seed_Demo_Content.sql.
 
-User, Token, Course, Module, Chapter, Tutorial, Exercise, Quiz, QuizAns,
-Enrollment, Subscription, Payment, Ticket and Reply.
+No SQL query needs to be copied into Visual Studio. The scripts are
+idempotent, so restarting or pulling newer code does not delete existing data
+or duplicate the demo records.
 
-RUNNING THE SCRIPT IN VISUAL STUDIO
------------------------------------
-1. Open Visual Studio.
-2. Open View > SQL Server Object Explorer.
-3. Connect to (localdb)\\MSSQLLocalDB. If it is not listed, choose Add SQL
-   Server and enter (localdb)\\MSSQLLocalDB.
-4. Right-click the server connection and choose New Query.
-5. Open CodeQuest_Database.sql, copy its contents into the query window and
-   click Execute.
-6. Refresh the Databases node. CodeQuestDB should now be visible.
-7. Open a second query for Database/Progress_Extension.sql, select
-   CodeQuestDB in the database dropdown, and click Execute. This adds the
-   learner-only ChapterProgress and QuizAttempt tables plus the public
-   Tutorial.category field used by the HTML/CSS/JavaScript filters. It is
-   safe to run again.
-8. Optional: run Database/Seed_Demo_Content.sql to insert the three prototype
-   courses, HTML/CSS/JavaScript learning content, tutorials, exercises and
-   quizzes. Run it after the main schema (and after the progress extension if
-   you want to test progress immediately).
+The checked-in Web.config enables this behavior with:
 
-WEB.CONFIG CONNECTION STRING
-----------------------------
-Add this inside the existing <configuration> element in Web.config:
+<appSettings>
+  <add key="CodeQuestAutoInitializeDatabase" value="true" />
+  <add key="CodeQuestSeedDemoContent" value="true" />
+</appSettings>
+
+The application still needs a SQL Server engine. Git can carry schema and seed
+scripts, but it cannot install LocalDB on another user's computer.
+
+CONFIGURATION
+-------------
+The default local connection is:
 
 <connectionStrings>
   <add name="CodeQuestDb"
@@ -36,17 +34,26 @@ Add this inside the existing <configuration> element in Web.config:
        providerName="System.Data.SqlClient" />
 </connectionStrings>
 
-Do not create a second <connectionStrings> element if Web.config already has
-one. Add only the <add> line inside the existing element.
+The initializer uses the server and database name from this connection string.
+Set CodeQuestSeedDemoContent to false to create only the schema. Set
+CodeQuestAutoInitializeDatabase to false when the database is managed outside
+the application. The Release Web.config transform disables both settings by
+default; production schema changes should be deployed deliberately with a
+restricted database account.
+
+MANUAL FALLBACK
+---------------
+If automatic initialization is disabled, execute these files in order using
+SQL Server Object Explorer or SQL Server Management Studio:
+
+1. Database/CodeQuest_Database.sql
+2. Database/Progress_Extension.sql
+3. Database/Seed_Demo_Content.sql (optional)
 
 IMPORTANT SECURITY NOTES
 ------------------------
 - Store a salted password hash in User.password, never the plain password.
 - Store a hash of password-reset tokens in Token.token when possible.
 - Payment transaction references should come from the payment provider.
-- The Payment table in the ERD is connected to Subscription. If the project
-  keeps the separate RM79 individual-course payment shown in the prototype,
-  add CourseID or EnrollmentID to Payment before implementing that flow.
-
-The script is safe to run again: it creates the database and each table only
-when it does not already exist. It does not delete existing records.
+- Do not commit API keys, OAuth client secrets or SMTP passwords to source
+  control. Use local configuration or environment-specific deployment values.

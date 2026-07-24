@@ -116,7 +116,7 @@ namespace CodeQuest.Features.Admin
                 int? adminID = GetAdminUserID();
                 if (!adminID.HasValue)
                 {
-                    ShowError("The signed-in Admin is not linked to a dbo.User record. Run Seed_Demo_Content.sql or sign in with a database Admin account.");
+                    ShowError("The signed-in Admin is not linked to a dbo.User record. Enable demo seeding or sign in with a database Admin account.");
                     return;
                 }
 

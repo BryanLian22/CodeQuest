@@ -151,7 +151,7 @@ namespace CodeQuest.Features.Learner
             }
             catch (SqlException)
             {
-                ShowError("The quiz could not be loaded. Run Database/Progress_Extension.sql, then try again.");
+                ShowError("The quiz could not be loaded. Check the CodeQuestDb connection and automatic database setup.");
             }
         }
 
@@ -259,7 +259,7 @@ namespace CodeQuest.Features.Learner
             {
                 pnlResult.Visible = true;
                 lblResult.Text = "Your score could not be saved yet.";
-                lblSaveNotice.Text = " Run Database/Progress_Extension.sql against CodeQuestDB, then submit again.";
+                lblSaveNotice.Text = " Check the CodeQuestDb connection and automatic database setup, then submit again.";
                 lblSaveNotice.Visible = true;
             }
         }
