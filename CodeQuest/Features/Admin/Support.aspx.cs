@@ -70,7 +70,7 @@ namespace CodeQuest.Features.Admin
                 int userID;
                 if (!TryGetAdminUserID(out userID))
                 {
-                    ShowError("This administrator session is not linked to the admin row in dbo.User. Run Seed_Demo_Content.sql, then sign out and sign in again.");
+                    ShowError("This administrator session is not linked to an Admin row in dbo.User. Enable demo seeding or sign in with a database Admin account.");
                     return;
                 }
 

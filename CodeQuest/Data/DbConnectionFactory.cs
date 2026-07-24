@@ -22,6 +22,7 @@ namespace CodeQuest.Data
                     "Add a connection string named 'CodeQuestDb' to Web.config.");
             }
 
+            DatabaseInitializer.EnsureInitialized(settings.ConnectionString);
             return new SqlConnection(settings.ConnectionString);
         }
     }

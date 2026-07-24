@@ -7,8 +7,8 @@ The learner area must read the signed-in user from Session, then use
 
 `Database/Progress_Extension.sql` adds the two small application tables that
 extend the ERD for saved learner work (`ChapterProgress` and `QuizAttempt`) and
-adds `Tutorial.category` for the public HTML/CSS/JavaScript catalogue. Run it
-against CodeQuestDB before submitting a quiz or browsing filtered tutorials.
+adds `Tutorial.category` for the public HTML/CSS/JavaScript catalogue. The
+database initializer applies it automatically on first use.
 
 The root `LearnerDashboard.aspx` is now database-backed. It reads the signed-in
 user's `UserID` from Session and loads enrollments through `EnrollmentRepository`.

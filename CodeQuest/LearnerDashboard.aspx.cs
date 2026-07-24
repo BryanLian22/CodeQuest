@@ -88,7 +88,7 @@ namespace CodeQuest
                 }
                 catch (SqlException)
                 {
-                    ShowMessage("Run Database/Progress_Extension.sql to enable saved quiz progress.");
+                    ShowMessage("Saved quiz progress is unavailable. Check the CodeQuestDb connection and automatic database setup.");
                 }
             }
             catch (ConfigurationErrorsException)

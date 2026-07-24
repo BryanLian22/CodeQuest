@@ -27,6 +27,7 @@ Database/Progress_Extension.sql  Progress, quiz attempts and tutorial categories
 Database/Seed_Demo_Content.sql    Optional courses and learning content
 Models/                            C# records matching ERD entities
 Data/                              SQL Server connection and repositories
+Data/DatabaseInitializer.cs        Automatic schema and demo-data setup
 Data/GoogleOAuthClient.cs          Server-side Google OpenID Connect client
 Features/                          Feature folders and ERD mapping
 Features/Public/Courses.aspx      First database-driven public page
@@ -86,6 +87,16 @@ HOW TO ADD THE FILES TO YOUR VISUAL STUDIO PROJECT
    their code-behind/designer files and the two new CSS files.
 8. Right-click Login.aspx and choose "Set as Start Page".
 9. Press Ctrl+F5 to run the website.
+
+DATABASE SETUP AFTER A FRESH CLONE
+----------------------------------
+Install SQL Server Express LocalDB (included with Visual Studio's Data storage
+and processing workload), then run the website. On its first database request,
+the shared connection factory automatically creates the configured database,
+applies the main schema and progress extension, and inserts the demo content.
+There is no query to paste into Visual Studio. Existing data is preserved when
+the scripts run again. See Database/CodeQuest_Database_Setup.txt for config
+switches, manual fallback steps and production guidance.
 
 IF REGISTER SHOWS "COULD NOT LOAD TYPE CODEQUEST.REGISTER"
 --------------------------------------------------------------
@@ -227,9 +238,9 @@ Course chapter links open Features/Learner/Chapter.aspx and require a logged-in
 learner with an Enrollment record. Public tutorials and exercises use
 Features/Public/Tutorials.aspx and Features/Public/Tutorial.aspx and do not
 require login. Login is reserved for learner-only course chapters, quizzes and
-saving completion/progress records. Run Database/Progress_Extension.sql once
-against CodeQuestDB before submitting a quiz or using tutorial category
-filters; it adds ChapterProgress, QuizAttempt and Tutorial.category.
+saving completion/progress records. Automatic database initialization adds
+ChapterProgress, QuizAttempt and Tutorial.category before these features first
+open.
 
 Opening an enrolled learner chapter marks its ChapterProgress as Completed, and
 the course directory displays a Done badge beside viewed chapters. When every

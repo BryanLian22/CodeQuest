@@ -3,6 +3,10 @@
      connectionString="Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=CodeQuestDB;Integrated Security=True;MultipleActiveResultSets=True"
      providerName="System.Data.SqlClient" />
 
+<!-- Add these inside appSettings for automatic local schema and demo setup. -->
+<add key="CodeQuestAutoInitializeDatabase" value="true" />
+<add key="CodeQuestSeedDemoContent" value="true" />
+
 <!-- Optional: add these appSettings for real password-reset email delivery. -->
 <!--
 <add key="CodeQuestSmtpHost" value="smtp.example.com" />

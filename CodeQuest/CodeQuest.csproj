@@ -180,6 +180,7 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Data\DatabaseInitializer.cs" />
     <Compile Include="Data\DbConnectionFactory.cs" />
     <Compile Include="Data\DeepSeekClient.cs" />
     <Compile Include="Data\GoogleOAuthClient.cs" />
