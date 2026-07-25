@@ -77,13 +77,13 @@
                     </asp:Panel>
                     <asp:Panel ID="pnlPremiumUpgrade" runat="server" CssClass="premium-upgrade-panel">
                         <asp:Button ID="btnUpgrade" runat="server" CssClass="primary-button upgrade-button" Text="Activate Premium - RM29/month" OnClick="btnUpgrade_Click" OnClientClick="openPaymentModal(); return false;" />
-                        <small>Prototype checkout: no real charge and no card details are stored.</small>
+                        <small>no real charge and no card details are stored.</small>
                     </asp:Panel>
                 </article>
             </section>
 
             <section class="checkout-note">
-                <div><p class="section-kicker">Demo checkout</p><h2>One clear step to unlock more.</h2></div>
+                <div><p class="section-kicker">Checkout</p><h2>One clear step to unlock more.</h2></div>
                 <p>When you activate Premium, a simulated checkout opens first. After confirmation, CodeQuest creates an Active subscription and a Completed demo payment, then returns you to My learning.</p>
             </section>
 

@@ -56,11 +56,11 @@
 
                     <label class="field-label" for="txtUsername">Username</label>
                     <asp:TextBox ID="txtUsername" runat="server" CssClass="profile-input" MaxLength="30" autocomplete="username" />
-                    <span class="field-help">3–30 letters, numbers or underscores.</span>
+                    <span class="field-help">3-30 letters, numbers or underscores.</span>
 
                     <label class="field-label" for="lblEmail">Email address</label>
                     <div class="readonly-field"><asp:Label ID="lblEmail" runat="server" /></div>
-                    <span class="field-help">The sign-in email is read-only in this version.</span>
+                    <span class="field-help">Contact Support to change Email.</span>
 
                     <label class="field-label" for="txtBio">Biography</label>
                     <asp:TextBox ID="txtBio" runat="server" CssClass="profile-input profile-textarea" TextMode="MultiLine" Rows="7" MaxLength="1000" placeholder="Tell the CodeQuest community what you are learning." />
