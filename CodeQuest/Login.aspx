@@ -85,6 +85,7 @@
                     CssClass="google-button"
                     Text="G   Continue with Google"
                     CausesValidation="false"
+                    UseSubmitBehavior="false"
                     OnClick="btnGoogle_Click" />
 
                 <div class="divider"><span>or log in with email</span></div>
@@ -96,6 +97,7 @@
                         <asp:TextBox
                             ID="txtEmail"
                             runat="server"
+                            ClientIDMode="Static"
                             CssClass="form-input"
                             TextMode="Email"
                             MaxLength="150"
@@ -158,6 +160,7 @@
                 <asp:Button
                     ID="btnLogin"
                     runat="server"
+                    ClientIDMode="Static"
                     CssClass="login-button"
                     Text="Log in -&gt;"
                     ValidationGroup="LoginValidation"
@@ -183,8 +186,22 @@
 
     <script>
         (function () {
+            var email = document.getElementById('txtEmail');
             var password = document.getElementById('txtPassword');
+            var loginButton = document.getElementById('btnLogin');
             var toggle = document.getElementById('togglePassword');
+
+            // The Google control appears before the email login button in the form.
+            // Explicitly route Enter from either credential field to the normal login action.
+            function handleCredentialEnter(event) {
+                if (event.key !== 'Enter' || !loginButton) return;
+
+                event.preventDefault();
+                loginButton.click();
+            }
+
+            if (email) email.addEventListener('keydown', handleCredentialEnter);
+            if (password) password.addEventListener('keydown', handleCredentialEnter);
 
             if (!password || !toggle) return;
 
