@@ -280,18 +280,4 @@ namespace CodeQuest.Data
         }
     }
 
-    /// <summary>
-    /// Compatibility wrapper for older pages that still reference DeepSeekClient.
-    /// New CodeQuest pages use GoogleAiClient directly.
-    /// </summary>
-    [Obsolete("Use GoogleAiClient instead.")]
-    public sealed class DeepSeekClient
-    {
-        private readonly GoogleAiClient client = new GoogleAiClient();
-
-        public string Ask(string context, IList<AiChatMessage> conversation)
-        {
-            return client.Ask(context, conversation);
-        }
-    }
 }

@@ -182,7 +182,7 @@
     </Compile>
     <Compile Include="Data\DatabaseInitializer.cs" />
     <Compile Include="Data\DbConnectionFactory.cs" />
-    <Compile Include="Data\DeepSeekClient.cs" />
+    <Compile Include="Data\GoogleAiClient.cs" />
     <Compile Include="Data\GoogleOAuthClient.cs" />
     <Compile Include="Data\PasswordHasher.cs" />
     <Compile Include="Data\Repositories\AdminContentRepository.cs" />
