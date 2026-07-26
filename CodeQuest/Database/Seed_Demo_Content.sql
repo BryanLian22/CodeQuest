@@ -314,3 +314,14 @@ SELECT CourseID, course_title, difficulty
 FROM dbo.Course
 ORDER BY CourseID;
 GO
+
+/* Copy demo lesson text into its matching course chapter without coupling
+   future chapter content to the public Tutorial table. */
+UPDATE chapter
+SET lesson_content = tutorial.materials
+FROM dbo.Chapter AS chapter
+INNER JOIN dbo.Tutorial AS tutorial
+    ON tutorial.tutorial_title = chapter.title
+WHERE NULLIF(LTRIM(RTRIM(chapter.lesson_content)), N'') IS NULL
+  AND NULLIF(LTRIM(RTRIM(tutorial.materials)), N'') IS NOT NULL;
+GO

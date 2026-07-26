@@ -133,6 +133,16 @@
                         <asp:TextBox ID="txtChapterTitle" runat="server" CssClass="studio-input" MaxLength="150" placeholder="e.g. Headings and paragraphs" />
                         <label class="field-label" for="txtChapterDescription">Description</label>
                         <asp:TextBox ID="txtChapterDescription" runat="server" CssClass="studio-input studio-textarea" TextMode="MultiLine" Rows="3" placeholder="What will the learner practise?" />
+                        <label class="field-label" for="txtChapterContent">Lesson content</label>
+                        <span class="field-help">Write the explanation, syntax and code examples learners will read inside this chapter.</span>
+                        <asp:TextBox
+                            ID="txtChapterContent"
+                            runat="server"
+                            CssClass="studio-input studio-textarea chapter-content-input"
+                            TextMode="MultiLine"
+                            Rows="10"
+                            ValidateRequestMode="Disabled"
+                            placeholder="Example: JavaScript variables store values used by a program.&#10;&#10;const language = &quot;JavaScript&quot;;&#10;let lessonCount = 3;" />
                         <asp:Button ID="btnCreateChapter" runat="server" CssClass="studio-button" Text="Add chapter" OnClick="btnCreateChapter_Click" />
                         <asp:LinkButton ID="btnResetChapter" runat="server" CssClass="edit-reset" Visible="false" Text="Cancel editing and add a new chapter" OnClick="btnResetChapter_Click" />
 
@@ -141,7 +151,14 @@
                             <asp:Repeater ID="rptChapters" runat="server">
                                 <ItemTemplate>
                                     <article class="studio-list-item chapter-item">
-                                        <div><strong><%# Server.HtmlEncode(Eval("Title").ToString()) %></strong><span>CHAPTER-<%# Eval("ChapterID") %></span></div>
+                                        <div>
+                                            <strong><%# Server.HtmlEncode(Eval("Title").ToString()) %></strong>
+                                            <span>
+                                                CHAPTER-<%# Eval("ChapterID") %>
+                                                &middot;
+                                                <%# string.IsNullOrWhiteSpace(Convert.ToString(Eval("LessonContent"))) ? "Content missing" : "Content ready" %>
+                                            </span>
+                                        </div>
                                         <div class="item-actions">
                                             <asp:LinkButton ID="btnEditChapter" runat="server" CssClass="admin-edit-button compact" CommandArgument='<%# Eval("ChapterID") %>' OnCommand="btnEditChapter_Command">Edit chapter</asp:LinkButton>
                                             <a class="admin-action-button compact preview" href="../Learner/Chapter.aspx?chapterId=<%# Eval("ChapterID") %>">Test chapter &rarr;</a>

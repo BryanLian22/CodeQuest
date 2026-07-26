@@ -7,8 +7,9 @@ AUTOMATIC LOCAL SETUP (DEFAULT)
    SQL Server Express LocalDB separately.
 2. Open CodeQuest.slnx and run the web application.
 3. On the first database request, CodeQuest automatically creates CodeQuestDB,
-   applies CodeQuest_Database.sql and Progress_Extension.sql, and inserts the
-   demo content from Seed_Demo_Content.sql.
+   applies CodeQuest_Database.sql and Progress_Extension.sql, including the
+   chapter lesson-content column, and inserts the demo content from
+   Seed_Demo_Content.sql.
 
 No SQL query needs to be copied into Visual Studio. The scripts are
 idempotent, so restarting or pulling newer code does not delete existing data

@@ -12,6 +12,7 @@ namespace CodeQuest.Models
         public string ModuleTitle { get; set; }
         public string ChapterTitle { get; set; }
         public string ChapterDescription { get; set; }
+        public string LessonContent { get; set; }
         public int? TutorialID { get; set; }
         public string TutorialTitle { get; set; }
         public string Materials { get; set; }

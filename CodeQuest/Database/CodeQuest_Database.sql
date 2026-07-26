@@ -131,6 +131,7 @@ BEGIN
         ModuleID    INT               NOT NULL,
         title       NVARCHAR(150)     NOT NULL,
         description NVARCHAR(MAX)    NULL,
+        lesson_content NVARCHAR(MAX)  NULL,
 
         CONSTRAINT PK_Chapter PRIMARY KEY CLUSTERED (ChapterID),
         CONSTRAINT FK_Chapter_Module FOREIGN KEY (ModuleID)

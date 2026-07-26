@@ -175,13 +175,13 @@ namespace CodeQuest.Features.Learner
                 }
             }
 
-            if (lesson.TutorialID.HasValue)
+            string materials = !string.IsNullOrWhiteSpace(lesson.LessonContent)
+                ? lesson.LessonContent
+                : lesson.Materials;
+            if (!string.IsNullOrWhiteSpace(materials))
             {
                 pnlTutorial.Visible = true;
-                lblTutorialTitle.Text = Server.HtmlEncode(lesson.TutorialTitle);
-                string materials = string.IsNullOrWhiteSpace(lesson.Materials)
-                    ? "Tutorial material is being prepared."
-                    : lesson.Materials;
+                lblTutorialTitle.Text = Server.HtmlEncode(lesson.ChapterTitle);
                 litMaterials.Text = Server.HtmlEncode(materials.Replace("\\n", Environment.NewLine));
             }
             else

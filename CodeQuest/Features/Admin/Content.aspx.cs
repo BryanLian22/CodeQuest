@@ -198,13 +198,23 @@ namespace CodeQuest.Features.Admin
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(txtChapterContent.Text))
+            {
+                ShowError("Enter the lesson content learners will read inside this chapter.");
+                return;
+            }
+
             try
             {
                 int editChapterID;
                 if (TryGetHiddenID(hdnEditChapterID, out editChapterID))
                 {
                     if (!new AdminContentRepository().UpdateChapter(
-                        editChapterID, moduleID, txtChapterTitle.Text, txtChapterDescription.Text))
+                        editChapterID,
+                        moduleID,
+                        txtChapterTitle.Text,
+                        txtChapterDescription.Text,
+                        txtChapterContent.Text))
                     {
                         ShowError("The selected chapter could not be found in this module.");
                         return;
@@ -216,10 +226,15 @@ namespace CodeQuest.Features.Admin
                     return;
                 }
 
-                new AdminContentRepository().CreateChapter(moduleID, txtChapterTitle.Text, txtChapterDescription.Text);
+                new AdminContentRepository().CreateChapter(
+                    moduleID,
+                    txtChapterTitle.Text,
+                    txtChapterDescription.Text,
+                    txtChapterContent.Text);
                 txtChapterTitle.Text = string.Empty;
                 txtChapterDescription.Text = string.Empty;
-                ShowSuccess("Chapter added to the selected module.");
+                txtChapterContent.Text = string.Empty;
+                ShowSuccess("Chapter and lesson content added to the selected module.");
                 LoadChapters(moduleID);
             }
             catch (Exception exception)
@@ -361,6 +376,7 @@ namespace CodeQuest.Features.Admin
                 hdnEditChapterID.Value = chapter.ChapterID.ToString();
                 txtChapterTitle.Text = chapter.Title;
                 txtChapterDescription.Text = chapter.Description ?? string.Empty;
+                txtChapterContent.Text = chapter.LessonContent ?? string.Empty;
                 lblChapterFormMode.Text = "Editing CHAPTER-" + chapter.ChapterID;
                 btnCreateChapter.Text = "Save chapter changes";
                 btnResetChapter.Visible = true;
@@ -572,6 +588,7 @@ namespace CodeQuest.Features.Admin
             hdnEditChapterID.Value = string.Empty;
             txtChapterTitle.Text = string.Empty;
             txtChapterDescription.Text = string.Empty;
+            txtChapterContent.Text = string.Empty;
             lblChapterFormMode.Text = "New chapter";
             btnCreateChapter.Text = "Add chapter";
             btnResetChapter.Visible = false;

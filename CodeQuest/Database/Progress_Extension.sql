@@ -2,12 +2,32 @@
     CodeQuest learner progress extension.
     Run this after CodeQuest_Database.sql.
 
-    These tables/columns extend the supplied ERD for persisted chapter
-    completion, quiz attempts and public tutorial categories. The script is
-    safe to run again.
+    These tables/columns extend the supplied ERD for chapter-owned lesson
+    content, persisted completion, quiz attempts and public tutorial
+    categories. The script is safe to run again.
 */
 
 USE [CodeQuestDB];
+GO
+
+/* Course chapters own their lesson material. Public tutorials remain a
+   separate guest-accessible content type. */
+IF COL_LENGTH(N'dbo.Chapter', N'lesson_content') IS NULL
+BEGIN
+    ALTER TABLE dbo.Chapter ADD lesson_content NVARCHAR(MAX) NULL;
+END;
+GO
+
+/* Preserve existing demo lessons that previously obtained their material by
+   matching a public tutorial title. Existing chapter-authored content is
+   never overwritten. */
+UPDATE chapter
+SET lesson_content = tutorial.materials
+FROM dbo.Chapter AS chapter
+INNER JOIN dbo.Tutorial AS tutorial
+    ON tutorial.tutorial_title = chapter.title
+WHERE NULLIF(LTRIM(RTRIM(chapter.lesson_content)), N'') IS NULL
+  AND NULLIF(LTRIM(RTRIM(tutorial.materials)), N'') IS NOT NULL;
 GO
 
 IF OBJECT_ID(N'dbo.ChapterProgress', N'U') IS NULL

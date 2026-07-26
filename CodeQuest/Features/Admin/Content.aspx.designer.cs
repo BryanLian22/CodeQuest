@@ -43,6 +43,7 @@ namespace CodeQuest.Features.Admin
         protected global::System.Web.UI.WebControls.HiddenField hdnEditChapterID;
         protected global::System.Web.UI.WebControls.TextBox txtChapterTitle;
         protected global::System.Web.UI.WebControls.TextBox txtChapterDescription;
+        protected global::System.Web.UI.WebControls.TextBox txtChapterContent;
         protected global::System.Web.UI.WebControls.Button btnCreateChapter;
         protected global::System.Web.UI.WebControls.LinkButton btnResetChapter;
         protected global::System.Web.UI.WebControls.Repeater rptChapters;

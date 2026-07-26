@@ -85,13 +85,13 @@
                 </section>
 
                 <asp:Panel ID="pnlTutorial" runat="server" CssClass="lesson-card" Visible="false">
-                    <p class="section-kicker">Tutorial</p>
+                    <p class="section-kicker">Lesson content</p>
                     <h2><asp:Label ID="lblTutorialTitle" runat="server" /></h2>
                     <pre class="lesson-materials"><asp:Literal ID="litMaterials" runat="server" /></pre>
                 </asp:Panel>
 
                 <asp:Panel ID="pnlNoTutorial" runat="server" CssClass="chapter-message" Visible="false">
-                    This chapter is published, but its tutorial material has not been added yet.
+                    This chapter is published, but its lesson content has not been added yet.
                 </asp:Panel>
 
                 <asp:Panel ID="pnlExercise" runat="server" CssClass="exercise-card" Visible="false">

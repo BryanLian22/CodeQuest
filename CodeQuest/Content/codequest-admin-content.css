@@ -25,9 +25,11 @@
 .section-kicker { margin: 0 0 8px; color: var(--cyan); font-family: Consolas, monospace; font-size: .67rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
 .form-kicker { margin: 0 0 13px; color: #8ea8bf; font-family: Consolas, monospace; font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; }
 .field-label { display: block; margin: 13px 0 6px; color: #a7bfd4; font-size: .7rem; font-weight: 700; }
+.field-help { display: block; margin: -1px 0 8px; color: #7892aa; font-size: .64rem; line-height: 1.45; }
 .studio-input, .studio-select { width: 100%; min-height: 40px; box-sizing: border-box; padding: 0 11px; border: 1px solid rgba(145,177,212,.23); border-radius: 8px; outline: none; color: #e8f3ff; background: rgba(4,14,26,.72); font: inherit; font-size: .76rem; }
 .studio-input:focus, .studio-select:focus { border-color: var(--cyan); }
 .studio-textarea { min-height: 82px; padding-top: 10px; resize: vertical; }
+.chapter-content-input { min-height: 220px; font-family: Consolas, "Courier New", monospace; line-height: 1.55; }
 .studio-select option { color: #18283a; background: #e8f3ff; }
 .selection-note { display: block; margin-top: 8px; color: #7892aa; font-family: Consolas, monospace; font-size: .62rem; }
 .status-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 11px; }

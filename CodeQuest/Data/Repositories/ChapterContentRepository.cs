@@ -7,9 +7,9 @@ using CodeQuest.Models;
 namespace CodeQuest.Data.Repositories
 {
     /// <summary>
-    /// Loads a chapter and its matching published tutorial/exercise content.
-    /// The ERD keeps Tutorial independent, so seeded content is linked by the
-    /// matching tutorial_title and Chapter title.
+    /// Loads chapter-owned lesson content. A matching published public
+    /// tutorial is read only as a compatibility fallback for older demo data
+    /// and for its optional practice exercise.
     /// </summary>
     public sealed class ChapterContentRepository
     {
@@ -64,7 +64,7 @@ namespace CodeQuest.Data.Repositories
         {
             const string chapterSql = @"
                 SELECT c.ChapterID, c.ModuleID, m.CourseID, co.course_title,
-                       m.module_title, c.title, c.description
+                       m.module_title, c.title, c.description, c.lesson_content
                 FROM dbo.Chapter c
                 INNER JOIN dbo.Module m ON m.ModuleID = c.ModuleID
                 INNER JOIN dbo.Course co ON co.CourseID = m.CourseID
@@ -87,6 +87,7 @@ namespace CodeQuest.Data.Repositories
                         if (reader.Read())
                         {
                             int descriptionOrdinal = reader.GetOrdinal("description");
+                            int lessonContentOrdinal = reader.GetOrdinal("lesson_content");
                             lesson = new ChapterLessonRecord
                             {
                                 ChapterID = reader.GetInt32(reader.GetOrdinal("ChapterID")),
@@ -95,7 +96,10 @@ namespace CodeQuest.Data.Repositories
                                 CourseTitle = reader.GetString(reader.GetOrdinal("course_title")),
                                 ModuleTitle = reader.GetString(reader.GetOrdinal("module_title")),
                                 ChapterTitle = reader.GetString(reader.GetOrdinal("title")),
-                                ChapterDescription = reader.IsDBNull(descriptionOrdinal) ? null : reader.GetString(descriptionOrdinal)
+                                ChapterDescription = reader.IsDBNull(descriptionOrdinal) ? null : reader.GetString(descriptionOrdinal),
+                                LessonContent = reader.IsDBNull(lessonContentOrdinal)
+                                    ? null
+                                    : reader.GetString(lessonContentOrdinal)
                             };
                         }
                     }

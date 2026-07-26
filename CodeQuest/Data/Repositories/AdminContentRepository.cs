@@ -126,7 +126,7 @@ namespace CodeQuest.Data.Repositories
         public IList<AdminChapterRecord> GetChapters(int moduleID)
         {
             const string sql = @"
-                SELECT ChapterID, ModuleID, title, description
+                SELECT ChapterID, ModuleID, title, description, lesson_content
                 FROM dbo.Chapter
                 WHERE ModuleID = @moduleID
                 ORDER BY ChapterID;";
@@ -146,7 +146,10 @@ namespace CodeQuest.Data.Repositories
                             ChapterID = Convert.ToInt32(reader["ChapterID"]),
                             ModuleID = Convert.ToInt32(reader["ModuleID"]),
                             Title = Convert.ToString(reader["title"]),
-                            Description = reader["description"] == DBNull.Value ? null : Convert.ToString(reader["description"])
+                            Description = reader["description"] == DBNull.Value ? null : Convert.ToString(reader["description"]),
+                            LessonContent = reader["lesson_content"] == DBNull.Value
+                                ? null
+                                : Convert.ToString(reader["lesson_content"])
                         });
                     }
                 }
@@ -195,12 +198,12 @@ namespace CodeQuest.Data.Repositories
             }
         }
 
-        public int CreateChapter(int moduleID, string title, string description)
+        public int CreateChapter(int moduleID, string title, string description, string lessonContent)
         {
             const string sql = @"
-                INSERT INTO dbo.Chapter(ModuleID, title, description)
+                INSERT INTO dbo.Chapter(ModuleID, title, description, lesson_content)
                 OUTPUT INSERTED.ChapterID
-                VALUES (@moduleID, @title, @description);";
+                VALUES (@moduleID, @title, @description, @lessonContent);";
 
             using (SqlConnection connection = DbConnectionFactory.Create())
             using (SqlCommand command = new SqlCommand(sql, connection))
@@ -209,6 +212,8 @@ namespace CodeQuest.Data.Repositories
                 command.Parameters.Add("@title", SqlDbType.NVarChar, 150).Value = title.Trim();
                 command.Parameters.Add("@description", SqlDbType.NVarChar, -1).Value =
                     string.IsNullOrWhiteSpace(description) ? (object)DBNull.Value : description.Trim();
+                command.Parameters.Add("@lessonContent", SqlDbType.NVarChar, -1).Value =
+                    string.IsNullOrWhiteSpace(lessonContent) ? (object)DBNull.Value : lessonContent.Trim();
                 connection.Open();
                 return Convert.ToInt32(command.ExecuteScalar());
             }
@@ -260,12 +265,18 @@ namespace CodeQuest.Data.Repositories
             }
         }
 
-        public bool UpdateChapter(int chapterID, int moduleID, string title, string description)
+        public bool UpdateChapter(
+            int chapterID,
+            int moduleID,
+            string title,
+            string description,
+            string lessonContent)
         {
             const string sql = @"
                 UPDATE dbo.Chapter
                 SET title = @title,
-                    description = @description
+                    description = @description,
+                    lesson_content = @lessonContent
                 WHERE ChapterID = @chapterID
                   AND ModuleID = @moduleID;";
 
@@ -277,6 +288,8 @@ namespace CodeQuest.Data.Repositories
                 command.Parameters.Add("@title", SqlDbType.NVarChar, 150).Value = title.Trim();
                 command.Parameters.Add("@description", SqlDbType.NVarChar, -1).Value =
                     string.IsNullOrWhiteSpace(description) ? (object)DBNull.Value : description.Trim();
+                command.Parameters.Add("@lessonContent", SqlDbType.NVarChar, -1).Value =
+                    string.IsNullOrWhiteSpace(lessonContent) ? (object)DBNull.Value : lessonContent.Trim();
                 connection.Open();
                 return command.ExecuteNonQuery() == 1;
             }
